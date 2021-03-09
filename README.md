@@ -15,11 +15,13 @@
 
 同样也可以在此处创建 pr 创建pr时的base branch是合并到哪一个分支
 
+同时，鉴于我们的私人仓库没得高级功能，所以，如果在idea里创建的pr之后，需要再打开view pr， 点击自己的pr，然后再左上角指定review和 assignees。
+
 对于pr 而言，创建了pr之后，只到pr 被合并前，当前分支的新增的内容（也就是新push进去的内容），都会追加当这个pr当中，所以对当前代码做微调，不用创建新的pr
 
 建议：个别的拼写错误等，可以考虑在原pr分支中更改，如果是debug，建议新开分支，如 graph_debug 分支，作为graph 分支的新开分支，在新开分支做debug工作，然后把debug结束的代码，merge到graph （这一步可以在本地执行，也就是debug分支不一定要推到远端）
 
-同时，鉴于我们的私人仓库没得高级功能，所以，如果在idea里创建的pr之后，需要再打开view pr， 点击自己的pr，然后再左上角指定review和 assignees。
+以上建议具体流程是，右下角新开分支debug，然后提交commit但不push，之后checkout到graph分支，然后点击debug分支，merge
 ## 画图
  1. 传给Ver 的是dpp
  2. 命名： Build 结尾是建筑物，无build则是服务设施
