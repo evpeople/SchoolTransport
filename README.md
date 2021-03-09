@@ -1,7 +1,48 @@
 
 
+## 画图
+ 1.传给Ver 的是dpp
+ 2.命名： Build 结尾是建筑物，无build则是服务设施
+     1. 食堂  canteen 
+     2. 教学楼1 teachBuild
+     3. 理发店 barber
+     4. 操场入口 playground
+     5. 文具商店 stationery
+     6. 宿舍楼1 dormBuild
+     7. 实验楼 labBuild
+     8. 眼镜店 optical
+     9. 学生活动中心 stuBuild
+     10. 教学楼2 teachBuild
+     11. 教学楼3 teachBuild
+     12. 宿舍楼2 dormBuild
+     13. 宿舍楼3 dormBuild
+     14. 图书馆 libBuild
+     15. 办公楼 officeBuild
+     16. 咖啡厅 cafe
+     17. 水果店 fruitery
+     18. 杂货店 grocery
+     19. 足球场 soccer_field
+     20. 游泳馆 swimming_pool
+     21. 校医院 hospital
+     22. 路口  crossing
+     23. 乙子钟 clock
+     24. 公交车站 bus_stop 
+     25. 班车站 scheduled_bus_stop
+     26. 校门口 gate
+     27. 湖 lake
+     28. 小树林 forest
 
 
+层 
+ 1. 楼梯口  stair
+ 2. 教室 classroom
+ 3. 办公室 office
+ 4. 研讨间 workshop
+ 5. 阳台 balcony
+ 6. 打水房 water_room
+ 7. 会议厅 
+ 8. 男厕所
+ 9. 女厕所
 
 
 # 还没写一点点方法
