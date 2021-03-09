@@ -4,7 +4,7 @@
  1.传给Ver 的是dpp
  2.命名： Build 结尾是建筑物，无build则是服务设施
      1. 食堂  canteen 
-     2. 教学楼1 teachBuild
+     2. 教学楼1 teachBuild1
      3. 理发店 barber
      4. 操场入口 playground
      5. 文具商店 stationery
@@ -12,10 +12,10 @@
      7. 实验楼 labBuild
      8. 眼镜店 optical
      9. 学生活动中心 stuBuild
-     10. 教学楼2 teachBuild
-     11. 教学楼3 teachBuild
-     12. 宿舍楼2 dormBuild
-     13. 宿舍楼3 dormBuild
+     10. 教学楼2 teachBuild2
+     11. 教学楼3 teachBuild3
+     12. 宿舍楼2 dormBuild4
+     13. 宿舍楼3 dormBuild5
      14. 图书馆 libBuild
      15. 办公楼 officeBuild
      16. 咖啡厅 cafe
@@ -40,9 +40,11 @@
  4. 研讨间 workshop
  5. 阳台 balcony
  6. 打水房 water_room
- 7. 会议厅 
- 8. 男厕所
- 9. 女厕所
+ 7. 会议厅 meeting_room
+ 8. 男厕所 maleWc
+ 9. 女厕所 femaleWc
+ 10. 报告厅 lectureHall
+ 11. 健身房 gym
 
 
 # 还没写一点点方法
