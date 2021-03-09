@@ -1,10 +1,26 @@
 
+## 
+在idea中使用git
 
+1.  新建分支： 右下角可以点击新建分支
+2.  也可以在上方的git处，点击新建分支
+
+与github连接
+1.  点击git，然后github，然后登录，可以直接登录也可以用token，直接登录简单
+
+提交新分支的时候，不用管远端是否有对应分支，左侧commit处，可以直接提交并push到远端，若远端不存在新分支，则会自动新建一个
+
+
+可以直接点击git- github view pr 查看当前的还没merge的pr，然后选择，会在左下角处出现更改过的的文件，点击之后直接出现与原文件的差别
+
+同样也可以在此处创建 pr
+
+同时，鉴于我们的私人仓库没得高级功能，所以，如果在idea里创建的pr之后，需要再打开view pr， 点击自己的pr，然后再左上角指定review和 assignees。
 ## 画图
- 1.传给Ver 的是dpp
- 2.命名： Build 结尾是建筑物，无build则是服务设施
-     1. 食堂  canteen 
-     2. 教学楼1 teachBuild1
+ 1. 传给Ver 的是dpp
+ 2. 命名： Build 结尾是建筑物，无build则是服务设施
+    1. 食堂  canteen
+    2. 教学楼1 teachBuild1
      3. 理发店 barber
      4. 操场入口 playground
      5. 文具商店 stationery
