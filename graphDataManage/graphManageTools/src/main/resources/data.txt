@@ -1,0 +1,62 @@
+ /* Geogebra to Asymptote conversion, documentation at artofproblemsolving.com/Wiki go to User:Azjps/geogebra */
+import graph; size(0cm); 
+real labelscalefactor = 0.5; /* changes label-to-point distance */
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); /* default pen style */ 
+pen dotstyle = black; /* point style */ 
+real xmin = -3.0515264829215707, xmax = 3.7976531440503645, ymin = -0.8623111010895429, ymax = 5.547393319793394;  /* image dimensions */
+pen cqcqcq = rgb(0.7529411764705882,0.7529411764705882,0.7529411764705882); 
+ /* draw grid of horizontal/vertical lines */
+pen gridstyle = linewidth(0.7) + cqcqcq; real gridx = 0.5, gridy = 0.5; /* grid intervals */
+for(real i = ceil(xmin/gridx)*gridx; i <= floor(xmax/gridx)*gridx; i += gridx)
+ draw((i,ymin)--(i,ymax), gridstyle);
+for(real i = ceil(ymin/gridy)*gridy; i <= floor(ymax/gridy)*gridy; i += gridy)
+ draw((xmin,i)--(xmax,i), gridstyle);
+ /* end grid */ 
+
+Label laxis; laxis.p = fontsize(10); 
+xaxis(xmin, xmax, Ticks(laxis, Step = 0.5, Size = 2, NoZero),EndArrow(6), above = true); 
+yaxis(ymin, ymax, Ticks(laxis, Step = 0.5, Size = 2, NoZero),EndArrow(6), above = true); /* draws axes; NoZero hides '0' label */ 
+ /* draw figures */
+draw((-1.36,5.31)--(-2.22,2.45), linewidth(4)); 
+draw((-1.42,2.59)--(2.18,2.95), linewidth(3.6)); 
+draw((-1.42,2.59)--(-1.36,5.31), linewidth(2)); 
+draw((-1.36,5.31)--(-0.2540263778279794,5.844495630813852), linewidth(2)); 
+draw((-0.2540263778279794,5.844495630813852)--(-1.36,5.31), linewidth(2)); 
+draw((-1.36,5.31)--(-3.52,5.35), linewidth(2)); 
+draw((-0.7443971886246297,2.657560281137537)--(-0.6506265473202743,1.7198538680939837), linewidth(2)); 
+draw((-1.36,5.31)--(1.1276339674341866,3.897288300704514), linewidth(4.4)); 
+draw((-0.08724919256517283,4.587212813665873)--(-0.9943466942135966,3.5706546590580275), linewidth(2)); 
+ /* dots and labels */
+dot((-1.36,5.31),dotstyle); 
+label("$A$", (-1.326793598647766,5.389845604402998), NE * labelscalefactor); 
+dot((-2.22,2.45),dotstyle); 
+label("$B$", (-2.1891600407846683,2.5291107723142363), NE * labelscalefactor); 
+label("$f$", (-1.9238165201271598,3.922164255766155), NE * labelscalefactor); 
+dot((-1.42,2.59),dotstyle); 
+label("$C$", (-1.3848374937915957,2.6700745176635374), NE * labelscalefactor); 
+dot((2.18,2.95),dotstyle); 
+label("$D$", (2.2138840051258617,3.0349218585676114), NE * labelscalefactor); 
+label("$bike$", (0.53890303097534,2.5291107723142363), NE * labelscalefactor); 
+label("$h$", (-1.2604577184833887,3.9553321958483436), NE * labelscalefactor); 
+dot((-0.2540263778279794,5.844495630813852),dotstyle); 
+label("$E$", (-0.17420768079171384,5.41472155946464), NE * labelscalefactor); 
+label("$i$", (-0.7546466322300134,5.464473469587922), NE * labelscalefactor); 
+label("$j$", (-0.8707344225176733,5.696649050163242), NE * labelscalefactor); 
+dot((-3.52,5.35),dotstyle); 
+label("$F$", (-3.0266505278599287,5.248881859053697), NE * labelscalefactor); 
+label("$k$", (-2.4379195914010823,5.464473469587922), NE * labelscalefactor); 
+dot((-0.7443971886246297,2.657560281137537),dotstyle); 
+label("$G$", (-0.7131867071272777,2.7364103978279144), NE * labelscalefactor); 
+dot((-0.6506265473202743,1.7198538680939837),dotstyle); 
+label("$H$", (-0.613682886880712,1.799416090506088), NE * labelscalefactor); 
+label("$l$", (-0.8375664824354848,2.180847401451256), NE * labelscalefactor); 
+dot((1.1276339674341866,3.897288300704514),dotstyle); 
+label("$I$", (1.1608019075163751,3.980208150909985), NE * labelscalefactor); 
+label("$m$", (-0.18249966581226096,4.494311222183907), NE * labelscalefactor); 
+dot((-0.08724919256517283,4.587212813665873),dotstyle); 
+label("$J$", (-0.05811989050405391,4.668442907615398), NE * labelscalefactor); 
+dot((-0.9943466942135966,3.5706546590580275),dotstyle); 
+label("$K$", (-0.9619462577436918,3.6568207351086466), NE * labelscalefactor); 
+label("$bike_{1}$", (-0.00007599536022395325,4.303595566711324), NE * labelscalefactor); 
+clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); 
+ /* end of picture */
