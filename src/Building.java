@@ -6,7 +6,7 @@ import java.io.File;
 public class Building {
 
   Exit exit;
-  int[] mathCoordinate;
+  double[] mathCoordinate;
   int[] guiCorrdinate; //todo gui的具体设计
   int schoolNum;
   int floor; //默认是0，代表地面上的平房。
@@ -26,7 +26,7 @@ public class Building {
    * @param exitDoor         出口
    */
   Building(String nameOfBuilding, String detailOfBuilding, File imgOfBuilding, int schoolNum,
-      int[] guiCorrdinate, int[] mathCoordinate, Exit exitDoor) {
+      int[] guiCorrdinate, double[] mathCoordinate, Exit exitDoor) {
     this.detailOfBuilding = detailOfBuilding;
     this.guiCorrdinate = guiCorrdinate.clone();
     this.imgOfBuilding = imgOfBuilding;

@@ -18,7 +18,7 @@ public class Room extends Building{
    * @param exitDoor         出口
    */
   Room(String nameOfBuilding, String detailOfBuilding, File imgOfBuilding, int schoolNum,
-      int[] guiCorrdinate, int[] mathCoordinate, Exit exitDoor,SpecificBuild belongToBuilding) {
+      int[] guiCorrdinate, double[] mathCoordinate, Exit exitDoor,SpecificBuild belongToBuilding) {
     super(nameOfBuilding, detailOfBuilding, imgOfBuilding, schoolNum, guiCorrdinate, mathCoordinate,
         exitDoor);
     this.belongToBuilding=belongToBuilding;

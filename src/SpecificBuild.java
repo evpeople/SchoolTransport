@@ -26,7 +26,7 @@ public class SpecificBuild extends Building {
    */
   SpecificBuild(String nameOfBuilding, String detailOfBuilding, File imgOfBuilding,
       int schoolNum,
-      int[] guiCorrdinate, int[] mathCoordinate, int numOfFloor, Map[] mapOfFloor, Path[] paths,
+      int[] guiCorrdinate,double[] mathCoordinate, int numOfFloor, Map[] mapOfFloor, Path[] paths,
       Exit exitDoor) {
     super(nameOfBuilding, detailOfBuilding, imgOfBuilding, schoolNum, guiCorrdinate,
         mathCoordinate, exitDoor);
