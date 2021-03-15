@@ -9,7 +9,7 @@ public class Building {
   int[] mathCoordinate;
   int[] guiCorrdinate; //todo gui的具体设计
   int schoolNum;
-  int floor; //默认是0，代表是非楼房。
+  int floor; //默认是0，代表地面上的平房。
   String nameOfBuilding;
   private String detailOfBuilding;
   File imgOfBuilding;
