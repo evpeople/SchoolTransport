@@ -48,8 +48,12 @@ public class SpecificBuild extends Building {
       //此处的布尔变量 b 传回算法策略，告诉他我完成了目前的工作，但是还没到达终点。
     } else {
       //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
-      Route[] b = mapOfFloor[destination.floor].getShortestRoute();
       int c = abs(nowPosition.nowFloor - destination.floor);
+      if(c==0){
+        return new Route[0];
+      }
+      Route[] b = mapOfFloor[destination.floor].getShortestRoute();
+
     }
     return new Route[0];
   }
