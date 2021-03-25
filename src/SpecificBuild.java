@@ -15,8 +15,6 @@ public class SpecificBuild extends Building {
    * 具体建筑物的构造器方法.
    *
    * @param nameOfBuilding   建筑物的名字
-   * @param detailOfBuilding 建筑物的详细信息
-   * @param imgOfBuilding    建筑物的图片，目前是一个File类
    * @param schoolNum        1是1号校区 2是2号校区
    * @param guiCorrdinate    gui坐标，目前是int数组，
    * @param mathCoordinate   连接表的坐标，是int数组
@@ -24,11 +22,9 @@ public class SpecificBuild extends Building {
    * @param mapOfFloor       每个楼层的图构建成的数组
    * @param paths            设计中提及的，暂时还不知道啥意思,猜测是用于楼梯？
    */
-  SpecificBuild(String nameOfBuilding, String detailOfBuilding, File imgOfBuilding,
-      int schoolNum,
-      int[] guiCorrdinate,double[] mathCoordinate, int numOfFloor, Map[] mapOfFloor, Path[] paths,
+  SpecificBuild(String nameOfBuilding, int schoolNum, int[] guiCorrdinate,double[] mathCoordinate, int numOfFloor, Map[] mapOfFloor, Path[] paths,
       Exit exitDoor) {
-    super(nameOfBuilding, detailOfBuilding, imgOfBuilding, schoolNum, guiCorrdinate,
+    super(nameOfBuilding, schoolNum, guiCorrdinate,
         mathCoordinate, exitDoor);
     this.numOfFloor = numOfFloor;
     this.mapOfFloor = mapOfFloor.clone();
@@ -66,5 +62,20 @@ public class SpecificBuild extends Building {
     return this.nameOfBuilding.equals(nameOfBuilding);
   }
 
+  public static void main(String[] args)
+  {
+    int []a={1,2};
+    double []b={2.0,3.0};
+    Exit ex=ex();
+    Map[] c= {
+        new Map(),
+        new Map(),
+    }
+    Path[] d={
+        new Path(10,Fa,sad,sads);
+
+    }
+    Building test=Building("我是测试楼",1,a,b,ex);
+  }
 
 }
