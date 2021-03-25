@@ -6,7 +6,7 @@ public class Dot {
     public double yg;
     public final double X;
     public final double Y;
-    public final double rg;
+    public double rg;
     private String position="";
     private int index=0;
     private BuildingType type;
@@ -57,6 +57,12 @@ public class Dot {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+    public void setRg(){
+        rg=Math.sqrt((X-xg)*(X-xg)+(Y-yg)*(Y-yg));
+    }
+    public void setRg(double r){
+        this.rg=r;
     }
 }
 

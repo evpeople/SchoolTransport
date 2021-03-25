@@ -3,10 +3,10 @@ import graph; size(0cm);
 real labelscalefactor = 0.5; /* changes label-to-point distance */
 pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); /* default pen style */ 
 pen dotstyle = black; /* point style */ 
-real xmin = -49.11178856124018, xmax = -47.82239202242294, ymin = 0.34351189533623533, ymax = 1.2055667927724998;  /* image dimensions */
-pen qqzzff = rgb(0,0.6,1); pen qqccqq = rgb(0,0.8,0); pen wwffqq = rgb(0.4,1,0); pen ttffcc = rgb(0.2,1,0.8); pen ffzzqq = rgb(1,0.6,0); pen cqcqcq = rgb(0.7529411764705882,0.7529411764705882,0.7529411764705882); 
+real xmin = 92.314684731549, xmax = 525.6030749295003, ymin = 48.62030969612286, ymax = 413.1121345102014;  /* image dimensions */
+pen ffzzqq = rgb(1,0.6,0); pen qqccqq = rgb(0,0.8,0); pen ttffcc = rgb(0.2,1,0.8); pen cqcqcq = rgb(0.7529411764705882,0.7529411764705882,0.7529411764705882); 
  /* draw grid of horizontal/vertical lines */
-pen gridstyle = linewidth(0.7) + cqcqcq; real gridx = 0.1, gridy = 0.1; /* grid intervals */
+pen gridstyle = linewidth(0.7) + cqcqcq; real gridx = 20, gridy = 20; /* grid intervals */
 for(real i = ceil(xmin/gridx)*gridx; i <= floor(xmax/gridx)*gridx; i += gridx)
  draw((i,ymin)--(i,ymax), gridstyle);
 for(real i = ceil(ymin/gridy)*gridy; i <= floor(ymax/gridy)*gridy; i += gridy)
@@ -14,31 +14,23 @@ for(real i = ceil(ymin/gridy)*gridy; i <= floor(ymax/gridy)*gridy; i += gridy)
  /* end grid */ 
 
 Label laxis; laxis.p = fontsize(10); 
-xaxis(xmin, xmax, Ticks(laxis, Step = 0.1, Size = 2, NoZero),EndArrow(6), above = true); 
-yaxis(ymin, ymax, Ticks(laxis, Step = 0.1, Size = 2, NoZero),EndArrow(6), above = true); /* draws axes; NoZero hides '0' label */ 
+xaxis(xmin, xmax, Ticks(laxis, Step = 20, Size = 2, NoZero),EndArrow(6), above = true); 
+yaxis(ymin, ymax, Ticks(laxis, Step = 20, Size = 2, NoZero),EndArrow(6), above = true); /* draws axes; NoZero hides '0' label */ 
  /* draw figures */
-draw((-48.225131837953114,1.1158514745413386)--(-49.04907997743561,0.9964099816521865), linewidth(5.2) + qqzzff); 
-draw((-49.04907997743561,0.9964099816521865)--(-48.41913020941857,0.6266007440530813), linewidth(5.2) + qqccqq); 
-draw(circle((-48.225131837953114,1.1158514745413386), 0.05), linewidth(5.2) + linetype("4 4") + wwffqq); 
-draw(circle((-49.04907997743561,0.9964099816521865), 0.05), linewidth(3.6) + linetype("4 4") + ttffcc); 
-draw((-48.41913020941857,0.6266007440530813)--(-48.28398527648758,0.6128190333351022), linewidth(1.6) + blue,EndArrow(6)); 
-draw(circle((-48.28398527648758,0.6128190333351022), 0.13584582602066303), linewidth(1.6) + ffzzqq); 
-draw(circle((-48.225131837953114,1.1158514745413386), 0.05), linewidth(5.2) + linetype("4 4") + wwffqq); 
+draw((370.1344168754584,264.79498239170664)--(394.9726048485893,240.07545703862422), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((394.9726048485893,240.07545703862422), 35.042695607933325), linewidth(1.6) + ffzzqq); 
+draw((370.1344168754584,264.79498239170664)--(359.5551886646804,348.64748996196676), linewidth(5.2) + qqccqq); 
+draw(circle((359.5551886646804,348.64748996196676), 10), linewidth(5.2) + linetype("4 4") + ttffcc); 
  /* dots and labels */
-dot((-48.225131837953114,1.1158514745413386),dotstyle); 
-label("$A$", (-48.22104602476257,1.126800355443298), NE * labelscalefactor); 
-dot((-49.04907997743561,0.9964099816521865),dotstyle); 
-label("$B$", (-49.04534622751691,1.0075567211532563), NE * labelscalefactor); 
-label("$f$", (-48.639425094926295,1.07428939722383), NE * labelscalefactor,qqzzff); 
-dot((-48.41913020941857,0.6266007440530813),dotstyle); 
-label("$C$", (-48.415182218610255,0.6377920570245033), NE * labelscalefactor); 
-label("$g$", (-48.742203079904485,0.7964189099791459), NE * labelscalefactor,qqccqq); 
-label("$c$", (-48.25115270723093,1.1366461601094482), NE * labelscalefactor,wwffqq); 
-label("$d$", (-49.074414748520844,1.0174025258194066), NE * labelscalefactor,ttffcc); 
-dot((-48.28398527648758,0.6128190333351022),dotstyle); 
-label("$D$", (-48.28022122823486,0.6235703391733973), NE * labelscalefactor); 
-label("$u$", (-48.35185436928026,0.6246643174696362), NE * labelscalefactor,blue); 
-label("$e$", (-48.35289253074469,0.7067126896875549), NE * labelscalefactor,ffzzqq); 
-label("$k$", (-48.25115270723093,1.1366461601094482), NE * labelscalefactor,wwffqq); 
+dot((394.9726048485893,240.07545703862422),dotstyle); 
+label("$A$", (396.81247062437683,244.92242279413057), NE * labelscalefactor); 
+dot((370.1344168754584,264.79498239170664),dotstyle); 
+label("$B$", (371.97428265124586,269.64194814721304), NE * labelscalefactor); 
+label("$u$", (383.4734437499176,254.13165772959266), NE * labelscalefactor,blue); 
+label("$c$", (377.0339135346614,260.4327132117509), NE * labelscalefactor,ffzzqq); 
+dot((359.5551886646804,348.64748996196676),dotstyle); 
+label("$C$", (361.39505444046785,353.4944557174731), NE * labelscalefactor); 
+label("$f$", (371.97428265124586,307.9329776157133), NE * labelscalefactor,qqccqq); 
+label("$d$", (354.4955577812648,347.6780968108655), NE * labelscalefactor,ttffcc); 
 clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); 
  /* end of picture */

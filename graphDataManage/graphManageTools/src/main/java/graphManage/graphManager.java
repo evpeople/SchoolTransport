@@ -9,19 +9,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public abstract class graphManager {//(?<=@alreadyCardToday:)[a-z]{4,5}(?=;@) dot((-2.22,2.45),dotstyle);
+public abstract class graphManager {
     private static final String  toMatchDotName="(?<=dot\\()\\([0-9.-]+,[0-9.-]+\\)(?=,dotstyle\\);)";//ok
     private static final String toMatchDotX="(?<=dot\\(\\()[0-9.-]+(?=,[0-9.-]+\\),dotstyle\\);)";//ok
     private static final String toMatchDotY="(?<=dot\\(\\([0-9.-]+,)[0-9.-]+(?=\\),dotstyle\\);)";//ok
     private static final String toMatchLineDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\))";//ok
     private static final String toMatchLineDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth)";//"(?<=draw\\(\\([0-9.-]+,[0-9.-]+\\)--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\))";//ok
-    private static final String toMatchWidth="(?<=linewidth\\()[0-9.]+(?=\\))";
+    private static final String toMatchWidth="(?<=linewidth\\()[0-9.]+(?=\\))";//ok
     private static final String path="src//main//resources//data.txt";
     private static final String toMatchBuildingName="(?<=label\\(\\\"\\$)[\\w]*(?=\\$\\\")";//ok
     private static final String toMatchArrowDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
     private static final String toMatchArrowDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
     private static final String toMatchCirclePoint="(?<=draw\\(circle\\()\\([0-9.-]+,[0-9.-]+\\)(?=, [0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\w\\s+]+)";
-
+    private static final String toMatchLength="(?<=,\\s)[0-9.-]+(?=\\),)";//"(?<=circle\\(\\([0-9.-]+,[0-9.-]+\\),\\s)[0-9.-]+(?=\\),)";
     public static Graph manage() throws FileNotFoundException {
 
     Scanner scanner=new Scanner(new File(path));
@@ -79,7 +79,7 @@ public abstract class graphManager {//(?<=@alreadyCardToday:)[a-z]{4,5}(?=;@) do
     while (scanner.hasNextLine()&& !now.contains("/* draw figures */")){now=scanner.nextLine();};
     for(;scanner.hasNextLine()&&!now.contains( "/* dots and labels */");now=scanner.nextLine()){
 
-        if(now.contains("draw")&&!now.contains("circle")&&!now.contains("EndArrow")){
+        if(now.contains("draw")&&!now.contains("circle")&&!now.contains("EndArrow")){//道路
             MyMatcher matcher=new MyMatcher(now);
            String dotPosition1=matcher.theFirst(toMatchLineDot1);
            String dotPosition2=matcher.theFirst(toMatchLineDot2);
@@ -99,15 +99,16 @@ public abstract class graphManager {//(?<=@alreadyCardToday:)[a-z]{4,5}(?=;@) do
            edges[index1][index2].setDegreeOfCongestion((float) (width/5.2));
            edges[index2][index1].setDegreeOfCongestion((float) (width/5.2));
         }
-        else if(now.contains("draw")&&now.contains("EndArrow")){
+        else if(now.contains("draw")&&now.contains("EndArrow")){//建筑
             MyMatcher matcher=new MyMatcher(now);
             String dot1=matcher.theFirst(toMatchArrowDot1);
             String dot2=matcher.theFirst(toMatchArrowDot2);
             matcher=new MyMatcher(dot2);
             allDots.get(dot1).xg=Double.parseDouble(matcher.theFirst("(?<=\\()[0-9.-]+(?=,[0-9.-]+\\))"));
             allDots.get(dot1).yg=Double.parseDouble(matcher.theFirst("(?<=\\([0-9.-]+,)[0-9.-]+(?=\\))"));
+            allDots.get(dot1).setRg();
         }
-        else if(now.contains("draw")&&now.contains("linetype")&&now.contains("circle")){
+        else if(now.contains("draw")&&now.contains("linetype")&&now.contains("circle")){//路口
             MyMatcher matcher=new MyMatcher(now);
             Dot theDot=allDots.get(matcher.theFirst(toMatchCirclePoint));
             String type=matcher.theFirst("(?<=linetype\\(\\\"[\\s0-9.]*\\\"\\) \\+ )[\\w]+(?=\\))");
@@ -117,6 +118,8 @@ public abstract class graphManager {//(?<=@alreadyCardToday:)[a-z]{4,5}(?=;@) do
                 case "wwffqq":theDot.setType(BuildingType.exit);break;
                 default: theDot.setType(BuildingType.Default);break;
             }
+            theDot.setRg( Double.parseDouble(matcher.theFirst(toMatchLength)));
+
         }
     }
 ;
