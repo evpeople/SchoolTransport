@@ -1,5 +1,6 @@
 import java.io.File;
 
+
 /**
  * 建筑物类,一个抽象类.
  */
@@ -35,6 +36,7 @@ public class Building {
     this.nameOfBuilding = nameOfBuilding;
     this.exit = exitDoor;
   }
+
 
   /**
    * 返回详细信息的方法.
