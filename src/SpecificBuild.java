@@ -50,7 +50,7 @@ public class SpecificBuild extends Building {
       //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
       int c = abs(nowPosition.nowFloor - destination.floor);
       if(c==0){
-        return new Route[0];
+        return new Route[0];///同一层
       }
       Route[] b = mapOfFloor[destination.floor].getShortestRoute();
 
