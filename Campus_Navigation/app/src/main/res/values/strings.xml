@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Campus_Navigation</string>
+    <string name="text_pause">暂停</string>
+    <string name="text_start">开始</string>
+</resources>
