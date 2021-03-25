@@ -1,12 +1,14 @@
-Graph/Graph.java
- Graph.Graph
+Graph/BuildingType.java
+ Graph.BuildingType
 myTools/MyMatcher.java
  myTools.MyMatcher
+Graph/Graph.java
+ Graph.Graph
+Graph/Dot.java
+ Graph.Dot
+Graph/Edge.java
+ Graph.Edge
 JavaMain.java
  JavaMain
-Graph/edge.java
- Graph.edge
-Graph/dot.java
- Graph.dot
 graphManage/graphManager.java
  graphManage.graphManager

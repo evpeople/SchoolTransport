@@ -1,15 +1,11 @@
 package Graph;
-//
-//enum edgeType{
-//    bikeOk;
-//
-//        }
-public class edge {
-    private dot start=null;
-    private dot end=null;
-    private boolean bikeOk=false;
 
-    public edge(dot start,dot end){
+public class Edge {
+    public final Dot start;
+    public final Dot end;
+    private boolean bikeOk=false;
+    private float degreeOfCongestion=0.5f;
+    public Edge(Dot start, Dot end){
         this.start=start;
         this.end=end;
     }
@@ -20,4 +16,13 @@ public class edge {
     public boolean isBikeOk() {
         return bikeOk;
     }
+
+    public float getDegreeOfCongestion() {
+        return degreeOfCongestion;
+    }
+
+    public void setDegreeOfCongestion(float degreeOfCongestion) {
+        this.degreeOfCongestion = degreeOfCongestion;
+    }
+
 }
