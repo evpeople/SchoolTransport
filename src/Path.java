@@ -12,7 +12,6 @@ public class Path {
      * 构造器方法.
      *
      * @param length      路径长度
-     * @param crowdDegree 拥挤度
      * @param isBike      是否为自行车道
      * @param start       起点建筑
      * @param end         终点建筑
