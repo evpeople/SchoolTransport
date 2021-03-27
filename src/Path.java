@@ -32,4 +32,8 @@ public class Path {
         this.crowdDegree = functionOfCrowd(timeHour, timeMin, typeOfPath);//TODO 拥挤度随时间变化的函数
     }
 
+    private double functionOfCrowd(int timeHour, int timeMin, int typeOfPath) {
+        return 0.0;
+    }
+
 }

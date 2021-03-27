@@ -1,4 +1,4 @@
-import java.io.File;
+
 
 
 /**
@@ -30,8 +30,9 @@ public class Building {
     this.nameOfBuilding = nameOfBuilding;
     this.exit = exitDoor;
   }
-
-  public Route[] getShortestRoute() {
+//1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
+  public Route[] getShortestRoute(Position nowPosition, Building destination,
+      String strategy) {
     return new Route[0];
   }
 
@@ -46,8 +47,8 @@ public class Building {
   {
     int []a={1,2};
     double []b={2.0,3.0};
-    Exit ex=ex();
-    Building test=Building("我是测试楼",1,a,b,ex);
+    Exit ex= new Exit();
+    Building test= new Building("我是测试",1,a,b,ex);
   }
 
 }
