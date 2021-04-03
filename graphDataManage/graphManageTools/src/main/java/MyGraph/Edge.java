@@ -1,4 +1,4 @@
-package Graph;
+package MyGraph;
 
 public class Edge {
     public final Dot start;

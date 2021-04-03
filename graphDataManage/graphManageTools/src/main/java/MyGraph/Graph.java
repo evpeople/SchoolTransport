@@ -1,4 +1,4 @@
-package Graph;
+package MyGraph;
 
 public class Graph {
     public static final int MaxNumOfDots=80;

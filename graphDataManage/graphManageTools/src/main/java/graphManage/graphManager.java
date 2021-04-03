@@ -1,6 +1,6 @@
 package graphManage;
 
-import Graph.*;
+import MyGraph.*;
 import myTools.MyMatcher;
 
 import java.io.File;
@@ -20,8 +20,11 @@ public abstract class graphManager {
     private static final String toMatchBuildingName="(?<=label\\(\\\"\\$)[\\w]*(?=\\$\\\")";//ok
     private static final String toMatchArrowDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
     private static final String toMatchArrowDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
-    private static final String toMatchCirclePoint="(?<=draw\\(circle\\()\\([0-9.-]+,[0-9.-]+\\)(?=, [0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\w\\s+]+)";
+    private static final String toMatchCirclePoint="(?<=draw\\(circle\\()\\([0-9.-]+,[0-9.-]+\\)(?=, [0-9.-]+\\), line)";
     private static final String toMatchLength="(?<=,\\s)[0-9.-]+(?=\\),)";//"(?<=circle\\(\\([0-9.-]+,[0-9.-]+\\),\\s)[0-9.-]+(?=\\),)";
+    private static final String toMatchBuildingType1="(?<=linetype\\(\\\"[\\s0-9.]*\\\"\\) \\+ )[\\w]+(?=\\))";
+    private static final String toMatchBuildingType2="(?<=linewidth\\([\\s0-9.]*\\) \\+ )[\\w]+(?=\\))";
+
     public static Graph manage() throws FileNotFoundException {
 
     Scanner scanner=new Scanner(new File(path));
@@ -29,8 +32,10 @@ public abstract class graphManager {
     HashMap<String, Dot> allDots=new HashMap<String, Dot>();
     Dot[] dotsList=new Dot[Graph.MaxNumOfDots];
     Edge[][] edges=new Edge[Graph.MaxNumOfDots][Graph.MaxNumOfDots];
-        ArrayList<String> GuiPoints=new ArrayList<String>();
+    HashMap<String,String> GuiPoints=new HashMap<>();
 
+
+    /*第一次读取*/
     String now=scanner.nextLine();
     Dot nowDot=null;
     boolean justGetOne=false;
@@ -42,13 +47,13 @@ public abstract class graphManager {
     for(; scanner.hasNextLine()&&!now.contains( "/* dots and labels */");now=scanner.nextLine()){
         if(now.contains("EndArrow")) {
             MyMatcher matcher = new MyMatcher(now);
-            GuiPoints.add(matcher.theFirst(toMatchArrowDot2));
+            GuiPoints.put(matcher.theFirst(toMatchArrowDot2),matcher.theFirst(toMatchArrowDot1));
 
         }
     }
 
     for(; scanner.hasNextLine()&&!now.contains( "/* end of picture */");now=scanner.nextLine()) {
-
+            if(now.contains("/*")&&now.contains("*/"))continue;
 
         if(justGetOne&&now.contains("label")){
             MyMatcher matcher=new MyMatcher(now);
@@ -65,7 +70,7 @@ public abstract class graphManager {
             String dotY=matcher.theFirst(toMatchDotY);
 
             if(dotPosition==null||dotX==null||dotY==null)continue;
-            if(GuiPoints.contains(dotPosition))continue;
+            if(GuiPoints.containsKey(dotPosition))continue;
 
             nowDot=new Dot(dotPosition, Double.parseDouble(dotX), Double.parseDouble(dotY));
             allDots.put(dotPosition,nowDot);
@@ -73,11 +78,14 @@ public abstract class graphManager {
         }
     }
     scanner.close();
+
+    /*第二次读取*/
     scanner=new Scanner(new File(path));
     now=scanner.nextLine();
 
     while (scanner.hasNextLine()&& !now.contains("/* draw figures */")){now=scanner.nextLine();};
     for(;scanner.hasNextLine()&&!now.contains( "/* dots and labels */");now=scanner.nextLine()){
+        if(now.contains("/*")&&now.contains("*/"))continue;
 
         if(now.contains("draw")&&!now.contains("circle")&&!now.contains("EndArrow")){//道路
             MyMatcher matcher=new MyMatcher(now);
@@ -108,22 +116,62 @@ public abstract class graphManager {
             allDots.get(dot1).yg=Double.parseDouble(matcher.theFirst("(?<=\\([0-9.-]+,)[0-9.-]+(?=\\))"));
             allDots.get(dot1).setRg();
         }
-        else if(now.contains("draw")&&now.contains("linetype")&&now.contains("circle")){//路口
+        else if(now.contains("draw")&&(now.contains("linetype")||now.contains("linewidth"))&&now.contains("circle")){//路口
             MyMatcher matcher=new MyMatcher(now);
-            Dot theDot=allDots.get(matcher.theFirst(toMatchCirclePoint));
-            String type=matcher.theFirst("(?<=linetype\\(\\\"[\\s0-9.]*\\\"\\) \\+ )[\\w]+(?=\\))");
-            switch (type){
-                case "ffccww":theDot.setType(BuildingType.buildingCrossing); break;
-                case "ttffcc":theDot.setType(BuildingType.crossing);break;
-                case "wwffqq":theDot.setType(BuildingType.exit);break;
-                default: theDot.setType(BuildingType.Default);break;
+            Dot theDot;
+            String type="";
+            if(now.contains("linetype")){
+                theDot=allDots.get(matcher.theFirst(toMatchCirclePoint));
+                if(theDot==null)continue;
+                type=matcher.theFirst(toMatchBuildingType1);
+                if(type!=null)setDotType1(theDot,type);
+                theDot.setRg( Double.parseDouble(matcher.theFirst(toMatchLength)));
+            }else if(now.contains("linewidth")){
+                theDot=allDots.get(GuiPoints.get(matcher.theFirst(toMatchCirclePoint)));
+                if(theDot==null)continue;
+                type=matcher.theFirst(toMatchBuildingType2);
+                if(type!=null)setDotType2(theDot,type);
+                theDot.setRg( Double.parseDouble(matcher.theFirst(toMatchLength)));
             }
-            theDot.setRg( Double.parseDouble(matcher.theFirst(toMatchLength)));
+        }
 
+    }
+
+    return graph;
+    }
+
+   private static void setDotType1(Dot theDot, String type){
+
+        switch (type){
+            case "ffccww":theDot.setType(BuildingType.buildingCrossing); break;
+            case "aqaqaq":theDot.setType(BuildingType.car);break;
+            case "ffwwqq":theDot.setType(BuildingType.bus);break;
+            case "ffwwzz":theDot.setType(BuildingType.runway);break;
+            case "zzwwff":theDot.setType(BuildingType.soccer);break;
+            /////
+            case "ttffcc":theDot.setType(BuildingType.crossing);break;
+            /////
+            case "wwffqq":theDot.setType(BuildingType.exit);break;
+            /////
+            default: theDot.setType(BuildingType.buildingCrossing);break;
         }
     }
-;
-    return graph;
+
+    private static void setDotType2(Dot theDot, String type){
+
+        switch (type){
+            case "blue":theDot.setType(BuildingType.lake);break;
+            case "cczzff":theDot.setType(BuildingType.studentCenter);break;
+            case "ffwwzz":theDot.setType(BuildingType.canteen);break;
+            case "ffwwqq":theDot.setType(BuildingType.tree);break;
+            case "ttttff":theDot.setType(BuildingType.swim);break;
+            case "ttffcc":theDot.setType(BuildingType.service);break;
+            case "wwffqq":theDot.setType(BuildingType.hospital);break;
+            case "ffcctt":theDot.setType(BuildingType.office); break;
+            case "red":theDot.setType(BuildingType.teach);break;
+            case "qqzzff":theDot.setType(BuildingType.dorm);break;
+            default:theDot.setType(BuildingType.Default);break;
+        }
     }
 
 }
