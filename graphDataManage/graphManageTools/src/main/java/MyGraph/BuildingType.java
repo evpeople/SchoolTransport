@@ -18,6 +18,8 @@ public enum BuildingType{
     teach,//教学楼
     dorm,//宿舍
     bus,//公交车站
-    car;//班车站
-
+    car,//班车站
+    coffee,//咖啡厅
+    librariy,//图书馆
+    lab;//实验楼
 }

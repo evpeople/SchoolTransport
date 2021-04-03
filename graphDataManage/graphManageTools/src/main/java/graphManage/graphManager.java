@@ -170,6 +170,9 @@ public abstract class graphManager {
             case "ffcctt":theDot.setType(BuildingType.office); break;
             case "red":theDot.setType(BuildingType.teach);break;
             case "qqzzff":theDot.setType(BuildingType.dorm);break;
+            case "cqcqcq":theDot.setType(BuildingType.lab);break;
+            case "ffefdv":theDot.setType(BuildingType.coffee);break;
+            case "ffcqcb":theDot.setType(BuildingType.librariy);break;
             default:theDot.setType(BuildingType.Default);break;
         }
     }

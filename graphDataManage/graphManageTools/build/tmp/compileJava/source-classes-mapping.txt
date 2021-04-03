@@ -1,11 +1,11 @@
-MyGraph/Dot.java
- MyGraph.Dot
-MyGraph/Edge.java
- MyGraph.Edge
 MyGraph/Graph.java
  MyGraph.Graph
 myTools/MyMatcher.java
  myTools.MyMatcher
+MyGraph/Dot.java
+ MyGraph.Dot
+MyGraph/Edge.java
+ MyGraph.Edge
 MyGraph/BuildingType.java
  MyGraph.BuildingType
 JavaMain.java
