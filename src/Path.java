@@ -1,10 +1,12 @@
+import java.util.Calendar;
+
 /**
  * 道路类，不同于路径类.
  */
 public class Path {
     private int length;
     private double crowdDegree;
-    private boolean isBike;//自行车道为1
+    private boolean isBike;
     Building start;
     Building end;
 
@@ -25,14 +27,32 @@ public class Path {
     }
 
     /**
-     * 目前暂定将路径分为几个不同的type，分别有自己不同的拥挤度函数，到时候就可以由functionOfCrowd根据type抉择算法了
+     * 目前暂定将路径分为几个不同的type，分别有自己不同的拥挤度函数，到时候就可以根据type抉择算法了
      */
-    public void setCrowdDegree(int timeHour, int timeMin, int typeOfPath){
-        this.crowdDegree = functionOfCrowd(timeHour, timeMin, typeOfPath);//TODO 拥挤度随时间变化的函数
+    public double setCrowdDegree(int typeOfPath){
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+        double result = 0.0;
+        switch (typeOfPath){
+            case 5://食堂附近道路
+                result = 0.5 + (Math.exp(-0.15*(Math.pow((hour-14.5), 2.0)))*(Math.pow((hour-14.5), 2.0))) + 0.5*Math.sin(0.1*minute);
+                break;
+            case 4://宿舍附近道路
+                result = 1.0 + Math.exp(-2*Math.pow((hour-13), 4.0))+Math.exp(-2*Math.pow((hour-18), 4.0)) + 0.5*Math.sin(0.1*minute);
+                break;
+            case 3://校园主干道
+                result = 1.0 + 0.5*Math.sin(0.2*(hour-4)) + 0.5*Math.sin(0.1*minute);
+                break;
+            case 2://没什么人走的道，走的人多了就成了道
+                result = 0.25 + 0.25*Math.sin(0.1*minute);
+                break;
+            case 1://操场附近道路
+                result = 0.75 + Math.exp(-Math.pow(0.1*(hour-19), 2)) + 0.5*Math.sin(0.1*minute);
+                break;
+            default:
+                result = 0.75;
+        }
+        return result;
     }
-
-    private double functionOfCrowd(int timeHour, int timeMin, int typeOfPath) {
-        return 0.0;
-    }
-
 }

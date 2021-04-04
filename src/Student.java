@@ -1,6 +1,8 @@
 
 
 /**学生类的基础架子.*/
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class Student {
 
   Position position; //todo 凑数的位置类
