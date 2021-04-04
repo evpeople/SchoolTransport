@@ -1,6 +1,3 @@
-import java.io.File;
-
-
 /**
  * 建筑物类,一个抽象类.
  */
@@ -12,40 +9,27 @@ public class Building {
   int schoolNum;
   int floor; //默认是0，代表地面上的平房。
   String nameOfBuilding;
-  private String detailOfBuilding;
-  File imgOfBuilding;
+
 
   /**
    * 构造器方法.
-   *
    * @param nameOfBuilding   建筑物的名字
-   * @param detailOfBuilding 建筑物的详细信息
-   * @param imgOfBuilding    建筑物的图片，目前是一个File类
    * @param schoolNum        1是1号校区 2是2号校区
    * @param guiCorrdinate    gui坐标，目前是int数组，
-   * @param mathCoordinate   连接表的坐标，是int数组
+   * @param mathCoordinate   连接表的坐标，是double数组
    * @param exitDoor         出口
    */
-  Building(String nameOfBuilding, String detailOfBuilding, File imgOfBuilding, int schoolNum,
+  Building(String nameOfBuilding, int schoolNum,
       int[] guiCorrdinate, double[] mathCoordinate, Exit exitDoor) {
-    this.detailOfBuilding = detailOfBuilding;
     this.guiCorrdinate = guiCorrdinate.clone();
-    this.imgOfBuilding = imgOfBuilding;
     this.mathCoordinate = mathCoordinate.clone();
     this.schoolNum = schoolNum;
     this.nameOfBuilding = nameOfBuilding;
     this.exit = exitDoor;
   }
-
-
-  /**
-   * 返回详细信息的方法.
-   */
-  public String getDetailOfBuilding() {
-    return detailOfBuilding;
-  }
-
-  public Route[] getShortestRoute() {
+//1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
+  public Route[] getShortestRoute(Position nowPosition, Building destination,
+      String strategy) {
     return new Route[0];
   }
 
@@ -55,4 +39,13 @@ public class Building {
   public void setFloor(int floor) {
     this.floor = floor;
   }
+
+  public static void main(String[] args)
+  {
+    int []a={1,2};
+    double []b={2.0,3.0};
+    Exit ex= new Exit();
+    Building test= new Building("我是测试",1,a,b,ex);
+  }
+
 }
