@@ -1,14 +1,16 @@
-MyGraph/Graph.java
- MyGraph.Graph
-myTools/MyMatcher.java
- myTools.MyMatcher
-MyGraph/Dot.java
- MyGraph.Dot
-MyGraph/Edge.java
- MyGraph.Edge
-MyGraph/BuildingType.java
- MyGraph.BuildingType
+com/CampusNavigation/GraphImport/Graph/Edge.java
+ com.CampusNavigation.GraphImport.Graph.Edge
+com/CampusNavigation/GraphImport/Graph/BuildingType.java
+ com.CampusNavigation.GraphImport.Graph.BuildingType
+com/CampusNavigation/GraphImport/Graph/Graph.java
+ com.CampusNavigation.GraphImport.Graph.Graph
+com/CampusNavigation/GraphImport/Graph/Dot.java
+ com.CampusNavigation.GraphImport.Graph.Dot
+com/CampusNavigation/GraphImport/graphManage/graphManager.java
+ com.CampusNavigation.GraphImport.graphManage.graphManager
+com/CampusNavigation/GraphImport/myTools/MyMatcher.java
+ com.CampusNavigation.GraphImport.myTools.MyMatcher
 JavaMain.java
  JavaMain
-graphManage/graphManager.java
- graphManage.graphManager
+com/CampusNavigation/GraphImport/graphManage/AssetManager.java
+ com.CampusNavigation.GraphImport.graphManage.AssetManager

@@ -1,39 +1,43 @@
-package graphManage;
+package com.CampusNavigation.GraphImport.graphManage;
 
-import MyGraph.*;
-import myTools.MyMatcher;
+import android.content.res.AssetManager;
 
+import com.CampusNavigation.GraphImport.Graph.*;
+import com.CampusNavigation.GraphImport.myTools.MyMatcher;
+
+import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public abstract class graphManager {
     private static final String  toMatchDotName="(?<=dot\\()\\([0-9.-]+,[0-9.-]+\\)(?=,dotstyle\\);)";//ok
     private static final String toMatchDotX="(?<=dot\\(\\()[0-9.-]+(?=,[0-9.-]+\\),dotstyle\\);)";//ok
-    private static final String toMatchDotY="(?<=dot\\(\\([0-9.-]+,)[0-9.-]+(?=\\),dotstyle\\);)";//ok
-    private static final String toMatchLineDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\))";//ok
+    private static final String toMatchDotY="(?<=dot\\(\\([0-9.-]{1,50},)[0-9.-]+(?=\\),dotstyle\\);)";//"(?<=dot\\(\\([0-9.-]+,)[0-9.-]+(?=\\),dotstyle\\);)";//ok
+    private static final String toMatchLineDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]{1,50},[0-9.-]{1,50}\\), linewidth\\([0-9.-]+\\))";//ok
     private static final String toMatchLineDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth)";//"(?<=draw\\(\\([0-9.-]+,[0-9.-]+\\)--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\))";//ok
     private static final String toMatchWidth="(?<=linewidth\\()[0-9.]+(?=\\))";//ok
     private static final String path="src//main//resources//data.txt";
+    private static final String outPutPath="src//main//resources//graph.ser";
     private static final String toMatchBuildingName="(?<=label\\(\\\"\\$)[\\w]*(?=\\$\\\")";//ok
     private static final String toMatchArrowDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
     private static final String toMatchArrowDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
     private static final String toMatchCirclePoint="(?<=draw\\(circle\\()\\([0-9.-]+,[0-9.-]+\\)(?=, [0-9.-]+\\), line)";
     private static final String toMatchLength="(?<=,\\s)[0-9.-]+(?=\\),)";//"(?<=circle\\(\\([0-9.-]+,[0-9.-]+\\),\\s)[0-9.-]+(?=\\),)";
-    private static final String toMatchBuildingType1="(?<=linetype\\(\\\"[\\s0-9.]*\\\"\\) \\+ )[\\w]+(?=\\))";
-    private static final String toMatchBuildingType2="(?<=linewidth\\([\\s0-9.]*\\) \\+ )[\\w]+(?=\\))";
+    private static final String toMatchBuildingType1="(?<=linetype\\(\\\"[\\s0-9.]{0,50}\\\"\\) \\+ )[\\w]+(?=\\))";
+    private static final String toMatchBuildingType2="(?<=linewidth\\([\\s0-9.]{0,50}\\) \\+ )[\\w]+(?=\\))";
 
-    public static Graph manage() throws FileNotFoundException {
-
-    Scanner scanner=new Scanner(new File(path));
-    Graph graph=new Graph();
+    public static Graph manage(AssetManager assetManager) throws IOException {
+        Scanner scanner;
+   if(assetManager==null)scanner=new Scanner(new File(path));
+   else scanner=new Scanner(new BufferedInputStream(assetManager.open("data.txt")));
     HashMap<String, Dot> allDots=new HashMap<String, Dot>();
     Dot[] dotsList=new Dot[Graph.MaxNumOfDots];
     Edge[][] edges=new Edge[Graph.MaxNumOfDots][Graph.MaxNumOfDots];
     HashMap<String,String> GuiPoints=new HashMap<>();
-
 
     /*第一次读取*/
     String now=scanner.nextLine();
@@ -80,7 +84,8 @@ public abstract class graphManager {
     scanner.close();
 
     /*第二次读取*/
-    scanner=new Scanner(new File(path));
+        if(assetManager==null)scanner=new Scanner(new File(path));
+        else scanner=new Scanner(new BufferedInputStream(assetManager.open("data.txt")));
     now=scanner.nextLine();
 
     while (scanner.hasNextLine()&& !now.contains("/* draw figures */")){now=scanner.nextLine();};
@@ -113,7 +118,7 @@ public abstract class graphManager {
             String dot2=matcher.theFirst(toMatchArrowDot2);
             matcher=new MyMatcher(dot2);
             allDots.get(dot1).xg=Double.parseDouble(matcher.theFirst("(?<=\\()[0-9.-]+(?=,[0-9.-]+\\))"));
-            allDots.get(dot1).yg=Double.parseDouble(matcher.theFirst("(?<=\\([0-9.-]+,)[0-9.-]+(?=\\))"));
+            allDots.get(dot1).yg=Double.parseDouble(matcher.theFirst("(?<=\\([0-9.-]{1,50},)[0-9.-]+(?=\\))"));
             allDots.get(dot1).setRg();
         }
         else if(now.contains("draw")&&(now.contains("linetype")||now.contains("linewidth"))&&now.contains("circle")){//路口
@@ -136,8 +141,9 @@ public abstract class graphManager {
         }
 
     }
-
-    return graph;
+        Graph graph=new Graph(num,dotsList,edges);
+//        toPutOutGraph(graph,outPutPath);
+        return graph;
     }
 
    private static void setDotType1(Dot theDot, String type){
@@ -177,4 +183,11 @@ public abstract class graphManager {
         }
     }
 
+    private static void toPutOutGraph(Graph graph,String path) throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(path);
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(graph);
+        out.close();
+        fileOut.close();
+    }
 }

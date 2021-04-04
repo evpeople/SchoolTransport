@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.MyTools.PosView;
 
 public class MapLayout extends LinearLayout {
@@ -15,13 +16,13 @@ public class MapLayout extends LinearLayout {
     private StudentView stu=null;
 
     @SuppressLint("ResourceAsColor")
-    public MapLayout(Context context) {
+    public MapLayout(Context context, Graph graph) {
         super(context);
         setClickable(false);
         setOrientation(VERTICAL);
         startButton = addButton("开始");//*
         pauseButton = addButton("暂停");//*
-        mapBuildings = new MapBuildings(context);
+        mapBuildings = new MapBuildings(context, graph);
 
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mapBuildings.setRight(100);

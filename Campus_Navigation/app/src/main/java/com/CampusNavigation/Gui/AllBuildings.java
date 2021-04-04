@@ -8,10 +8,7 @@ import android.graphics.Path;
 import android.widget.RelativeLayout;
 
 import androidx.core.content.ContextCompat;
-
-import com.CampusNavigation.GraphImport.Graph.Dot;
-import com.CampusNavigation.GraphImport.Graph.Edge;
-import com.CampusNavigation.GraphImport.Graph.Graph;
+import com.CampusNavigation.GraphImport.Graph.*;
 import com.example.campus_navigation1.R;
 
 import java.util.ArrayList;
@@ -22,9 +19,10 @@ public class AllBuildings extends RelativeLayout {
     private ArrayList<Building> buildings = new ArrayList<>();
 
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
-    public AllBuildings(Context context) {
+    public AllBuildings(Context context,Graph graph) {
         super(context);
-        graph = new Graph();
+        this.graph=graph;
+        //graph = new Graph();
         setAllBuildings(graph);
         setWillNotDraw(false);
     }

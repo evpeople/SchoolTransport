@@ -1,12 +1,14 @@
 package com.CampusNavigation.GraphImport.Graph;
 
-public class Dot {
+import java.io.Serializable;
+
+public class Dot implements Serializable {
     private String name="";
-    public final double xg;
-    public final double yg;
+    public double xg;
+    public double yg;
     public final double X;
     public final double Y;
-    public final double rg;
+    public double rg;
     private String position="";
     private int index=0;
     private BuildingType type;
@@ -31,11 +33,38 @@ public class Dot {
         this.rg =rg;
         this.X=x;
         this.Y=y;
-        this.type=BuildingType.canteen;
+        this.type= BuildingType.canteen;
+    }
+    public Dot(String position, double x, double y){
+        this.position=position;
+        this.X=x;
+        this.Y=y;
+        this.xg=x;
+        this.yg=y;
+        this.rg=3;
+        this.type= BuildingType.Default;
     }
 
     public BuildingType getType() {
         return type;
+    }
+    public void setGui(double x,double y){
+        this.xg=x;
+        this.yg=y;
+    }
+
+    public void setType(BuildingType type) {
+        this.type = type;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+    public void setRg(){
+        rg=Math.sqrt((X-xg)*(X-xg)+(Y-yg)*(Y-yg));
+    }
+    public void setRg(double r){
+        this.rg=r;
     }
 }
 

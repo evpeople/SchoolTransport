@@ -1,6 +1,8 @@
-package MyGraph;
+package com.CampusNavigation.GraphImport.Graph;
 
-public class Dot {
+import java.io.Serializable;
+
+public class Dot implements Serializable {
     private String name="";
     public double xg;
     public double yg;
@@ -64,5 +66,7 @@ public class Dot {
     public void setRg(double r){
         this.rg=r;
     }
+
+
 }
 

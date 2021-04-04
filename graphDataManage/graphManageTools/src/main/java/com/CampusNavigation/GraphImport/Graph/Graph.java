@@ -1,6 +1,10 @@
-package MyGraph;
+package com.CampusNavigation.GraphImport.Graph;
 
-public class Graph {
+import java.io.Serializable;
+import java.nio.file.Paths;
+
+public class Graph implements Serializable {
+
     public static final int MaxNumOfDots=80;
     private int NumOfDots=0;
     private Dot[] dots=new Dot[MaxNumOfDots];
@@ -13,6 +17,11 @@ public class Graph {
         dots[1]=dot2;
         edges[0][1]=new Edge(dot1,dot2);
         NumOfDots=2;
+    }
+    public Graph(int NumOfDots,Dot[]dots,Edge[][]edges) {
+        this.dots = dots;
+        this.edges = edges;
+        this.NumOfDots = NumOfDots;
     }
 
     public Dot[] getDots() {
@@ -27,4 +36,5 @@ public class Graph {
     public int NumOfDots() {
         return NumOfDots;
     }
+
 }

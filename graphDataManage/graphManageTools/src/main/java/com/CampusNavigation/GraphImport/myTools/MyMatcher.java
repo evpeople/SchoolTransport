@@ -1,4 +1,4 @@
-package myTools;
+package com.CampusNavigation.GraphImport.myTools;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

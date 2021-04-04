@@ -1,6 +1,8 @@
-package MyGraph;
+package com.CampusNavigation.GraphImport.Graph;
 
-public enum BuildingType{
+import java.io.Serializable;
+
+public enum BuildingType implements Serializable {
     canteen,//餐厅
     crossing,//路口
     exit,//大门//出口

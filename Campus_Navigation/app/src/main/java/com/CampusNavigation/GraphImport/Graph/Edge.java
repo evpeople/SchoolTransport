@@ -1,6 +1,8 @@
 package com.CampusNavigation.GraphImport.Graph;
 
-public class Edge {
+import java.io.Serializable;
+
+public class Edge implements Serializable {
     public final Dot start;
     public final Dot end;
     private boolean bikeOk=false;
@@ -20,4 +22,9 @@ public class Edge {
     public float getDegreeOfCongestion() {
         return degreeOfCongestion;
     }
+
+    public void setDegreeOfCongestion(float degreeOfCongestion) {
+        this.degreeOfCongestion = degreeOfCongestion;
+    }
+
 }
