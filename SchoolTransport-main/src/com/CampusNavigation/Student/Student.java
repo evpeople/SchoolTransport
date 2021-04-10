@@ -3,6 +3,8 @@ package com.CampusNavigation.Student;
 /**学生类的基础架子.*/
 import com.CampusNavigation.Map.Map;
 import com.CampusNavigation.Map.Path;
+import java.io.IOException;
+
 public class Student {
 
   public Position position; //todo 凑数的位置类
@@ -23,7 +25,7 @@ public class Student {
     this.currentMap = currentMap;
     this.pathsToGo = pathsToGo.clone();
   }
-  public Student(){
+  public Student() throws IOException {
     this.position = new Position();
     this.walkSpeed = 60;//初始速度60米每分钟
     this.currentMap = null;

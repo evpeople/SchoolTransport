@@ -68,4 +68,8 @@ public class Path {
         }
         return result;
     }
+
+    public double getLength() {
+        return length;
+    }
 }

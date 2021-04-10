@@ -18,8 +18,8 @@ public class SpecificBuild extends Building {
     Path[] paths;
 
 
-    public SpecificBuild(Dot dot) {
-        super(dot);
+    public SpecificBuild(Dot dot, Map map) throws IOException {
+        super(dot,map);
         switch (dot.getType()){
             case bus:case car:  break;
             case crossing:case buildingCrossing:case runway:case soccer:break;
@@ -57,7 +57,8 @@ public class SpecificBuild extends Building {
 
     public Route[] getShortestRoute(Position nowPosition, Building destination,
                                     String strategy) {
-        Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute();
+        Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
+            nowPosition.getNowBuilding(), destination,strategy);
         //todo 需要route完成后再详细的写
         if (!inBuilding(destination.nameOfBuildingInChinese)) {
             boolean b = a[0].isToDestination;
@@ -68,7 +69,7 @@ public class SpecificBuild extends Building {
             if (c == 0) {
                 return new Route[0];///同一层
             }
-            Route[] b = mapOfFloor[destination.floor].getShortestRoute();
+            Route[] b = mapOfFloor[destination.floor].getShortestRoute(nowPosition.getNowBuilding(),destination,strategy);
 
         }
         return new Route[0];

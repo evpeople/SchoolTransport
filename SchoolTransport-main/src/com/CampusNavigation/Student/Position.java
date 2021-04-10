@@ -2,6 +2,7 @@ package com.CampusNavigation.Student;
 
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Exit;
+import java.io.IOException;
 
 /**
  * 学生当前位置.
@@ -39,10 +40,10 @@ public class Position {
    * 当前具体层数.
    */
   private int nowPositionOnPath;
-  public Position(){
+  public Position() throws IOException {
     int []a={1,2};
     double []b={2.0,3.0};
-    Exit ex= new Exit();
+//    Exit ex= new Exit();
 
   }
 }

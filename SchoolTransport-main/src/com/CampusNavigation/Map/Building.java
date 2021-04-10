@@ -22,8 +22,8 @@ public class Building {
   public final String nameOfBuildingInChinese="";
   public final BuildingType type;
   public final int index;//在邻接矩阵中的序号
-
-  public Building(Dot dot){
+  public final Map map;
+  public Building(Dot dot,Map map) throws IOException {
       this.type=dot.getType();
       this.X=dot.X;
       this.Y=dot.Y;
@@ -32,6 +32,7 @@ public class Building {
       //this.floor=dot.getType().getFloorNum();
       this.schoolNum=0;
       this.index=dot.getIndex();
+      this.map=map;
   }
 //  /**
 //   * 构造器方法.
