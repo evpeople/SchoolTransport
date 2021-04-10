@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public abstract class MainCli {
 
   static Map map;
-  final static Logger logger = LoggerFactory.getLogger(MainCli.class);
+  static final Logger logger = LoggerFactory.getLogger(MainCli.class);
 
 
   public static void main(String[] args) throws IOException {
@@ -52,8 +52,7 @@ public abstract class MainCli {
     UsrData.put("strategy", scanner.next());
     logger.debug(UsrData.get("strategy"));
 
-//    String NameOfDestination=scanner.next();
-//    logger.debug(NameOfDestination);
+
     if (UsrData.get("destination").equals("0")) {
       Route[] myPath = JackYang.position.getNowBuilding()
           .getShortestRoute(JackYang.position, toBuilding(UsrData.get("destination")),

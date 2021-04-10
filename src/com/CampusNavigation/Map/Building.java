@@ -4,8 +4,6 @@ import com.CampusNavigation.GraphImport.Graph.BuildingType;
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
-import java.io.IOException;
-import java.nio.file.Paths;
 
 /**
  * 建筑物类,一个抽象类.
@@ -13,8 +11,8 @@ import java.nio.file.Paths;
 public class Building {
 
   private Exit exit = null;
-  public final double X;
-  public final double Y;
+  public final double mathX;
+  public final double mathY;
   public final int schoolNum;
   public final int floor; //默认是0，代表地面上的平房。
   public final String nameOfBuildingInEnglish;
@@ -31,8 +29,8 @@ public class Building {
    */
   public Building(Dot dot, Map map) {
     this.type = dot.getType();
-    this.X = dot.X;
-    this.Y = dot.Y;
+    this.mathX = dot.X;
+    this.mathY = dot.Y;
     this.nameOfBuildingInEnglish = dot.getPosition();
     this.floor = 0;
     //this.floor=dot.getType().getFloorNum();

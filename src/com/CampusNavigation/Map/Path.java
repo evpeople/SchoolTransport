@@ -21,7 +21,8 @@ public class Path {
     this.start = buildings[edge.start.getIndex()];
     this.end = buildings[edge.end.getIndex()];
     this.length = Math
-        .sqrt((start.X - end.X) * (start.X - end.X) + (start.Y - end.Y) * (start.Y - end.Y));
+        .sqrt((start.mathX - end.mathX) * (start.mathX - end.mathX) + (start.mathY
+            - end.mathY) * (start.mathY - end.mathY));
 
   }
 //
