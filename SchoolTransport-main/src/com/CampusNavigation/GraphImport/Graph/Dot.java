@@ -3,13 +3,12 @@ package com.CampusNavigation.GraphImport.Graph;
 import java.io.Serializable;
 
 public class Dot implements Serializable {
-    private String name="";//建筑名字（英文）
     public double xg;
     public double yg;
     public final double X;
     public final double Y;
     public double rg;
-    private String position="";
+    private String position="";//建筑名字（英文）
     private int index=0;
     private BuildingType type=BuildingType.Default;
     public void setIndex(int index) {
@@ -20,12 +19,6 @@ public class Dot implements Serializable {
         return index;
     }
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String name){
-        this.name=name;
-    }
     public Dot(String position, double x, double y,double rg,double xg,double yg){//坐标名字(x,y)
         this.position=position;
         this.xg=xg;
@@ -67,6 +60,8 @@ public class Dot implements Serializable {
         this.rg=r;
     }
 
-
+    public String getPosition() {
+        return position;
+    }
 }
 

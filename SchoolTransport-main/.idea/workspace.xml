@@ -2,9 +2,82 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e67d0d6-af18-4001-9f57-a244ef97255a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/CampusNavigation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/CampusNavigation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/CampusNavigation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/proguard-rules.pro" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/proguard-rules.pro" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/androidTest/java/com/example/campus_navigation1/ExampleInstrumentedTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/androidTest/java/com/example/campus_navigation1/ExampleInstrumentedTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/assets/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/assets/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/BuildingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Dot.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Dot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Edge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/Graph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/graphManage/graphManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/graphManage/graphManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/myTools/MyMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/GraphImport/myTools/MyMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/AllBuildings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/AllBuildings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MapBuildings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MapBuildings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MapLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/MapLayout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/StudentView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/CampusNavigation/Gui/StudentView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/MyTools/PosView.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/java/com/MyTools/PosView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable/ic_launcher_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable/round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/drawable/round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/campus_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/campus_map.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/temp_test.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/layout/temp_test.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/main/res/values/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/app/src/test/java/com/example/campus_navigation1/ExampleUnitTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/app/src/test/java/com/example/campus_navigation1/ExampleUnitTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Campus_Navigation/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../Campus_Navigation/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/.idea/graphDataManage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/.idea/graphDataManage.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/graphManageTools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/graphManageTools.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/modules/graphManageTools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/modules/graphManageTools.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/build/resources/main/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/build/resources/main/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/gradlew.bat" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/gradlew.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/JavaMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/JavaMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/BuildingType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/BuildingType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Dot.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Dot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Edge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/Graph/Graph.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/graphManage/AssetManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/graphManage/AssetManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/graphManage/graphManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/graphManage/graphManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/myTools/MyMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/java/com/CampusNavigation/GraphImport/myTools/MyMatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/resources/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/graphManageTools/src/main/resources/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../graphDataManage/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../graphDataManage/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/../readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,11 +104,24 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MainCli" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.CampusNavigation.MainCli" />
       <module name="SchoolTransport" />
@@ -63,21 +149,47 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617767355301</updated>
+      <workItem from="1618032854012" duration="11489000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="dev_algo" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/com/CampusNavigation/MainCli.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/CampusNavigation/MainCli.java</url>
           <line>19</line>
-          <option name="timeStamp" value="2" />
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -17,7 +17,7 @@ public abstract class graphManager {
     private static final String toMatchLineDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]{1,50},[0-9.-]{1,50}\\), linewidth\\([0-9.-]+\\))";//ok
     private static final String toMatchLineDot2="(?<=--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth)";//"(?<=draw\\(\\([0-9.-]+,[0-9.-]+\\)--)\\([0-9.-]+,[0-9.-]+\\)(?=, linewidth\\([0-9.-]+\\))";//ok
     private static final String toMatchWidth="(?<=linewidth\\()[0-9.]+(?=\\))";//ok
-    private static final String path="src//resources//data.txt";
+    private static final String defaultPath="src//resources//data.txt";
     private static final String outPutPath="src//main//resources//graph.ser";
     private static final String toMatchBuildingName="(?<=label\\(\\\"\\$)[\\w]*(?=\\$\\\")";//ok
     private static final String toMatchArrowDot1="(?<=draw\\()\\([0-9.-]+,[0-9.-]+\\)(?=--\\([0-9.-]+,[0-9.-]+\\), linewidth\\([0-9.-]+\\)[\\s\\w+]*,EndArrow\\([0-9.]+\\))";
@@ -27,8 +27,9 @@ public abstract class graphManager {
     private static final String toMatchBuildingType1="(?<=linetype\\(\\\"[\\s0-9.]{0,50}\\\"\\) \\+ )[\\w]+(?=\\))";
     private static final String toMatchBuildingType2="(?<=linewidth\\([\\s0-9.]{0,50}\\) \\+ )[\\w]+(?=\\))";
 
-    public static Graph manage(AssetManager assetManager) throws IOException {
+    public static Graph manage(AssetManager assetManager,String path) throws IOException {
         Scanner scanner;
+        if(path==null)path=defaultPath;
         if(assetManager==null)scanner=new Scanner(new File(path));
         else scanner=new Scanner(new BufferedInputStream(assetManager.open("data.txt")));
         HashMap<String, Dot> allDots=new HashMap<String, Dot>();
@@ -142,6 +143,7 @@ public abstract class graphManager {
         //toPutOutGraph(graph,outPutPath);
         return graph;
     }
+
 
     private static void setDotType1(Dot theDot, String type){
 

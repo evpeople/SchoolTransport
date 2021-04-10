@@ -15,23 +15,23 @@ public abstract class MainCli {
 
 
   public static void main(String[] args) throws IOException {
-    map=new Map();
-
+    map=new Map(null);
+    Path[] temp=map.getPaths()[1];
     Student JackYang=new Student();
     System.out.println("欢迎来到导航系统1.0版\n你打算干什么呢\n1.导航\n2.查询目前的位置");
     Scanner scanner=new Scanner(System.in);
     String answer= scanner.next();
     switch (answer)
     {
-      case "1":
+      case "1":navigation(JackYang);
         break;
-      case "2":navigation(JackYang);
+      case "2":
         break;
     }
 
 
   }
-  private static void navigation(Student JackYang){
+  private static void navigation(Student JackYang) throws IOException {
     System.out.println("请输入起点，终点,起点输入0，则以你当前的位置为起点哦");
     HashMap<String,String>UsrData=new HashMap<String,String>();
     String []a=new String[3];
@@ -68,14 +68,14 @@ public abstract class MainCli {
     String[]answer= JackYang.currentMap.Inquire(JackYang.position);
     //输出完字符串后要给用户一个机会选择干啥，就是这些最短距离。
   }
-  private static Building toBuilding(String name){
+  private static Building toBuilding(String name) throws IOException {
     int []a={1,2};
     double []b={2.0,3.0};
-    Exit ex= new Exit();
+//    Exit ex= new Exit();
     //Building test= new Building("我是测试",1,a,b,ex);
     return null;
   }
-  private static Position toPosition(String name){
+  private static Position toPosition(String name) throws IOException {
     return new Position();
   }
 }

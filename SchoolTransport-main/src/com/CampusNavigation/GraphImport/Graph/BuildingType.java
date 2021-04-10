@@ -1,8 +1,6 @@
 package com.CampusNavigation.GraphImport.Graph;
 
-import java.beans.Beans;
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Random;
 
 public enum BuildingType implements Serializable {
