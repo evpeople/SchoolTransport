@@ -8,8 +8,6 @@ import com.CampusNavigation.Map.*;
 import com.CampusNavigation.Student.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 public abstract class MainCli {
 
@@ -20,7 +18,7 @@ public abstract class MainCli {
   public static void main(String[] args) throws IOException {
     map = new Map(null);
     Path[] temp = map.getPaths()[1];
-    map.Dijkstra();
+    map.dijkstra();
     Student JackYang = new Student();
     System.out.println("欢迎来到导航系统1.0版\n你打算干什么呢\n1.导航\n2.查询目前的位置");
     Scanner scanner = new Scanner(System.in);
@@ -77,7 +75,7 @@ public abstract class MainCli {
     //输出完字符串后要给用户一个机会选择干啥，就是这些最短距离。
   }
 
-  private static Building toBuilding(String name) throws IOException {
+  private static Building toBuilding(String name) {
     int[] a = {1, 2};
     double[] b = {2.0, 3.0};
 //    Exit ex= new Exit();

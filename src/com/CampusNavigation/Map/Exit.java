@@ -19,21 +19,6 @@ public class Exit extends Building {
 
   }
 
-//    /**
-//     *
-//     * @param mathCoordinate 连接表的坐标
-//     * @param guiCorrdinate gui坐标
-//     * @param schoolNum 所在校区
-//     * @param nameOfBuilding 出口的名字
-//     */
-//    public Exit(double[] mathCoordinate, int[] guiCorrdinate, int schoolNum, String nameOfBuilding) {
-//        super(null);
-//        this.mathCoordinate = mathCoordinate.clone();
-//        this.guiCorrdinate = guiCorrdinate.clone();
-//        this.schoolNum = schoolNum;
-//        this.floor = 0;
-//        this.nameOfExit = nameOfBuilding;
-//    }
 
 
 }
