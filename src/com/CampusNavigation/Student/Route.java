@@ -31,8 +31,7 @@ public class Route {
     return RouteToDestination;
   }
 
-  public void setRouteToDestination(
-      HashMap<Building, Path> routeToDestination) {
+  public void setRouteToDestination(HashMap<Building, Path> routeToDestination) {
     RouteToDestination = routeToDestination;
   }
 

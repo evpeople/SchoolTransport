@@ -46,8 +46,6 @@ public class Map {
           break;
       }
       now++;
-
-
     }
     logger.debug(String.valueOf(this.numOfBuildings));
     for (int i = 0; i < numOfBuildings; i++) {
@@ -59,7 +57,6 @@ public class Map {
         }
       }
     }
-
   }
 
 
@@ -81,36 +78,47 @@ public class Map {
     return buildings;
   }
 
+  public int getBuildingsOrder(String nameOfBuilding) {
+    int order, judgeOrder = 0;
+    for (order = 0; order < MaxNumOfDots; order++) {
+      if (this.buildings[order].nameOfBuildingInEnglish.equals(nameOfBuilding)) {
+        judgeOrder = 1;
+        break;
+      }
+    }
+    if (judgeOrder != 1) {
+      order = -1;
+    }
+    return order;
+  }
+
   private void initTable(Map graph, TableEntry[] t) {
     for (int i = 0; i < graph.numOfBuildings; i++) {
       t[i] = new TableEntry(i, graph.buildings[i], false, Double.POSITIVE_INFINITY, null);
     }
     t[0].setDist(0);
-
-
   }
 
   /**
    * 最短路径所用的DJ算法.
    * //todo 不同的导航策略
    * //todo 对最后结果表格的解读（递归求出路径）
+   * @return
    */
-  public void dijkstra() {
+  public TableEntry[] dijkstra(int vertex) {
     TableEntry[] tableEntries = new TableEntry[this.numOfBuildings + 1];
     initTable(this, tableEntries);
-    int i = 0;
-    int t = 0;
     while (true) {
-      tableEntries[i].setKnown(true);
-      i = UpdateTableEntry(tableEntries, tableEntries[i]);
-      if (i == -1) {
+      tableEntries[vertex].setKnown(true);
+      vertex = UpdateTableEntry(tableEntries, tableEntries[vertex]);
+      if (vertex == -1) {
         break;
       }
       for (int ie = 0; ie < this.numOfBuildings; ie++) {
         logger.debug(tableEntries[ie].toString());
       }
     }
-
+    return tableEntries;
   }
 
   private int UpdateTableEntry(TableEntry[] tableEntries, TableEntry known) {
@@ -153,6 +161,18 @@ public class Map {
       logger.debug("本次选取的点是" + this.buildings[minRoute].nameOfBuildingInEnglish);
     }
     return minRoute;
+  }
+
+  public HashMap<Building, Path> getShortestRoute(int start, int end) {
+    HashMap<Building, Path> shortestRoute = new HashMap<>();
+    TableEntry[] tableEntries = dijkstra(start);
+    int currentVertex = end;
+    do {
+      shortestRoute.put(tableEntries[currentVertex].pathToBuilding.getStart(),
+              tableEntries[currentVertex].pathToBuilding.getRouteToDestination().get(tableEntries[currentVertex].pathToBuilding.getStart()));
+      currentVertex = getBuildingsOrder(tableEntries[currentVertex].pathToBuilding.getStart().nameOfBuildingInEnglish);
+    } while (currentVertex != start);
+    return shortestRoute;
   }
 }
 
