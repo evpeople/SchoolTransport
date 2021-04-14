@@ -4,6 +4,7 @@ import com.CampusNavigation.GraphImport.Graph.BuildingType;
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
+import java.util.HashMap;
 
 /**
  * 建筑物类,一个抽象类.
@@ -42,9 +43,16 @@ public class Building {
 
 
   //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
-  public Route[] getShortestRoute(Position nowPosition, Building destination,
+  public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
       String strategy) {
-    return new Route[0];
+    int nowPositinIndex=map.getBuildingsOrder(nowPosition.getNowBuilding().getNameOfBuildingInEnglish());
+    int destinationIndex=map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
+    return map.getShortestRoute(nowPositinIndex,destinationIndex);
+
+  }
+
+  public String getNameOfBuildingInEnglish() {
+    return nameOfBuildingInEnglish;
   }
 
   @Override

@@ -35,8 +35,9 @@ public abstract class MainCli {
   }
 
   private static void navigation(Student JackYang) throws IOException {
+
     System.out.println("请输入起点，终点,起点输入0，则以你当前的位置为起点哦");
-    HashMap<String, String> UsrData = new HashMap<String, String>();
+    HashMap<String, String> UsrData = new HashMap<>();
     String[] a = new String[3];
     int i = 0;
     Scanner scanner = new Scanner(System.in);
@@ -54,11 +55,11 @@ public abstract class MainCli {
 
 
     if (UsrData.get("destination").equals("0")) {
-      Route[] myPath = JackYang.position.getNowBuilding()
+      HashMap<Building, Path> myPath = JackYang.position.getNowBuilding()
           .getShortestRoute(JackYang.position, toBuilding(UsrData.get("destination")),
               UsrData.get("strategy"));
     } else {
-      Route[] myPath = toPosition(UsrData.get("start")).getNowBuilding()
+      HashMap<Building, Path> myPath = toPosition(UsrData.get("start")).getNowBuilding()
           .getShortestRoute(toPosition(UsrData.get("start")),
               toBuilding(UsrData.get("destination")), UsrData.get("strategy"));
     }
@@ -75,14 +76,15 @@ public abstract class MainCli {
   }
 
   private static Building toBuilding(String name) {
-    int[] a = {1, 2};
-    double[] b = {2.0, 3.0};
+    int a = map.getBuildingsOrder(name);
+    return map.getBuildings()[a];
 //    Exit ex= new Exit();
     //Building test= new Building("我是测试",1,a,b,ex);
-    return null;
   }
 
   private static Position toPosition(String name) throws IOException {
-    return new Position();
+    Position temp= new Position();
+    temp.setNowBuilding(map.getBuildings()[map.getBuildingsOrder(name)]);
+    return  temp;
   }
 }
