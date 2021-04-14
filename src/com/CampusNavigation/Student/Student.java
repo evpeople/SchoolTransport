@@ -1,6 +1,7 @@
 package com.CampusNavigation.Student;
 
 /**
+
  * 学生类的基础架子.
  */
 
@@ -12,7 +13,7 @@ public class Student {
 
   public Position position; //todo 凑数的位置类
   private double walkSpeed;
-  public Map currentMap;
+  private Map currentMap;
   Path[] pathsToGo;
   int numberOfPath;
 
@@ -34,6 +35,14 @@ public class Student {
     this.walkSpeed = 60;//初始速度60米每分钟
     this.currentMap = null;
     this.pathsToGo = null;
+  }
+
+  public void setCurrentMap(Map currentMap) {
+    this.currentMap = currentMap;
+  }
+
+  public Map getCurrentMap() {
+    return currentMap;
   }
 
   public void changeSpeed(int newSpeed) {

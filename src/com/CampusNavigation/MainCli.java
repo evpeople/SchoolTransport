@@ -20,6 +20,7 @@ public abstract class MainCli {
     Path[] temp = map.getPaths()[1];
     //map.dijkstra();
     Student JackYang = new Student();
+    JackYang.setCurrentMap(map);
     System.out.println("欢迎来到导航系统1.0版\n你打算干什么呢\n1.导航\n2.查询目前的位置");
     Scanner scanner = new Scanner(System.in);
     String answer = scanner.next();
@@ -56,12 +57,13 @@ public abstract class MainCli {
 
     if (UsrData.get("destination").equals("0")) {
       HashMap<Building, Path> myPath = JackYang.position.getNowBuilding()
-          .getShortestRoute(JackYang.position, toBuilding(UsrData.get("destination")),
+          .getShortestRoute(JackYang.position, toBuilding(UsrData.get("destination"),
+              JackYang.getCurrentMap()),
               UsrData.get("strategy"));
     } else {
-      HashMap<Building, Path> myPath = toPosition(UsrData.get("start")).getNowBuilding()
-          .getShortestRoute(toPosition(UsrData.get("start")),
-              toBuilding(UsrData.get("destination")), UsrData.get("strategy"));
+      HashMap<Building, Path> myPath = toPosition(UsrData.get("start"), JackYang.getCurrentMap()).getNowBuilding()
+          .getShortestRoute(toPosition(UsrData.get("start"), JackYang.getCurrentMap()),
+              toBuilding(UsrData.get("destination"), JackYang.getCurrentMap()), UsrData.get("strategy"));
     }
   }
 
@@ -71,18 +73,18 @@ public abstract class MainCli {
 
   private static void Inquire(Student JackYang) {
 
-    String[] answer = JackYang.currentMap.Inquire(JackYang.position);
+    String[] answer = JackYang.getCurrentMap().Inquire(JackYang.position);
     //输出完字符串后要给用户一个机会选择干啥，就是这些最短距离。
   }
 
-  private static Building toBuilding(String name) {
+  private static Building toBuilding(String name,Map map) {
     int a = map.getBuildingsOrder(name);
     return map.getBuildings()[a];
 //    Exit ex= new Exit();
     //Building test= new Building("我是测试",1,a,b,ex);
   }
 
-  private static Position toPosition(String name) throws IOException {
+  private static Position toPosition(String name ,Map map) throws IOException {
     Position temp= new Position();
     temp.setNowBuilding(map.getBuildings()[map.getBuildingsOrder(name)]);
     return  temp;
