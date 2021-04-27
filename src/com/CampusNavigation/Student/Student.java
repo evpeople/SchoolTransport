@@ -25,7 +25,7 @@ public class Student {
    */
   public Student(Position position, Map currentMap, Path[] pathsToGo) {
     this.position = position;
-    this.walkSpeed = 60;//初始速度60米每分钟
+    this.walkSpeed = 60; //初始速度60米每分钟
     this.currentMap = currentMap;
     this.pathsToGo = pathsToGo.clone();
   }

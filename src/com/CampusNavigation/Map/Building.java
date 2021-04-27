@@ -24,8 +24,8 @@ public class Building {
   public int floorForDestination;
 
   /**
-   *  通过生成的图构建邻接表.
-
+   * 通过生成的图构建邻接表.
+   *
    * @param dot 点
    * @param map 地图
    */
@@ -43,18 +43,28 @@ public class Building {
   }
 
 
-
   //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
   public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
-      String strategy,Map map) {
-    int nowPositinIndex=map.getBuildingsOrder(nowPosition.getNowBuilding().getNameOfBuildingInEnglish());
-    int destinationIndex=map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
-    return map.getShortestRoute(nowPositinIndex,destinationIndex);
+      String strategy, Map map) {
+    int nowPositinIndex = map
+        .getBuildingsOrder(nowPosition.getNowBuilding().getNameOfBuildingInEnglish());
+    int destinationIndex = map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
+    return map.getShortestRoute(nowPositinIndex, destinationIndex);
 
   }
+
+  /**
+   *
+   * 实际使用的最短路径
+   * @param nowPositionIndex 当前建筑为序列号
+   * @param destinationIndex 目标建筑为序列号
+   * @param strategy  导航方式
+   * @param map  在那张地图上使用
+   * @return  Ver的哈希表
+   */
   public HashMap<Building, Path> getShortestRoute(int nowPositionIndex, int destinationIndex,
-      String strategy,Map map) {
-    return map.getShortestRoute(nowPositionIndex,destinationIndex);
+      String strategy, Map map) {
+    return map.getShortestRoute(nowPositionIndex, destinationIndex);
 
   }
 
@@ -72,5 +82,5 @@ public class Building {
         +
         '}';
   }
-
+//todo: 获取出口的方法。
 }

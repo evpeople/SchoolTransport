@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 
 /**
@@ -17,11 +18,14 @@ import static java.lang.Math.abs;
  */
 public class SpecificBuild extends Building {
 
-  Map[] mapOfFloor;
-  int maxOfFloor=10;
-//  ArrayList<Map> mapOfFloor=new ArrayList<>();
-  Path[] paths;
+  private static final int length = 10;
+  private static final int maxOfFloor = 10;
 
+  Map[] mapOfFloor = new Map[maxOfFloor];
+
+  //  ArrayList<Map> mapOfFloor=new ArrayList<>();
+  Path[] upStairs = new Path[maxOfFloor + 1];//楼梯数组
+  Path[] downStairs = new Path[maxOfFloor];//楼梯数组
 
   public SpecificBuild(Dot dot, Map map) throws IOException {
     super(dot, map);
@@ -32,15 +36,25 @@ public class SpecificBuild extends Building {
       case buildingCrossing:
       case runway:
       case soccer:
-      case canteen:floor=3;
-        for (int i = 0; i <floor; i++) {
-              mapOfFloor[i]=new Map(null);
+      case canteen:
+        floor = 3;
+        for (int i = 0; i < floor; i++) {
+          mapOfFloor[i] = new Map(null);
+          if (i != floor - 1) {
+            upStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
+                mapOfFloor[i + 1].getBuildings()[0]);
+          }
+          if (i > 0) {
+            downStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
+                mapOfFloor[i - 1].getBuildings()[0]);
+          }
         }
+        break;
       default:
         break;
     }
-    mapOfFloor=new Map[maxOfFloor];
-    mapOfFloor[0]=map;
+    mapOfFloor = new Map[maxOfFloor];
+    mapOfFloor[0] = map;
   }
 
 //    /**
@@ -81,21 +95,48 @@ public class SpecificBuild extends Building {
 
     //在同一建筑物中 ，this 就是当前的建筑物
     if (inBuilding(destination.getNameOfBuildingInEnglish())) {
-      if (nowPosition.getNowFloor()==destination.floorForDestination)
-      {
-          return super.getShortestRoute(nowPosition.getNowFloor(),destination.floorForDestination,strategy,mapOfFloor[nowPosition.getNowFloor()]);
-      }else
-      {
+      if (nowPosition.getNowFloor() == destination.floorForDestination) {
+        return super
+            .getShortestRoute(nowPosition.getNowFloor(), destination.floorForDestination, strategy,
+                mapOfFloor[nowPosition.getNowFloor()]);
+      } else {
+        //todo : 更改 0 ,新增获取exit
+        shortestRoute = super
+            .getShortestRoute(nowPosition.getNowFloor(), 0, strategy, mapOfFloor[nowPosition
+                .getNowFloor()]);
+        if (nowPosition.getNowFloor() < destination.floorForDestination) {
+          for (int i = nowPosition.getNowFloor(); i < destination.floorForDestination; i++) {
+            shortestRoute.put(mapOfFloor[i].getBuildings()[0], upStairs[i]);
+          }
+        } else {
+          for (int i = destination.floorForDestination; i > nowPosition.getNowFloor(); i--) {
+            shortestRoute.put(mapOfFloor[i].getBuildings()[0], downStairs[i]);
+          }
+        }
 
-          shortestRoute=super.getShortestRoute(nowPosition.getNowFloor(),0,strategy,mapOfFloor[nowPosition
-              .getNowFloor()]);
-          estRoute=super.getShortestRoute(0,destination.floorForDestination,strategy,mapOfFloor[destination.floorForDestination]);
-          shortestRoute.putAll(estRoute);
+        estRoute = super.getShortestRoute(0, destination.floorForDestination, strategy,
+            mapOfFloor[destination.floorForDestination]);
+        shortestRoute.putAll(estRoute);
       }
-    //此处为不在同一建筑物中。
+      //此处为不在同一建筑物中。
     } else {
       //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
-      return  shortestRoute;
+      shortestRoute = super
+          .getShortestRoute(nowPosition.getNowFloor(), 0, strategy, mapOfFloor[nowPosition
+              .getNowFloor()]);
+
+      for (int i = nowPosition.getNowFloor(); i > 0; i--) {
+        shortestRoute.put(mapOfFloor[i].getBuildings()[0], downStairs[i]);
+      }
+
+//      System.out.println("下楼！下了 "+nowPosition.getNowFloor()+"层");
+//      System.out.println("上楼！上了 "+destination.floorForDestination+"层")
+      for (int i = 0; i < destination.floorForDestination; i++) {
+        shortestRoute.put(mapOfFloor[i].getBuildings()[0], upStairs[i]);
+      }
+      estRoute = super.getShortestRoute(0, destination.floorForDestination, strategy,
+          mapOfFloor[destination.floorForDestination]);
+      shortestRoute.putAll(estRoute);
     }
 //    return new Route[0];
     return shortestRoute;//todo
