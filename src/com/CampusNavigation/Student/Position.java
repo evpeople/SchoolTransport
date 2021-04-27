@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class Position {
 
-  private int nowFloor;
+  private int nowFloor=0;
 
   public int getNowFloor() {
     return nowFloor;
@@ -41,7 +41,7 @@ public class Position {
    */
   private int nowPositionOnPath;
 
-  public Position() throws IOException {
+  public Position()  {
     int[] a = {1, 2};
     double[] b = {2.0, 3.0};
 //    Exit ex= new Exit();

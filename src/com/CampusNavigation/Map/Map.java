@@ -107,9 +107,9 @@ public class Map {
     }
 
     /**
-     * 最短路径所用的DJ算法. //todo 不同的导航策略 //todo 对最后结果表格的解读（递归求出路径）
+     * 最短路径所用的DJ算法. //todo 不同的导航策略
      *
-     * @return
+     * @return 一个DJ算法所用表
      */
     protected TableEntry[] dijkstra(int vertex) {
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings + 1];
@@ -212,8 +212,7 @@ public class Map {
     }
 
     public ArrayList<Building> getSurroundings(int numOfBuilding) {
-        ArrayList<Building> surroundings = breadthFirstSearch(numOfBuilding, 100.0);//todo 根据地图类型选择range，先默认个100
-        return surroundings;
+        return breadthFirstSearch(numOfBuilding, 100.0);
     }
 }
 

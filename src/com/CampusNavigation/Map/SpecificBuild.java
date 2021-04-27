@@ -3,8 +3,10 @@ package com.CampusNavigation.Map;
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
+import com.CampusNavigation.GraphImport.graphManage.graphManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static java.lang.Math.abs;
@@ -16,6 +18,8 @@ import static java.lang.Math.abs;
 public class SpecificBuild extends Building {
 
   Map[] mapOfFloor;
+  int maxOfFloor=10;
+//  ArrayList<Map> mapOfFloor=new ArrayList<>();
   Path[] paths;
 
 
@@ -24,16 +28,19 @@ public class SpecificBuild extends Building {
     switch (dot.getType()) {
       case bus:
       case car:
-        break;
       case crossing:
       case buildingCrossing:
       case runway:
       case soccer:
-        break;
+      case canteen:floor=3;
+        for (int i = 0; i <floor; i++) {
+              mapOfFloor[i]=new Map(null);
+        }
       default:
         break;
     }
-
+    mapOfFloor=new Map[maxOfFloor];
+    mapOfFloor[0]=map;
   }
 
 //    /**
@@ -65,23 +72,31 @@ public class SpecificBuild extends Building {
 
   public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
       String strategy) {
-    Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
-        nowPosition.getNowBuilding(), destination, strategy);
-    //todo 需要route完成后再详细的写
+//    Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
+//        nowPosition.getNowBuilding(), destination, strategy);
+
+    // todo 不同的建筑物。
     HashMap<Building, Path> shortestRoute = new HashMap<>();
-//    if (!inBuilding(destination.nameOfBuildingInChinese)) {
-//      boolean b = a[0].isToDestination;
-//      //此处的布尔变量 b 传回算法策略，告诉他我完成了目前的工作，但是还没到达终点。
-//    } else {
-//      //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
-//      int c = abs(nowPosition.getNowFloor() - destination.floor);
-//      if (c == 0) {
-//        return new Route[0];///同一层
-//      }
-//      Route[] b = mapOfFloor[destination.floor]
-//          .getShortestRoute(nowPosition.getNowBuilding(), destination, strategy);
-//
-//    }
+    HashMap<Building, Path> estRoute;
+
+    //在同一建筑物中 ，this 就是当前的建筑物
+    if (inBuilding(destination.getNameOfBuildingInEnglish())) {
+      if (nowPosition.getNowFloor()==destination.floorForDestination)
+      {
+          return super.getShortestRoute(nowPosition.getNowFloor(),destination.floorForDestination,strategy,mapOfFloor[nowPosition.getNowFloor()]);
+      }else
+      {
+
+          shortestRoute=super.getShortestRoute(nowPosition.getNowFloor(),0,strategy,mapOfFloor[nowPosition
+              .getNowFloor()]);
+          estRoute=super.getShortestRoute(0,destination.floorForDestination,strategy,mapOfFloor[destination.floorForDestination]);
+          shortestRoute.putAll(estRoute);
+      }
+    //此处为不在同一建筑物中。
+    } else {
+      //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
+      return  shortestRoute;
+    }
 //    return new Route[0];
     return shortestRoute;//todo
   }

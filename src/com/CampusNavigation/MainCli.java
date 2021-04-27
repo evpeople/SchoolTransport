@@ -35,7 +35,7 @@ public abstract class MainCli {
 
   }
 
-  private static void navigation(Student JackYang) throws IOException {
+  private static void navigation(Student JackYang)  {
 
     System.out.println("请输入起点，终点,起点输入0，则以你当前的位置为起点哦");
     HashMap<String, String> UsrData = new HashMap<>();
@@ -44,6 +44,15 @@ public abstract class MainCli {
     Scanner scanner = new Scanner(System.in);
     while (i != 2) {
       a[i] = scanner.next();
+      if (i==1)
+      {
+        if(toBuilding(a[i], JackYang.getCurrentMap()).floor!=0)
+        {
+          System.out.println("这栋楼不止一层哦，请输入你要去第几层");
+          a[2]=scanner.next();
+          toBuilding(a[i], JackYang.getCurrentMap()).floorForDestination= Integer.parseInt(a[2]);
+        }
+      }
       logger.debug(a[i]);
       i++;
     }
@@ -59,11 +68,12 @@ public abstract class MainCli {
       HashMap<Building, Path> myPath = JackYang.position.getNowBuilding()
           .getShortestRoute(JackYang.position, toBuilding(UsrData.get("destination"),
               JackYang.getCurrentMap()),
-              UsrData.get("strategy"));
+              UsrData.get("strategy"), JackYang.getCurrentMap());
     } else {
       HashMap<Building, Path> myPath = toPosition(UsrData.get("start"), JackYang.getCurrentMap()).getNowBuilding()
           .getShortestRoute(toPosition(UsrData.get("start"), JackYang.getCurrentMap()),
-              toBuilding(UsrData.get("destination"), JackYang.getCurrentMap()), UsrData.get("strategy"));
+              toBuilding(UsrData.get("destination"), JackYang.getCurrentMap()), UsrData.get("strategy"),
+              JackYang.getCurrentMap());
     }
   }
 
@@ -84,7 +94,7 @@ public abstract class MainCli {
     //Building test= new Building("我是测试",1,a,b,ex);
   }
 
-  private static Position toPosition(String name ,Map map) throws IOException {
+  private static Position toPosition(String name ,Map map) {
     Position temp= new Position();
     temp.setNowBuilding(map.getBuildings()[map.getBuildingsOrder(name)]);
     return  temp;

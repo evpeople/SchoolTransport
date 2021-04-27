@@ -15,12 +15,13 @@ public class Building {
   public final double mathX;
   public final double mathY;
   public final int schoolNum;
-  public final int floor; //默认是0，代表地面上的平房。
+  public int floor; //默认是0，代表地面上的平房。
   public final String nameOfBuildingInEnglish;
   public final String nameOfBuildingInChinese = "";
   public final BuildingType type;
   public final int index; //在邻接矩阵中的序号
   public final Map map;
+  public int floorForDestination;
 
   /**
    *  通过生成的图构建邻接表.
@@ -38,18 +39,25 @@ public class Building {
     this.schoolNum = 0;
     this.index = dot.getIndex();
     this.map = map;
+
   }
 
 
 
   //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
   public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
-      String strategy) {
+      String strategy,Map map) {
     int nowPositinIndex=map.getBuildingsOrder(nowPosition.getNowBuilding().getNameOfBuildingInEnglish());
     int destinationIndex=map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
     return map.getShortestRoute(nowPositinIndex,destinationIndex);
 
   }
+  public HashMap<Building, Path> getShortestRoute(int nowPositionIndex, int destinationIndex,
+      String strategy,Map map) {
+    return map.getShortestRoute(nowPositionIndex,destinationIndex);
+
+  }
+
 
   public String getNameOfBuildingInEnglish() {
     return nameOfBuildingInEnglish;
