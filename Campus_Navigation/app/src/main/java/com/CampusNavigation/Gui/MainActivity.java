@@ -22,7 +22,7 @@ public    class MainActivity extends AppCompatActivity {
         AssetManager assetManager=getAssets();
         Graph graph=new Graph();
         try {
-            graph= graphManager.manage(assetManager);
+            graph= graphManager.manage(assetManager,null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
