@@ -4,6 +4,7 @@ import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Room extends Building {
 
@@ -32,12 +33,12 @@ public class Room extends Building {
 //  }
 //
 
-  public Route[] getShortestRoute(Building destination) throws IOException {
+  public HashMap<Building, Path> getShortestRoute(Building destination) throws IOException {
     //注意：返回值告诉你是否到了终点，这个返回还是要原封不动送还算法策略,由于校区也抽象成楼了，所以不必判断是否在楼内？
-    Route[] a = this.belongToBuilding.getShortestRoute(this.toPosition(), destination,
-        nameOfBuildingInEnglish);//注意：返回值告诉你是否到了终点，这个返回还是要原封不动送还算法策略
-
-    return new Route[0];
+//    Route[] a = this.belongToBuilding.getShortestRoute(this.toPosition(), destination,
+//        nameOfBuildingInEnglish);//注意：返回值告诉你是否到了终点，这个返回还是要原封不动送还算法策略
+    HashMap<Building, Path> shortestRoute = new HashMap<>();
+    return shortestRoute;//todo
   }
 
   private Position toPosition() throws IOException {
