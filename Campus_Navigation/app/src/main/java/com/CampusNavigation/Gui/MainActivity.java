@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.GraphImport.graphManage.graphManager;
+import com.CampusNavigation.Student.Student;
 import com.example.campus_navigation1.R;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,8 @@ import java.io.ObjectInputStream;
 
 
 public    class MainActivity extends AppCompatActivity {
+    public static Student student=new Student();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         AssetManager assetManager=getAssets();

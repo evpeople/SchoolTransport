@@ -21,12 +21,15 @@ public   class StudentView extends View {
         StuParams.height=100;
         StuParams.width=100;
 
-        setOnClickListener((e)->{
+       // setOnClickListener((e)->{
             //
-        });
+     //   });
 
     }
     public void moveTo(int x, int y){
+        //if buzai tongyiceng
+
+
         int t=(int)(1000*Math.sqrt((x-getX())*(x-getX())+(y-getY())*(y-getY()))/vWalk);
         animatorX = ObjectAnimator.ofFloat(this,"translationX",x).setDuration(t);
         animatorY=ObjectAnimator.ofFloat(this, "translationY",y) .setDuration(t);

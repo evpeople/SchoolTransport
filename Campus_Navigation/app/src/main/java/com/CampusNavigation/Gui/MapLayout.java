@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
-import com.MyTools.PosView;
+import com.CampusNavigation.Gui.PosView;
 
 public class MapLayout extends LinearLayout {
     private Button startButton;

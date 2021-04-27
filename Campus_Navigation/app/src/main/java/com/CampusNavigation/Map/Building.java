@@ -51,6 +51,7 @@ public class Building {
 
   }
 
+
   public String getNameOfBuildingInEnglish() {
     return nameOfBuildingInEnglish;
   }

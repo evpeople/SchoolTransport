@@ -18,6 +18,11 @@ public class Route {
     this.end = end;
 
   }
+  public Route(Building start, Building end,HashMap<Building,Path> routeToDestination) {
+    this.start = start;
+    this.end = end;
+    this.RouteToDestination=routeToDestination;
+  }
 
   public Building getEnd() {
     return end;
@@ -27,9 +32,14 @@ public class Route {
     return start;
   }
 
-  public HashMap<Building, Path> getRouteToDestination() {
-    return RouteToDestination;
+  public Building next(Building now){
+    if(!RouteToDestination.containsKey(now))return null;
+    return RouteToDestination.get(now).getEnd();
   }
+
+  //public HashMap<Building, Path> getRouteToDestination() {
+  //  return RouteToDestination;
+//  }
 
   public void setRouteToDestination(HashMap<Building, Path> routeToDestination) {
     RouteToDestination = routeToDestination;

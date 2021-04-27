@@ -1,4 +1,4 @@
-package com.MyTools;
+package com.CampusNavigation.Gui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

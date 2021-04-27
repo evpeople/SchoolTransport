@@ -176,6 +176,9 @@ public class Map {
         } while (currentVertex != start);
         return shortestRoute;
     }
+    public Route toGetShortestRoute(int start,int end){
+        return new Route(buildings[start],buildings[end],getShortestRoute(start,end));
+    }
 
 
 

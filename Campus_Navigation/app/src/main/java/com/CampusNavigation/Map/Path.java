@@ -12,8 +12,8 @@ public class Path {
   private double length;
   private double crowdDegree;
   private boolean isBike;
-  Building start;
-  Building end;
+ private Building start;
+  private Building end;
 
   public Path(Edge edge, Building[] buildings) {
     this.crowdDegree = edge.getDegreeOfCongestion();
@@ -84,5 +84,9 @@ public class Path {
 
   public double getLength() {
     return length;
+  }
+
+  public Building getEnd() {
+    return end;
   }
 }
