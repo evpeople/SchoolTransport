@@ -26,6 +26,7 @@ public class MapLayout extends LinearLayout {
 
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         mapBuildings.setRight(100);
+
         stu = mapBuildings.getStu();
         stu.setStart(startButton);
         stu.setPause(pauseButton);

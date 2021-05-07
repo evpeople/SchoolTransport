@@ -21,14 +21,25 @@ public class Building extends View {
         params.width = (int) dot.rg * 2;
         params.height = (int) dot.rg * 2;
         this.dot = dot;
+        int image=R.drawable.label2;
+
         switch (dot.getType()) {
-            case canteen:
-                setBackgroundResource(R.drawable.label2);
-                break;
-            case crossing:
+            case canteen: image=R.drawable.canteen; break;
+            case teach:image=R.drawable.teach_building;break;
+            case soccer:image=R.drawable.soccer_field;break;
+            case runway:image=R.drawable.gym_runway;break;
+            case lake:image=R.drawable.lake;break;
+            case tree:image=R.drawable.forest;break;
+            case bus:image=R.drawable.bus_station;break;
+            case car:image=R.drawable.scheduled_station;break;
+            case dorm:image=R.drawable.dorm;break;
+            case librariy:image=R.drawable.library;break;
+            case office:image=R.drawable.office_building;break;
+            case service:image=R.drawable.service;break;
+            case crossing:image=R.drawable.crossing;
                 break;
         }
-
+        setBackgroundResource(image);
     }
 
     public RelativeLayout.LayoutParams getParams() {

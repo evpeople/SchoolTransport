@@ -22,6 +22,37 @@ public class Map {
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
     //todo:这个是Ver的，他写注释
+    public Map(Graph graph) throws IOException {
+        this.numOfBuildings = graph.NumOfDots();
+
+        int now = 0;
+        for (Dot dot : graph.getDots()) {
+            if (dot == null) {
+                break;
+            }
+            switch (dot.getType()) {
+                case exit:
+                    buildings[now] = new Exit(dot, this);
+                    break;
+                default:
+                    buildings[now] = new SpecificBuild(dot, this);
+                    break;
+            }
+            now++;
+        }
+        //     logger.debug(String.valueOf(this.numOfBuildings));
+        for (int i = 0; i < numOfBuildings; i++) {
+            for (int j = 0; j < numOfBuildings; j++) {
+                if (graph.getEdges()[i][j] == null) {
+                    paths[i][j] = null;
+                } else {
+                    paths[i][j] = new Path(graph.getEdges()[i][j], buildings);
+                }
+            }
+        }
+    }
+
+
 
     /**
      * 构建邻接表用于DJ算法.

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.GraphImport.graphManage.graphManager;
+import com.CampusNavigation.Map.Map;
 import com.CampusNavigation.Student.Student;
 import com.example.campus_navigation1.R;
 
@@ -18,7 +19,8 @@ import java.io.ObjectInputStream;
 
 
 public    class MainActivity extends AppCompatActivity {
-    public static Student student=new Student();
+    public  Student student;
+    public  Map map;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,8 +28,12 @@ public    class MainActivity extends AppCompatActivity {
         Graph graph=new Graph();
         try {
             graph= graphManager.manage(assetManager,null);
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        }
+        try {
+            map=new Map(graph);
+            student=new Student(null,map,null);
         } catch (IOException e) {
             e.printStackTrace();
         }

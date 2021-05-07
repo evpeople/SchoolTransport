@@ -37,9 +37,9 @@ public class Route {
     return RouteToDestination.get(now).getEnd();
   }
 
-  //public HashMap<Building, Path> getRouteToDestination() {
-  //  return RouteToDestination;
-//  }
+  public HashMap<Building, Path> getRouteToDestination() {
+    return RouteToDestination;
+  }
 
   public void setRouteToDestination(HashMap<Building, Path> routeToDestination) {
     RouteToDestination = routeToDestination;

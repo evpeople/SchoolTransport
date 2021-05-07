@@ -10,15 +10,16 @@ import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Map;
 import com.CampusNavigation.Map.Path;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Student {
   public Route route;
   public Position position; //todo 凑数的位置类
   private double walkSpeed;
   private Map currentMap;
-  Path[] pathsToGo;
+ Path[] pathsToGo=null;
   int numberOfPath;
-  StudentView view;
+  public StudentView view;
 
   /**
    *
@@ -30,7 +31,9 @@ public class Student {
     this.position = position;
     this.walkSpeed = 60;//初始速度60米每分钟
     this.currentMap = currentMap;
-    this.pathsToGo = pathsToGo.clone();
+if(pathsToGo!=null)this.pathsToGo = pathsToGo.clone();
+    this.route=currentMap.toGetShortestRoute(0,12);
+//    HashMap<Building,Path> way=currentMap.getShortestRoute(0,3);
   }
 
   public Student() {
@@ -60,18 +63,18 @@ public class Student {
     position = currentPosition;
   }
 
-  public void bindView(StudentView view){ this.view=view;}
+  public void bindView(StudentView view){ this.view=view;view.bindStudent(this);}
 
-  public void move(){
-    Building nowTarget=route.getStart();
-    for(Building now=route.next(nowTarget);now!=route.getEnd();now=route.next(now)){
-      view.moveTo((int)now.mathX,(int)now.mathY);
-      //position bianhua
+  public void move() throws InterruptedException {//fei zhong tu chong qi zou dong
+    for(Building now=route.getStart();now!=route.getEnd();){
+      now=route.next(now);
+      view.addTarget((int )now.mathX,(int)now.mathY);
     }
-
+    view.startMove();
   }
   public void setRoute(Route route){
     this.route=route;
+    //for()
   }
   public void stop(){
 
