@@ -8,16 +8,13 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import com.CampusNavigation.Map.Building;
+import com.CampusNavigation.Map.Path;
+import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Student;
 import com.example.campus_navigation1.R;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -28,18 +25,26 @@ public   class StudentView extends View {
     private ObjectAnimator animatorX;
     private ObjectAnimator animatorY;
     private Student student;
-    Queue<Pair<Integer,Integer>>  target=new LinkedList<>();
-    Pair<Integer,Integer> toReach;
-    Pair<Integer,Integer>Reached;
+    private Queue<Path> target;
+    private Building  toReach;
+    Position rightNowPosition;
+    //private Building  Reached;
 
-    public StudentView(Context context) {
+    //private Queue<Pair<Integer,Integer>>  target=new LinkedList<>();
+    //Pair<Integer,Integer> toReach;
+    //Pair<Integer,Integer>Reached;
+
+    public StudentView(Context context,Student student) {
         super(context);
         setBackgroundResource(R.drawable.student1);
         StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
         StuParams.height=32;
         StuParams.width=32;
-        Reached=new Pair<Integer, Integer>((int)getX(),(int)getY());
-        toReach=Reached;
+        toReach=null;
+        this.student=student;
+        student.view=this;
+        this.target=student.pathsToGo;
+        this.rightNowPosition=student.position;
     }
     private void setAnimateMoveTo(int x, int y) throws InterruptedException {
         //if buzai tongyiceng
@@ -51,15 +56,24 @@ public   class StudentView extends View {
     }
 
     public void startMove() throws InterruptedException {
-        if(toReach!=null){
-            setAnimateMoveTo(toReach.first,toReach.second);
+       if(toReach==null&&!target.isEmpty()){
+           rightNowPosition.setPath(target.peek());
+           toReach=rightNowPosition.getPath().getEnd();
+       }//一旦停止运动toReach为null，一旦开始运动非null，开始运动后会调用一次这里
+
+        if(toReach!=null){//zouzhi
+            setAnimateMoveTo((int)toReach.mathX,(int)toReach.mathY);
             animatorX.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    Reached=toReach;
-                    if(target.isEmpty())toReach=null;
-                     else toReach=target.poll();
+                    target.poll();
+                    rightNowPosition.setNowBuilding(toReach);
+                    if(target.isEmpty()){toReach=null;}
+                     else{
+                         rightNowPosition.setPath(target.peek());
+                         toReach=rightNowPosition.getPath().getEnd();
+                     }
                     try {
                         startMove();
                     } catch (InterruptedException e) {
@@ -68,7 +82,7 @@ public   class StudentView extends View {
                 }
             });
             animatorX.start();animatorY.start();
-        }
+        }//if(toReach!=null)
     }
 
     private void stopMove(){
@@ -76,6 +90,7 @@ public   class StudentView extends View {
         animatorX.removeAllListeners();
         animatorX.cancel();
         animatorY.cancel();
+        toReach=null;
     }
     public RelativeLayout.LayoutParams getStuParams() {
             return StuParams;
@@ -84,7 +99,7 @@ public   class StudentView extends View {
     public void setStart(View v){
         v.setOnClickListener((e)->{
             try {
-                student.move();//todo：解决未完成中途停止在启动问题
+                if(!animatorX.isRunning())startMove();
             } catch (InterruptedException interruptedException) {
                 interruptedException.printStackTrace();
             }
@@ -92,17 +107,12 @@ public   class StudentView extends View {
     }
     public void setPause(View v){
         v.setOnClickListener((e)->{
-            stopMove();student.stop();
+            if(animatorX.isRunning())stopMove();
         });
     }
-    public void bindStudent(Student student){
-        this.student=student;
-        student.view=this;
-    }
 
-
-    public void addTarget(int mathX, int mathY) {
-        target.add(new Pair<>(mathX,mathY));
+    public void setTargetBuilding(Building targetBuilding) {
+        student.setTargetBuilding(targetBuilding);
     }
 
 }

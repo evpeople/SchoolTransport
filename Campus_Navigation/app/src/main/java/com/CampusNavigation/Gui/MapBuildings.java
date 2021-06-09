@@ -15,8 +15,8 @@ public    class MapBuildings extends ZoomLayout {
         super(context);
         this.setHasClickableChildren(true);
         all=new AllBuildings(context,graph);
-        stu=new StudentView(context);
-        ((MainActivity)context).student.bindView(stu);//**
+        stu=new StudentView(context,((MainActivity)context).student);
+        //((MainActivity)context).student.prepareToGoTo();
 
         addView(all, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         all.addView(stu,stu.getStuParams());

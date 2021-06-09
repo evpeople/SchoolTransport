@@ -6,6 +6,8 @@ import com.CampusNavigation.Student.Route;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static java.lang.Math.abs;
 
@@ -61,14 +63,15 @@ public class SpecificBuild extends Building {
 
   /**
    * 建筑物寻找最短路径的算法，按照是否在同一建筑物分类.
+   * @return
    */
 
-  public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
-      String strategy) {
+  public Queue<Path> getShortestRoute(Position nowPosition, Building destination,
+                                      String strategy) {
     Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
         nowPosition.getNowBuilding(), destination, strategy);
     //todo 需要route完成后再详细的写
-    HashMap<Building, Path> shortestRoute = new HashMap<>();
+    Queue<Path> shortestRoute = new LinkedList<>();
 //    if (!inBuilding(destination.nameOfBuildingInChinese)) {
 //      boolean b = a[0].isToDestination;
 //      //此处的布尔变量 b 传回算法策略，告诉他我完成了目前的工作，但是还没到达终点。

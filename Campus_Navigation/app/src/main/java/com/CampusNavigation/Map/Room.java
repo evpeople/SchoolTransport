@@ -42,6 +42,6 @@ public class Room extends Building {
   }
 
   private Position toPosition() throws IOException {
-    return new Position();//todo 需要详细设计
+    return new Position(null);//todo 需要详细设计
   }
 }

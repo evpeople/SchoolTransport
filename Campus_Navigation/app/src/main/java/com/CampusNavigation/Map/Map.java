@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 地图类.
@@ -106,8 +107,8 @@ public class Map {
         return paths;
     }
 
-    public Building[] getBuildings() {
-        return buildings;
+    public Building getBuilding(int index) {
+        return buildings[index];
     }
 
     public int getBuildingsOrder(String nameOfBuilding) {
@@ -194,7 +195,7 @@ public class Map {
         return minRoute;
     }
 
-    public HashMap<Building, Path> getShortestRoute(int start, int end) {
+    private HashMap<Building, Path> getShortestRoute(int start, int end,boolean padding) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
         TableEntry[] tableEntries = dijkstra(start);
         int currentVertex = end;
@@ -207,8 +208,31 @@ public class Map {
         } while (currentVertex != start);
         return shortestRoute;
     }
+
+    public Queue<Path> getShortestRoute(int start, int end) {
+        HashMap<Building, Path>shortestRoute=  getShortestRoute(start,end,true);
+        Queue<Path> ans=new LinkedList<>();
+        for(Building building=buildings[start];!shortestRoute.isEmpty();){
+            ans.add(shortestRoute.get(building));
+            building=shortestRoute.get(building).getEnd();
+        }
+        return ans;
+//        Queue< Path> shortestRoute = new LinkedList<>();
+//        TableEntry[] tableEntries = dijkstra(start);
+//        int currentVertex = end;
+//        do {
+//            shortestRoute.add(
+//                    tableEntries[currentVertex].pathToBuilding.getRouteToDestination()
+//                            .get(tableEntries[currentVertex].pathToBuilding.getStart()));
+//            currentVertex = getBuildingsOrder(
+//                    tableEntries[currentVertex].pathToBuilding.getStart().nameOfBuildingInEnglish);
+//        } while (currentVertex != start);
+//        return shortestRoute;
+    }
+
+
     public Route toGetShortestRoute(int start,int end){
-        return new Route(buildings[start],buildings[end],getShortestRoute(start,end));
+        return new Route(buildings[start],buildings[end],getShortestRoute(start,end,true));
     }
 
 

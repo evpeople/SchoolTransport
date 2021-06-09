@@ -89,4 +89,8 @@ public class Path {
   public Building getEnd() {
     return end;
   }
+
+    public Building getStart() {
+        return start;
+    }
 }

@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.CampusNavigation.GraphImport.Graph.Dot;
+import com.CampusNavigation.Map.Map;
 import com.example.campus_navigation1.R;
 
 
@@ -59,8 +60,15 @@ public class Building extends View {
         return super.onTouchEvent(e);
     }
     private void OnClick(MotionEvent event) {
-        Toast.makeText(getContext(), event.getX() + " " + event.getY(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), event.getX() + " " + event.getY(), Toast.LENGTH_SHORT).show();
+
+        ((MainActivity)getContext()).getLayout_map().setTouchedBuilding(this);
     }
 
-
+    public Dot getDot() {
+        return dot;
+    }
+    public com.CampusNavigation.Map.Building getMapBuilding(Map map){
+        return  map.getBuilding(dot.getIndex());
+    }
 }
