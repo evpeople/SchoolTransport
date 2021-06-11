@@ -35,23 +35,29 @@ public class SpecificBuild extends Building {
       case crossing:
       case buildingCrossing:
       case runway:
+
+        floor=0;
       case soccer:
       case canteen:
-        floor = 3;
-        for (int i = 0; i < floor; i++) {
-          mapOfFloor[i] = new Map(null);
-          if (i != floor - 1) {
-            upStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
-                mapOfFloor[i + 1].getBuildings()[0]);
-          }
-          if (i > 0) {
-            downStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
-                mapOfFloor[i - 1].getBuildings()[0]);
-          }
-        }
+        floor = 0;
+
         break;
       default:
+        floor=0;
         break;
+    }
+    for (int i = floor-1; i >=0; i--) {
+      mapOfFloor[i] = new Map(1);
+    }
+    for (int i = floor-1; i >=0; i--){
+      if (i != floor - 1) {
+        upStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
+            mapOfFloor[i + 1].getBuildings()[0]);
+      }
+      if (i > 0) {
+        downStairs[i] = new Path(length, false, mapOfFloor[i].getBuildings()[0],
+            mapOfFloor[i - 1].getBuildings()[0]);
+      }
     }
     mapOfFloor = new Map[maxOfFloor];
     mapOfFloor[0] = map;

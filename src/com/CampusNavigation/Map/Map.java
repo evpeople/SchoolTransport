@@ -24,7 +24,7 @@ public class Map {
     static final Logger logger = LoggerFactory.getLogger(Map.class);
 
     public static final int MaxNumOfDots = 80;
-    private final int numOfBuildings;
+    private int numOfBuildings=0;
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
     //todo:这个是Ver的，他写注释
@@ -66,6 +66,10 @@ public class Map {
         }
     }
 
+    public Map(int a ){
+
+    }
+
 
     public Route[] getShortestRoute(Building start, Building end, String strategy) {
 
@@ -103,7 +107,7 @@ public class Map {
         for (int i = 0; i < graph.numOfBuildings; i++) {
             t[i] = new TableEntry(i, graph.buildings[i], false, Double.POSITIVE_INFINITY, null);
         }
-        t[0].setDist(0);
+        //t[0].setDist(0);
     }
 
     /**
@@ -116,6 +120,10 @@ public class Map {
         initTable(this, tableEntries);
         while (true) {
             tableEntries[vertex].setKnown(true);
+            if (tableEntries[vertex].getDist()==Double.POSITIVE_INFINITY)
+            {
+                tableEntries[vertex].setDist(0);
+            }
             vertex = updateTableEntry(tableEntries, tableEntries[vertex]);
             if (vertex == -1) {
                 break;
@@ -132,13 +140,17 @@ public class Map {
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
         for (int i = 0; i < this.numOfBuildings; i++) {
-            if (tableEntries[i].isNotKnown() && temp[i] != null) {
+            if (tableEntries[i].isNotKnown() && temp[i] != null)
+            //后一个temp[i]为能从起点到这个位置
+            {
                 logger.debug("当前点 {} 能到达的一个点是 {} ",
                         this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish,
                         this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
                 logger.debug("本点更改前的距离是 {}", tableEntries[i].getDist());
-                double oldDist = tableEntries[i].getDist();
-                tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                double oldDist = tableEntries[i].getDist();//设置早了此处
+                if (oldDist>=known.getDist()+temp[i].getLength()) {
+                    tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                }
                 double newDist = tableEntries[i].getDist();
                 if (oldDist == newDist) {
                     continue;
@@ -160,6 +172,7 @@ public class Map {
             if ((tableEntries[i].isNotKnown()) && tableEntries[i].getDist() < dv) {
                 minRoute = i;
                 dv = tableEntries[i].getDist();
+            //选取最短的
             }
 
         }
