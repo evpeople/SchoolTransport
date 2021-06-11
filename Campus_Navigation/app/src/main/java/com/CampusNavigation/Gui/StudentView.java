@@ -26,7 +26,6 @@ public   class StudentView extends View {
     private ObjectAnimator animatorX;
     private ObjectAnimator animatorY;
     private Student student;
-    private Queue<Path> target;
     private Building  toReach;
     Position rightNowPosition;
 
@@ -39,7 +38,6 @@ public   class StudentView extends View {
         toReach=null;
         this.student=student;
         student.view=this;
-        this.target=student.pathsToGo;
         this.rightNowPosition=student.position;
     }
     private void setAnimateMoveTo(int x, int y) {
@@ -50,8 +48,8 @@ public   class StudentView extends View {
     }
 
     public void startMove() {
-       if(toReach==null&&!target.isEmpty()){
-           rightNowPosition.setPath(target.peek());
+       if(toReach==null&&!target().isEmpty()){
+           rightNowPosition.setPath(target().peek());
            toReach=rightNowPosition.getPath().getEnd();
        }//一旦停止运动toReach为null，一旦开始运动非null，开始运动后会调用一次这里
 
@@ -61,11 +59,11 @@ public   class StudentView extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    target.poll();
+                    target().poll();
                     rightNowPosition.setNowBuilding(toReach);
-                    if(target.isEmpty()){toReach=null;}
+                    if(target().isEmpty()){toReach=null;}
                      else{
-                         rightNowPosition.setPath(target.peek());
+                         rightNowPosition.setPath(target().peek());
                          toReach=rightNowPosition.getPath().getEnd();
                      }
                     startMove();
@@ -103,6 +101,7 @@ public   class StudentView extends View {
     public void setTargetBuilding(Building targetBuilding) {
         student.setTargetBuilding(targetBuilding);
     }
+    private Queue<Path> target(){return student.pathsToGo;}
 
 }
 
