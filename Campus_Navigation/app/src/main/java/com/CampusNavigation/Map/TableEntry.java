@@ -1,6 +1,10 @@
 package com.CampusNavigation.Map;
 
+import android.util.Log;
+
 import com.CampusNavigation.Student.Route;
+
+import static com.shopgun.android.utils.log.LogUtil.TAG;
 
 public class TableEntry {
 

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static com.shopgun.android.utils.log.LogUtil.TAG;
+
 /**
  * 地图类.
  */
@@ -109,7 +111,7 @@ public class Map {
      * @return 一个DJ算法所用表
      */
     protected TableEntry[] dijkstra(int vertex) {
-        TableEntry[] tableEntries = new TableEntry[this.numOfBuildings + 1];
+        TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
         initTable(this, tableEntries);
         while (true) {
             tableEntries[vertex].setKnown(true);
@@ -276,9 +278,12 @@ public class Map {
 
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
-        TableEntry[] tableEntries = dijkstra(start);
+        TableEntry[] tableEntries = dijkstra(start);//dj 没有问题
+        Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
+        Log.i(TAG, "getTheShortestRoute: end is"+end);
         do {
+            Log.i(TAG, "getTheShortestRoute: currentVertex is"+currentVertex);
             shortestRoute.put(tableEntries[currentVertex].pathToBuilding.getStart(),
                     tableEntries[currentVertex].pathToBuilding.getRouteToDestination()
                             .get(tableEntries[currentVertex].pathToBuilding.getStart()));

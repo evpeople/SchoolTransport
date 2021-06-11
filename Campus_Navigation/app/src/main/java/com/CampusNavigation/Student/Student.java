@@ -46,7 +46,7 @@ public class Student {
     //if(position.getNowBuilding()==null);
   }
   public void setTargetBuilding(Queue<Building> targetBuilding) {
-    int i;
+    int i;//todo: 策略3的实现
 
     while (!targetBuilding.isEmpty())
     {
@@ -67,7 +67,7 @@ public class Student {
     int nowPositinIndex=position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
     if (position.getCurrentMap()==destination.map)
     {
-      int destinationIndex=position.getCurrentMap().getBuildingsOrder(destination.getNameOfBuildingInEnglish());
+      int destinationIndex=destination.index;
       pathsToGo= position.getCurrentMap().getShortestRoute(nowPositinIndex,destinationIndex);
     }
     else
@@ -76,7 +76,7 @@ public class Student {
       pathsToGo= position.getCurrentMap().getShortestRoute(nowPositinIndex,busStop);
       Queue<Path> pathsToGo2=new LinkedList<>();
       int busBegin=1;//todo: 确认车站下标。
-      int destinationIndex=destination.map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
+      int destinationIndex=destination.index;
       pathsToGo2= destination.map.getShortestRoute(busBegin,destinationIndex);
       pathsToGo.addAll(pathsToGo2);
     }
