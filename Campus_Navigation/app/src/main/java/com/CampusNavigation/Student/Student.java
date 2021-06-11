@@ -43,12 +43,18 @@ public class Student {
     pathsToGo=getShortestRoute(targetBuilding,"c");
     //if(position.getNowBuilding()==null);
   }
-
+  public void setTargetBuilding(int targetBuildingIndex) {
+    pathsToGo=getShortestRoute(targetBuildingIndex,"c");
+    //if(position.getNowBuilding()==null);
+  }
   //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
   public Queue< Path> getShortestRoute(Building destination,  String strategy) {
     int nowPositinIndex=position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
     int destinationIndex=position.getCurrentMap().getBuildingsOrder(destination.getNameOfBuildingInEnglish());
     return position.getCurrentMap().getShortestRoute(nowPositinIndex,destinationIndex);
-
+  }
+  public Queue< Path> getShortestRoute(int destinationIndex,  String strategy) {
+    int nowPositinIndex=position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
+    return position.getCurrentMap().getShortestRoute(nowPositinIndex,destinationIndex);
   }
 }
