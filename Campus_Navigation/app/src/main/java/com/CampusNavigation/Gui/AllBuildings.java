@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AllBuildings extends RelativeLayout {
     private Graph graph;
     private ArrayList<BuildingView> buildings = new ArrayList<>();
-
+sad
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
     public AllBuildings(Context context,Graph graph) {
         super(context);
