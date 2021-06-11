@@ -9,23 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.GraphImport.graphManage.graphManager;
-import com.CampusNavigation.Map.Map;
-import com.CampusNavigation.Student.Position;
-import com.CampusNavigation.Student.Student;
+
 import com.example.campus_navigation1.R;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 
 
-public    class MainActivity extends AppCompatActivity {
-    public  Student student;
-    public  Map map;
-    private MapLayout layout_map;
+public    class CampusMapActivity extends AppCompatActivity {
+    private MainLayout mainLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         AssetManager assetManager=getAssets();
         Graph graph=new Graph();
         try {
@@ -33,22 +28,19 @@ public    class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        try {
-            map=new Map(graph);
-            student=new Student(new Position(map));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         RelativeLayout layout_back = (RelativeLayout) findViewById(R.id.main);
 
-        layout_map=new MapLayout(MainActivity.this,graph,map);
-        layout_back.addView(layout_map);
+        try {
+            mainLayout =new MainLayout(CampusMapActivity.this,graph);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        layout_back.addView(mainLayout);
     }
 
-    public MapLayout getLayout_map() {
-        return layout_map;
+    public MainLayout getMainLayout() {
+        return mainLayout;
     }
 
 }

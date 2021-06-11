@@ -16,13 +16,12 @@ import java.util.ArrayList;
 
 public class AllBuildings extends RelativeLayout {
     private Graph graph;
-    private ArrayList<Building> buildings = new ArrayList<>();
+    private ArrayList<BuildingView> buildings = new ArrayList<>();
 
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
     public AllBuildings(Context context,Graph graph) {
         super(context);
         this.graph=graph;
-        //graph = new Graph();
         setAllBuildings(graph);
         setWillNotDraw(false);
     }
@@ -36,7 +35,7 @@ public class AllBuildings extends RelativeLayout {
     private void setAllBuildings(Graph graph) {
         for (int i=0;i<graph.NumOfDots();i++) {
             Dot dot=graph.getDots()[i];
-            Building building = new Building(getContext(), dot);
+            BuildingView building = new BuildingView(getContext(), dot);
             buildings.add(building);
             addView(building, building.getParams());
         }

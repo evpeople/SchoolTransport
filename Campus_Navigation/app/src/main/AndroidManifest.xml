@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Campus_Navigation">
         <activity android:name="com.CampusNavigation.Gui.information.informationActivity"></activity>
         <activity
-            android:name="com.CampusNavigation.Gui.MainActivity"
+            android:name="com.CampusNavigation.Gui.CampusMapActivity"
             tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

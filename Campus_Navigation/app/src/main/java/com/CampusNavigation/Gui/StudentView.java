@@ -7,6 +7,7 @@ import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.CampusNavigation.Map.Building;
@@ -28,11 +29,6 @@ public   class StudentView extends View {
     private Queue<Path> target;
     private Building  toReach;
     Position rightNowPosition;
-    //private Building  Reached;
-
-    //private Queue<Pair<Integer,Integer>>  target=new LinkedList<>();
-    //Pair<Integer,Integer> toReach;
-    //Pair<Integer,Integer>Reached;
 
     public StudentView(Context context,Student student) {
         super(context);
@@ -46,22 +42,20 @@ public   class StudentView extends View {
         this.target=student.pathsToGo;
         this.rightNowPosition=student.position;
     }
-    private void setAnimateMoveTo(int x, int y) throws InterruptedException {
-        //if buzai tongyiceng
+    private void setAnimateMoveTo(int x, int y) {
         int t = (int) (1000 * Math.sqrt((x - getX()) * (x - getX()) + (y - getY()) * (y - getY())) / vWalk);//haomiao
         animatorX = ObjectAnimator.ofFloat(this, "translationX", x).setDuration(t);
         animatorY = ObjectAnimator.ofFloat(this, "translationY", y).setDuration(t);
-       // animatorX.start();
-        //animatorY.start();
+
     }
 
-    public void startMove() throws InterruptedException {
+    public void startMove() {
        if(toReach==null&&!target.isEmpty()){
            rightNowPosition.setPath(target.peek());
            toReach=rightNowPosition.getPath().getEnd();
        }//一旦停止运动toReach为null，一旦开始运动非null，开始运动后会调用一次这里
 
-        if(toReach!=null){//zouzhi
+        if(toReach!=null){//运动
             setAnimateMoveTo((int)toReach.mathX,(int)toReach.mathY);
             animatorX.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -74,15 +68,11 @@ public   class StudentView extends View {
                          rightNowPosition.setPath(target.peek());
                          toReach=rightNowPosition.getPath().getEnd();
                      }
-                    try {
-                        startMove();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    startMove();
                 }
             });
             animatorX.start();animatorY.start();
-        }//if(toReach!=null)
+        }
     }
 
     private void stopMove(){
@@ -96,18 +86,17 @@ public   class StudentView extends View {
             return StuParams;
     }
 
-    public void setStart(View v){
+
+    public void setCommandClickView(View v){
         v.setOnClickListener((e)->{
-            try {
-                if(!animatorX.isRunning())startMove();
-            } catch (InterruptedException interruptedException) {
-                interruptedException.printStackTrace();
+            if(animatorX!=null&& animatorX.isRunning()){
+                stopMove();
+                if(v instanceof Button)((Button)v).setText("已停止运动");
             }
-        });
-    }
-    public void setPause(View v){
-        v.setOnClickListener((e)->{
-            if(animatorX.isRunning())stopMove();
+            else {
+                startMove();
+                if(v instanceof Button)((Button)v).setText("正在运动");
+            }
         });
     }
 

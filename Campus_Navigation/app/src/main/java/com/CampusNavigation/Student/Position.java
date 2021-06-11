@@ -58,8 +58,11 @@ public class Position {
 
 
   public Position(Map map) {
-    x=32;
-    y=32;
     this.currentMap=map;
+    this.nowBuilding=map.getBuilding(0);
+    this.x=nowBuilding.mathX;
+    this.y=nowBuilding.mathY;
+    this.path=null;
+    this.nowFloor=0;
   }
 }

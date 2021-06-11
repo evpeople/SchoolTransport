@@ -1,5 +1,7 @@
 package com.CampusNavigation.Map;
 
+import android.util.Log;
+
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.GraphImport.graphManage.graphManager;
@@ -16,13 +18,18 @@ import java.util.Queue;
  */
 public class Map {
 
- //   static final Logger logger = LoggerFactory.getLogger(Map.class);
-
     public static final int MaxNumOfDots = 80;
-    private final int numOfBuildings;
+    private int numOfBuildings=0;
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
     //todo:这个是Ver的，他写注释
+
+    /**
+     * 构建邻接表用于DJ算法.
+     *
+     * @param graph 地图
+     * @throws IOException 读取文件出错
+     */
     public Map(Graph graph) throws IOException {
         this.numOfBuildings = graph.NumOfDots();
 
@@ -41,7 +48,7 @@ public class Map {
             }
             now++;
         }
-        //     logger.debug(String.valueOf(this.numOfBuildings));
+        Log.d("Map 初始化", String.valueOf(this.numOfBuildings));
         for (int i = 0; i < numOfBuildings; i++) {
             for (int j = 0; j < numOfBuildings; j++) {
                 if (graph.getEdges()[i][j] == null) {
@@ -53,43 +60,8 @@ public class Map {
         }
     }
 
+    public Map(int a ){
 
-
-    /**
-     * 构建邻接表用于DJ算法.
-     *
-     * @param path 地图文件所在路径
-     * @throws IOException 读取文件出错
-     */
-    public Map(String path) throws IOException {
-        Graph graph = graphManager.manage(null, path);
-        this.numOfBuildings = graph.NumOfDots();
-
-        int now = 0;
-        for (Dot dot : graph.getDots()) {
-            if (dot == null) {
-                break;
-            }
-            switch (dot.getType()) {
-                case exit:
-                    buildings[now] = new Exit(dot, this);
-                    break;
-                default:
-                    buildings[now] = new SpecificBuild(dot, this);
-                    break;
-            }
-            now++;
-        }
-   //     logger.debug(String.valueOf(this.numOfBuildings));
-        for (int i = 0; i < numOfBuildings; i++) {
-            for (int j = 0; j < numOfBuildings; j++) {
-                if (graph.getEdges()[i][j] == null) {
-                    paths[i][j] = null;
-                } else {
-                    paths[i][j] = new Path(graph.getEdges()[i][j], buildings);
-                }
-            }
-        }
     }
 
 
@@ -129,25 +101,29 @@ public class Map {
         for (int i = 0; i < graph.numOfBuildings; i++) {
             t[i] = new TableEntry(i, graph.buildings[i], false, Double.POSITIVE_INFINITY, null);
         }
-        t[0].setDist(0);
+        //t[0].setDist(0);
     }
 
     /**
-     * 最短路径所用的DJ算法. //todo 不同的导航策略 //todo 对最后结果表格的解读（递归求出路径）
+     * 最短路径所用的DJ算法. //todo 不同的导航策略
      *
-     * @return
+     * @return 一个DJ算法所用表
      */
     protected TableEntry[] dijkstra(int vertex) {
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings + 1];
         initTable(this, tableEntries);
         while (true) {
             tableEntries[vertex].setKnown(true);
+            if (tableEntries[vertex].getDist()==Double.POSITIVE_INFINITY)
+            {
+                tableEntries[vertex].setDist(0);
+            }
             vertex = updateTableEntry(tableEntries, tableEntries[vertex]);
             if (vertex == -1) {
                 break;
             }
             for (int ie = 0; ie < this.numOfBuildings; ie++) {
-        //        logger.debug(tableEntries[ie].toString());
+                Log.d("Map 求最短路径",tableEntries[ie].toString());
             }
         }
         return tableEntries;
@@ -158,23 +134,27 @@ public class Map {
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
         for (int i = 0; i < this.numOfBuildings; i++) {
-            if (tableEntries[i].isNotKnown() && temp[i] != null) {
-        //        logger.debug("当前点 {} 能到达的一个点是 {} ",
-                  //      this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish,
-                   //     this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
-          //      logger.debug("本点更改前的距离是 {}", tableEntries[i].getDist());
-                double oldDist = tableEntries[i].getDist();
-                tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+            if (tableEntries[i].isNotKnown() && temp[i] != null)
+            //后一个temp[i]为能从起点到这个位置
+            {
+                Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
+                        this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
+                        this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
+                Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                double oldDist = tableEntries[i].getDist();//设置早了此处
+                if (oldDist>=known.getDist()+temp[i].getLength()) {
+                    tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                }
                 double newDist = tableEntries[i].getDist();
                 if (oldDist == newDist) {
                     continue;
                 }
 
-        //        logger.debug("本点更改后的距离是 {}", tableEntries[i].getDist());
+                Log.d("Map 求最短路径","本点更改后的距离是 {}"+tableEntries[i].getDist());
 
                 Route tempP = new Route(this.buildings[known.getNumOfBuilding()],
                         this.buildings[i]);
-          //      logger.debug(tempP.toString());
+                Log.d("Map 求最短路径",tempP.toString());
 
                 HashMap<Building, Path> routeToDestination = new HashMap<>();
                 routeToDestination.put(this.buildings[known.getNumOfBuilding()], temp[i]);
@@ -186,16 +166,28 @@ public class Map {
             if ((tableEntries[i].isNotKnown()) && tableEntries[i].getDist() < dv) {
                 minRoute = i;
                 dv = tableEntries[i].getDist();
+                //选取最短的
             }
 
         }
         if (minRoute != -1) {
-    //        logger.debug("本次选取的点是" + this.buildings[minRoute].nameOfBuildingInEnglish);
+            Log.d("Map 求最短路径","本次选取的点是" + this.buildings[minRoute].nameOfBuildingInEnglish);
         }
         return minRoute;
     }
 
-    private HashMap<Building, Path> getShortestRoute(int start, int end,boolean padding) {
+    public Queue<Path> getShortestRoute(int start, int end){
+        Queue<Path> shortestRoute = new LinkedList<>();
+        HashMap<Building,Path> hashMap=getTheShortestRoute(start,end);
+        Building now=buildings[start];
+        while (hashMap.containsKey(now)){
+            shortestRoute.add(hashMap.get(now));
+            now=hashMap.get(now).getEnd();
+        }
+        return (shortestRoute);
+    }
+
+    public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
         TableEntry[] tableEntries = dijkstra(start);
         int currentVertex = end;
@@ -208,34 +200,6 @@ public class Map {
         } while (currentVertex != start);
         return shortestRoute;
     }
-
-    public Queue<Path> getShortestRoute(int start, int end) {
-        HashMap<Building, Path>shortestRoute=  getShortestRoute(start,end,true);
-        Queue<Path> ans=new LinkedList<>();
-        for(Building building=buildings[start];!shortestRoute.isEmpty();){
-            ans.add(shortestRoute.get(building));
-            building=shortestRoute.get(building).getEnd();
-        }
-        return ans;
-//        Queue< Path> shortestRoute = new LinkedList<>();
-//        TableEntry[] tableEntries = dijkstra(start);
-//        int currentVertex = end;
-//        do {
-//            shortestRoute.add(
-//                    tableEntries[currentVertex].pathToBuilding.getRouteToDestination()
-//                            .get(tableEntries[currentVertex].pathToBuilding.getStart()));
-//            currentVertex = getBuildingsOrder(
-//                    tableEntries[currentVertex].pathToBuilding.getStart().nameOfBuildingInEnglish);
-//        } while (currentVertex != start);
-//        return shortestRoute;
-    }
-
-
-    public Route toGetShortestRoute(int start,int end){
-        return new Route(buildings[start],buildings[end],getShortestRoute(start,end,true));
-    }
-
-
 
     private ArrayList<Building> breadthFirstSearch(int numOfBuilding, double range) {
         ArrayList<Building> searchResult = new ArrayList<>();
@@ -266,8 +230,7 @@ public class Map {
     }
 
     public ArrayList<Building> getSurroundings(int numOfBuilding) {
-        ArrayList<Building> surroundings = breadthFirstSearch(numOfBuilding, 100.0);//todo 根据地图类型选择range，先默认个100
-        return surroundings;
+        return breadthFirstSearch(numOfBuilding, 100.0);
     }
 }
 
@@ -280,7 +243,7 @@ class TableEntry {
     Route pathToBuilding;
 
     public TableEntry(int numOfBuilding, Building header, boolean known, double dist,
-            Route pathToBuilding) {
+                      Route pathToBuilding) {
         this.numOfBuilding = numOfBuilding;
         this.header = header;
         this.known = known;

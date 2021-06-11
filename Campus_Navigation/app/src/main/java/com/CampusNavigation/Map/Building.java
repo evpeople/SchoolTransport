@@ -43,13 +43,7 @@ public class Building {
 
 
 
-  //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
-  public Queue< Path> getShortestRoute(Position nowPosition, Building destination,  String strategy) {
-    int nowPositinIndex=map.getBuildingsOrder(nowPosition.getNowBuilding().getNameOfBuildingInEnglish());
-    int destinationIndex=map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
-    return map.getShortestRoute(nowPositinIndex,destinationIndex);
 
-  }
 
 
   public String getNameOfBuildingInEnglish() {

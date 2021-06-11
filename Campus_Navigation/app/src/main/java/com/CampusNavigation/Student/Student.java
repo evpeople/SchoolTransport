@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Student {
-  //public Route route;
   public Position position; //todo 凑数的位置类
   private double walkSpeed;
   public Queue<Path> pathsToGo=new LinkedList<>();
@@ -30,11 +29,6 @@ public class Student {
     this.walkSpeed = 60;//初始速度60米每分钟
   }
 
-  public Student(Map map) {
-    this.position = new Position(map);
-    this.walkSpeed = 60;//初始速度60米每分钟
-    this.pathsToGo = null;
-  }
 
   public void setSpeed(int newSpeed) {
     this.walkSpeed = newSpeed;
@@ -44,10 +38,17 @@ public class Student {
     position = currentPosition;
   }
 
-
-
   public void setTargetBuilding(Building targetBuilding) {
     this.targetBuilding = targetBuilding;
-    if(position.getNowBuilding()==null);
+    pathsToGo=getShortestRoute(targetBuilding,"c");
+    //if(position.getNowBuilding()==null);
+  }
+
+  //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
+  public Queue< Path> getShortestRoute(Building destination,  String strategy) {
+    int nowPositinIndex=position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
+    int destinationIndex=position.getCurrentMap().getBuildingsOrder(destination.getNameOfBuildingInEnglish());
+    return position.getCurrentMap().getShortestRoute(nowPositinIndex,destinationIndex);
+
   }
 }
