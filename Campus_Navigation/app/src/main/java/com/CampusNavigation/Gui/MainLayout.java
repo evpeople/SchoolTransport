@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class MainLayout extends LinearLayout {
     private Button setNowPosition;
     private BuildingView touchedBuilding;
     private BuildingView targetBuilding;
+    private EditText searchWidth;
 
     @SuppressLint("ResourceAsColor")
     public MainLayout(Context context) throws IOException {
@@ -56,7 +58,15 @@ public class MainLayout extends LinearLayout {
         //学生
         this.student=new Student(null);
         if(studentView==null)studentView=new StudentView(getContext(),student);
-        studentView.setCommandClickView(startButton,()->{
+        studentView.setCommandClickView(()->{
+            if(studentView.rightNowPosition.getCurrentMap()!=map){
+                try {
+                    switchToMap(studentView.rightNowPosition.getCurrentMap());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        },startButton,()->{
             mapLayout.deleteStudentView();
             Map temp=null;
             if(map==campus1)temp=campus2;

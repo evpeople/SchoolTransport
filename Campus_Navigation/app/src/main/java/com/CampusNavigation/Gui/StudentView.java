@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -16,7 +14,6 @@ import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Student;
 import com.example.campus_navigation1.R;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 public   class StudentView extends View {
@@ -97,13 +94,14 @@ public   class StudentView extends View {
     }
 
 
-    public void setCommandClickView(View v,Runnable WhenSwitchMap){
+    public void setCommandClickView(Runnable beforeMove,View v,Runnable WhenSwitchMap){
         v.setOnClickListener((e)->{
             if(animatorX!=null&& animatorX.isRunning()){
                 stopMove();
                 if(v instanceof Button)((Button)v).setText("已停止运动");
             }
             else {
+                beforeMove.run();
                 startMove(()->{if(v instanceof Button)((Button)v).setText("点击开始运动");},WhenSwitchMap);
                 if(v instanceof Button)((Button)v).setText("正在运动");
             }
