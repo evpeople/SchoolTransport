@@ -10,6 +10,7 @@ import java.util.Calendar;
 public class Path {
 
   private double length;
+  private double time;
   private double crowdDegree;
   private boolean isBike;
  private Building start;
@@ -25,7 +26,16 @@ public class Path {
             - end.mathY) * (start.mathY - end.mathY));
 
   }
-//
+
+    public double getTime() {
+        return length/(60*crowdDegree);
+    }
+
+    public boolean isBike() {
+        return isBike;
+    }
+
+    //
 //    /**
 //     * 构造器方法.
 //     *

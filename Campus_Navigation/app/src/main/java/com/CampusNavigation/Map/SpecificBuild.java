@@ -23,20 +23,10 @@ public class SpecificBuild extends Building {
 
   public SpecificBuild(Dot dot, Map map) throws IOException {
     super(dot, map);
-    switch (dot.getType()) {
-      case bus:
-      case car:
-        break;
-      case crossing:
-      case buildingCrossing:
-      case runway:
-      case soccer:
-        break;
-      default:
-        break;
+    floor=dot.getType().getFloorNum();
     }
 
-  }
+
 
 //    /**
 //     * 具体建筑物的构造器方法.

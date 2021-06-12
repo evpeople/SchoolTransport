@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static com.shopgun.android.utils.log.LogUtil.TAG;
+
 /**
  * 地图类.
  */
@@ -109,7 +111,7 @@ public class Map {
      * @return 一个DJ算法所用表
      */
     protected TableEntry[] dijkstra(int vertex) {
-        TableEntry[] tableEntries = new TableEntry[this.numOfBuildings + 1];
+        TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
         initTable(this, tableEntries);
         while (true) {
             tableEntries[vertex].setKnown(true);
@@ -132,35 +134,123 @@ public class Map {
         Path[] temp = this.paths[known.getNumOfBuilding()];
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
-        for (int i = 0; i < this.numOfBuildings; i++) {
-            if (tableEntries[i].isNotKnown() && temp[i] != null)
-            //后一个temp[i]为能从起点到这个位置
-            {
-                Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
-                        this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
-                        this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
-                Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
-                double oldDist = tableEntries[i].getDist();//设置早了此处
-                if (oldDist>=known.getDist()+temp[i].getLength()) {
-                    tableEntries[i].setDist(temp[i].getLength() + known.getDist());
-                }
-                double newDist = tableEntries[i].getDist();
-                if (oldDist == newDist) {
-                    continue;
-                }
 
-                Log.d("Map 求最短路径","本点更改后的距离是 {}"+tableEntries[i].getDist());
+       switch (TableEntry.stra)
+       {
+           case 1:
+           {
+               for (int i = 0; i < this.numOfBuildings; i++) {
+                   if (tableEntries[i].isNotKnown() && temp[i] != null)
+                   //后一个temp[i]为能从起点到这个位置
+                   {
+                       Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
+                               this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
+                               this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
+                       Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                       double oldDist = tableEntries[i].getDist();//设置早了此处
+                       if (oldDist>=known.getDist()+temp[i].getLength()) {
+                           tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                       }
+                       double newDist = tableEntries[i].getDist();
+                       if (oldDist == newDist) {
+                           continue;
+                       }
 
-                Route tempP = new Route(this.buildings[known.getNumOfBuilding()],
-                        this.buildings[i]);
-                Log.d("Map 求最短路径",tempP.toString());
+                       Log.d("Map 求最短路径","本点更改后的距离是 {}"+tableEntries[i].getDist());
 
-                HashMap<Building, Path> routeToDestination = new HashMap<>();
-                routeToDestination.put(this.buildings[known.getNumOfBuilding()], temp[i]);
-                tempP.setRouteToDestination(routeToDestination);
-                tableEntries[i].setPathToBuilding(tempP);
-            }
-        }
+                       Route tempP = new Route(this.buildings[known.getNumOfBuilding()],
+                               this.buildings[i]);
+                       Log.d("Map 求最短路径",tempP.toString());
+
+                       HashMap<Building, Path> routeToDestination = new HashMap<>();
+                       routeToDestination.put(this.buildings[known.getNumOfBuilding()], temp[i]);
+                       tempP.setRouteToDestination(routeToDestination);
+                       tableEntries[i].setPathToBuilding(tempP);
+                   }
+               }
+           }
+           case 2:
+           {
+               for (int i = 0; i < this.numOfBuildings; i++) {
+                   if (tableEntries[i].isNotKnown() && temp[i] != null)
+                   //后一个temp[i]为能从起点到这个位置
+                   {
+                       Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
+                               this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
+                               this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
+                       Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                       double oldDist = tableEntries[i].getDist();//设置早了此处
+                       if (oldDist>=known.getDist()+temp[i].getTime()) {
+                           tableEntries[i].setDist(temp[i].getTime() + known.getDist());
+                       }
+                       double newDist = tableEntries[i].getDist();
+                       if (oldDist == newDist) {
+                           continue;
+                       }
+
+                       Log.d("Map 求最短路径","本点更改后的距离是 {}"+tableEntries[i].getDist());
+
+                       Route tempP = new Route(this.buildings[known.getNumOfBuilding()],
+                               this.buildings[i]);
+                       Log.d("Map 求最短路径",tempP.toString());
+
+                       HashMap<Building, Path> routeToDestination = new HashMap<>();
+                       routeToDestination.put(this.buildings[known.getNumOfBuilding()], temp[i]);
+                       tempP.setRouteToDestination(routeToDestination);
+                       tableEntries[i].setPathToBuilding(tempP);
+                   }
+               }
+           }
+           case 3:
+           {
+
+           }
+           case 4:
+           {
+               for (int i = 0; i < this.numOfBuildings; i++) {
+                   if (tableEntries[i].isNotKnown() && temp[i] != null&&temp[i].isBike())
+                   //后一个temp[i]为能从起点到这个位置
+                   {
+                       Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
+                               this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
+                               this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
+                       Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                       double oldDist = tableEntries[i].getDist();//设置早了此处
+                       if (oldDist>=known.getDist()+temp[i].getTime()) {
+                           tableEntries[i].setDist(temp[i].getTime() + known.getDist());
+                       }
+                       double newDist = tableEntries[i].getDist();
+                       if (oldDist == newDist) {
+                           continue;
+                       }
+
+                       Log.d("Map 求最短路径","本点更改后的距离是 {}"+tableEntries[i].getDist());
+
+                       Route tempP = new Route(this.buildings[known.getNumOfBuilding()],
+                               this.buildings[i]);
+                       Log.d("Map 求最短路径",tempP.toString());
+
+                       HashMap<Building, Path> routeToDestination = new HashMap<>();
+                       routeToDestination.put(this.buildings[known.getNumOfBuilding()], temp[i]);
+                       tempP.setRouteToDestination(routeToDestination);
+                       tableEntries[i].setPathToBuilding(tempP);
+                   }
+               }
+           }
+       }
+
+
+
+
+
+
+
+
+
+
+
+
+
         for (int i = 0; i < this.numOfBuildings; i++) {
             if ((tableEntries[i].isNotKnown()) && tableEntries[i].getDist() < dv) {
                 minRoute = i;
@@ -188,9 +278,12 @@ public class Map {
 
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
-        TableEntry[] tableEntries = dijkstra(start);
+        TableEntry[] tableEntries = dijkstra(start);//dj 没有问题
+        Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
+        Log.i(TAG, "getTheShortestRoute: end is"+end);
         do {
+            Log.i(TAG, "getTheShortestRoute: currentVertex is"+currentVertex);
             shortestRoute.put(tableEntries[currentVertex].pathToBuilding.getStart(),
                     tableEntries[currentVertex].pathToBuilding.getRouteToDestination()
                             .get(tableEntries[currentVertex].pathToBuilding.getStart()));
@@ -233,71 +326,3 @@ public class Map {
     }
 }
 
-class TableEntry {
-
-    private int numOfBuilding;
-    private Building header;
-    private boolean known;
-    private double dist;
-    Route pathToBuilding;
-
-    public TableEntry(int numOfBuilding, Building header, boolean known, double dist,
-                      Route pathToBuilding) {
-        this.numOfBuilding = numOfBuilding;
-        this.header = header;
-        this.known = known;
-        this.dist = dist;
-        this.pathToBuilding = pathToBuilding;
-    }
-
-    public void setDist(double dist) {
-        if (dist < this.dist) {
-            this.dist = dist;
-        }
-    }
-
-    public void setHeader(Building header) {
-        this.header = header;
-    }
-
-    public void setKnown(boolean known) {
-        this.known = known;
-    }
-
-    public void setPathToBuilding(Route pathToBuilding) {
-        this.pathToBuilding = pathToBuilding;
-    }
-
-    public int getNumOfBuilding() {
-        return numOfBuilding;
-    }
-
-    public boolean isNotKnown() {
-        return !known;
-    }
-
-    public double getDist() {
-        return dist;
-    }
-
-    public Route getPathToBuilding() {
-        return pathToBuilding;
-    }
-
-    @Override
-    public String toString() {
-        return "TableEntry{"
-                +
-                "numOfBuilding=" + numOfBuilding
-                +
-                ", Header=" + header.toString()
-                +
-                ", Known=" + known
-                +
-                ", Dist=" + dist
-                +
-                ", PathToBuilding=" + pathToBuilding
-                +
-                '}';
-    }
-}
