@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Path;
@@ -51,8 +52,15 @@ public   class StudentView extends View {
             setAnimateMoveTo((int)toReach.mathX,(int)toReach.mathY);
             animatorX.addListener(new AnimatorListenerAdapter() {
                 @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    rightNowPosition.setOnBuilding(false);
+                }
+
+                @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
+                    rightNowPosition.setOnBuilding(true);
                     target().poll();
                     rightNowPosition.setNowBuilding(toReach);
                     if(target().isEmpty()){
@@ -60,6 +68,7 @@ public   class StudentView extends View {
                         AfterMove.run();
                         rightNowPosition.setX(getX());
                         rightNowPosition.setY(getY());
+                       // Toast.makeText(getContext(),rightNowPosition.getNowBuilding().mathX+" "+getX(),Toast.LENGTH_SHORT).show();
                     }
                      else{
                          if(target().peek().getStart().map!=rightNowPosition.getCurrentMap()){
