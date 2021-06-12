@@ -13,6 +13,7 @@ public class TableEntry {
     private boolean known;
     private double dist;
     static public int stra;
+    static public double totalCost;
     Route pathToBuilding;
 
     public TableEntry(int numOfBuilding, Building header, boolean known, double dist,
