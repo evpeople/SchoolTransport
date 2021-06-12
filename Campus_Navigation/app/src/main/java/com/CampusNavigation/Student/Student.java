@@ -132,6 +132,9 @@ public class Student {
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
         TableEntry.setStrategy(strategy);
+        if (position.isOnBuilding&& destination==position.getNowBuilding()) {
+            pathsToGo=new LinkedList<>();
+        }
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
             int destinationIndex = destination.index;
@@ -176,6 +179,7 @@ public class Student {
     }
     private void dealStopInPath(Building destination, String strategy,String carType)
     {
+        //todo: 应用到代码当中
         Position endPostion=new Position(position.getPath().getEnd());//通过path更新buiding
         double endCost=getTargetBuildingCost(endPostion,destination,strategy,carType);
         Position startPostion=new Position(position.getPath().getStart());//通过path更新buiding
