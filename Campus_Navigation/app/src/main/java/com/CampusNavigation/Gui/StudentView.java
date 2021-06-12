@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public   class StudentView extends View {
-    private RelativeLayout.LayoutParams StuParams;
     private double vWalk=100.0;
     private double vBike=200.0;
     private ObjectAnimator animatorX;
@@ -32,9 +31,7 @@ public   class StudentView extends View {
     public StudentView(Context context,Student student) {
         super(context);
         setBackgroundResource(R.drawable.student1);
-        StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
-        StuParams.height=32;
-        StuParams.width=32;
+
         toReach=null;
         this.student=student;
         student.view=this;
@@ -47,7 +44,7 @@ public   class StudentView extends View {
 
     }
 
-    public void startMove() {
+    public void startMove(Runnable AfterMove) {
        if(toReach==null&&!target().isEmpty()){
            rightNowPosition.setPath(target().peek());
            toReach=rightNowPosition.getPath().getEnd();
@@ -61,12 +58,17 @@ public   class StudentView extends View {
                     super.onAnimationEnd(animation);
                     target().poll();
                     rightNowPosition.setNowBuilding(toReach);
-                    if(target().isEmpty()){toReach=null;}
+                    if(target().isEmpty()){
+                        toReach=null;
+                        AfterMove.run();
+                        rightNowPosition.setX(getX());
+                        rightNowPosition.setY(getY());
+                    }
                      else{
                          rightNowPosition.setPath(target().peek());
                          toReach=rightNowPosition.getPath().getEnd();
                      }
-                    startMove();
+                    startMove(AfterMove);
                 }
             });
             animatorX.start();animatorY.start();
@@ -79,8 +81,14 @@ public   class StudentView extends View {
         animatorX.cancel();
         animatorY.cancel();
         toReach=null;
+        rightNowPosition.setX(getX());
+        rightNowPosition.setY(getY());
     }
     public RelativeLayout.LayoutParams getStuParams() {
+        RelativeLayout.LayoutParams StuParams;
+        StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
+        StuParams.height=32;
+        StuParams.width=32;
             return StuParams;
     }
 
@@ -92,7 +100,7 @@ public   class StudentView extends View {
                 if(v instanceof Button)((Button)v).setText("已停止运动");
             }
             else {
-                startMove();
+                startMove(()->{if(v instanceof Button)((Button)v).setText("点击开始运动");});
                 if(v instanceof Button)((Button)v).setText("正在运动");
             }
         });
