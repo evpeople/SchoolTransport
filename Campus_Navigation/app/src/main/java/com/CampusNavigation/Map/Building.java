@@ -16,7 +16,7 @@ public class Building {
   public final double mathX;
   public final double mathY;
   public final int schoolNum;
-  public final int floor; //默认是0，代表地面上的平房。
+  public int floor; //默认是0，代表地面上的平房。
   public final String nameOfBuildingInEnglish;
   public final String nameOfBuildingInChinese = "";
   public final BuildingType type;

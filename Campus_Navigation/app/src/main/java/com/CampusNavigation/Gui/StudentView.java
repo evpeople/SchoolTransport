@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -16,11 +14,9 @@ import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Student;
 import com.example.campus_navigation1.R;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 public   class StudentView extends View {
-    private RelativeLayout.LayoutParams StuParams;
     private double vWalk=100.0;
     private double vBike=200.0;
     private ObjectAnimator animatorX;
@@ -32,9 +28,7 @@ public   class StudentView extends View {
     public StudentView(Context context,Student student) {
         super(context);
         setBackgroundResource(R.drawable.student1);
-        StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
-        StuParams.height=32;
-        StuParams.width=32;
+
         toReach=null;
         this.student=student;
         student.view=this;
@@ -47,7 +41,7 @@ public   class StudentView extends View {
 
     }
 
-    public void startMove() {
+    public void startMove(Runnable AfterMove,Runnable WhenSwitchMap) {
        if(toReach==null&&!target().isEmpty()){
            rightNowPosition.setPath(target().peek());
            toReach=rightNowPosition.getPath().getEnd();
@@ -61,12 +55,21 @@ public   class StudentView extends View {
                     super.onAnimationEnd(animation);
                     target().poll();
                     rightNowPosition.setNowBuilding(toReach);
-                    if(target().isEmpty()){toReach=null;}
+                    if(target().isEmpty()){
+                        toReach=null;
+                        AfterMove.run();
+                        rightNowPosition.setX(getX());
+                        rightNowPosition.setY(getY());
+                    }
                      else{
+                         if(target().peek().getStart().map!=rightNowPosition.getCurrentMap()){
+                             rightNowPosition.setNowBuilding(target().peek().getStart());
+                             WhenSwitchMap.run();
+                         }
                          rightNowPosition.setPath(target().peek());
                          toReach=rightNowPosition.getPath().getEnd();
                      }
-                    startMove();
+                    startMove(AfterMove,WhenSwitchMap);
                 }
             });
             animatorX.start();animatorY.start();
@@ -79,27 +82,34 @@ public   class StudentView extends View {
         animatorX.cancel();
         animatorY.cancel();
         toReach=null;
+        rightNowPosition.setX(getX());
+        rightNowPosition.setY(getY());
     }
     public RelativeLayout.LayoutParams getStuParams() {
+        RelativeLayout.LayoutParams StuParams;
+        StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
+        StuParams.height=32;
+        StuParams.width=32;
             return StuParams;
     }
 
 
-    public void setCommandClickView(View v){
+    public void setCommandClickView(Runnable beforeMove,View v,Runnable WhenSwitchMap){
         v.setOnClickListener((e)->{
             if(animatorX!=null&& animatorX.isRunning()){
                 stopMove();
                 if(v instanceof Button)((Button)v).setText("已停止运动");
             }
             else {
-                startMove();
+                beforeMove.run();
+                startMove(()->{if(v instanceof Button)((Button)v).setText("点击开始运动");},WhenSwitchMap);
                 if(v instanceof Button)((Button)v).setText("正在运动");
             }
         });
     }
 
-    public void setTargetBuilding(Building targetBuilding) {
-        student.setTargetBuilding(targetBuilding);
+    public void setTargetBuilding(Building targetBuilding,String strategy) {
+        student.setTargetBuilding(targetBuilding,strategy);
     }
     private Queue<Path> target(){return student.pathsToGo;}
 

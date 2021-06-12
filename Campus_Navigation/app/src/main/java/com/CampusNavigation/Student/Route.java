@@ -1,7 +1,11 @@
 package com.CampusNavigation.Student;
 
+import android.util.Log;
+
 import com.CampusNavigation.Map.*;
 import java.util.HashMap;
+
+import static com.shopgun.android.utils.log.LogUtil.TAG;
 
 /**
  * 路径类，不同于道路类.
@@ -14,6 +18,7 @@ public class Route {
   public boolean isToDestination = false;
 
   public Route(Building start, Building end) {
+    Log.e(TAG, "Route: "+start.toString() );
     this.start = start;
     this.end = end;
 
