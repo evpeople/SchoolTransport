@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Student {
+
     public Position position; //todo 凑数的位置类
     private double walkSpeed;
     public Queue<Path> pathsToGo = new LinkedList<>();
@@ -40,10 +41,14 @@ public class Student {
         position = currentPosition;
     }
 
-    public void setTargetBuilding(Building targetBuilding) {
+    public void setTargetBuilding(Building targetBuilding,String strategy) {
         this.targetBuilding = targetBuilding;
-        getShortestRouteToTarget(targetBuilding, "a");
-        //if(position.getNowBuilding()==null);
+        switch (strategy){
+            case "c": setTargetBuilding(null); break;
+            case "a": case "b": case "d":
+                getShortestRouteToTarget(targetBuilding,strategy);break;
+            default:  break;
+        }
     }
 
     public void setTargetBuilding(Queue<Building> targetBuilding) {

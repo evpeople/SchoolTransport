@@ -18,8 +18,8 @@ import static com.shopgun.android.utils.log.LogUtil.TAG;
  * 地图类.
  */
 public class Map {
-
-    public static final int MaxNumOfDots = 80;
+    public static final int MaxNumOfDots = 150;
+    public final String filePath;
     private int numOfBuildings=0;
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
@@ -33,7 +33,7 @@ public class Map {
      */
     public Map(Graph graph) throws IOException {
         this.numOfBuildings = graph.NumOfDots();
-
+        this.filePath =graph.filePath;
         int now = 0;
         for (Dot dot : graph.getDots()) {
             if (dot == null) {
@@ -62,7 +62,7 @@ public class Map {
     }
 
     public Map(int a ){
-
+        this.filePath ="default";
     }
 
 

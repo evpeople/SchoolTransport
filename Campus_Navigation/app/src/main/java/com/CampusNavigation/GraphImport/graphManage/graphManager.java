@@ -36,7 +36,7 @@ public abstract class graphManager {
     if (assetManager == null) {
       scanner = new Scanner(new File(path));
     } else {
-      scanner = new Scanner(new BufferedInputStream(assetManager.open("data.txt")));
+      scanner = new Scanner(new BufferedInputStream(assetManager.open(path)));
     }
     HashMap<String, Dot> allDots = new HashMap<String, Dot>();
     Dot[] dotsList = new Dot[Graph.MaxNumOfDots];
@@ -64,8 +64,7 @@ public abstract class graphManager {
       }
     }
 
-    for (; scanner.hasNextLine() && !now.contains("/* end of picture */");
-        now = scanner.nextLine()) {
+    for (; scanner.hasNextLine() && !now.contains("/* end of picture */");now = scanner.nextLine()) {
       if (now.contains("/*") && now.contains("*/")) {
         continue;
       }
@@ -101,7 +100,7 @@ public abstract class graphManager {
     if (assetManager == null) {
       scanner = new Scanner(new File(path));
     } else {
-      scanner = new Scanner(new BufferedInputStream(assetManager.open("data.txt")));
+      scanner = new Scanner(new BufferedInputStream(assetManager.open(path)));
     }
     now = scanner.nextLine();
 
@@ -183,7 +182,7 @@ public abstract class graphManager {
       }
 
     }
-    Graph graph = new Graph(num, dotsList, edges);
+    Graph graph = new Graph(path,num, dotsList, edges);
     //toPutOutGraph(graph,outPutPath);
     return graph;
   }
