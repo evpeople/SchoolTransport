@@ -37,10 +37,8 @@ public    class MapLayout extends ZoomLayout {
     public void SetStudentViewPosition(StudentView studentView, Building building){
         if(this.student!=null)deleteStudentView();
         this.student=studentView;
-        //ViewGroup.LayoutParams params=this.student.getStuParams();
         studentView.setX((int)building.mathX);
         studentView.setY((int)building.mathY);
-        //params.s
         allBuildings.addView(this.student,this.student.getStuParams());
     }
     public void deleteStudentView(){

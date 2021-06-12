@@ -40,9 +40,14 @@ public class Student {
     position = currentPosition;
   }
 
-  public void setTargetBuilding(Building targetBuilding) {
+  public void setTargetBuilding(Building targetBuilding,String strategy) {
     this.targetBuilding = targetBuilding;
-    getShortestRouteToTarget(targetBuilding,"a");
+    switch (strategy){
+      case "c": setTargetBuilding(null); break;
+      case "a": case "b": case "d":
+        getShortestRouteToTarget(targetBuilding,strategy);break;
+      default:  break;
+    }
   }
   public void setTargetBuilding(Queue<Building> targetBuilding) {
     getShortestRouteToTarget(targetBuilding.poll(),"a");
