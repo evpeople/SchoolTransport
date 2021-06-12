@@ -56,7 +56,18 @@ public class MainLayout extends LinearLayout {
         //学生
         this.student=new Student(null);
         if(studentView==null)studentView=new StudentView(getContext(),student);
-        studentView.setCommandClickView(startButton);
+        studentView.setCommandClickView(startButton,()->{
+            mapLayout.deleteStudentView();
+            Map temp=null;
+            if(map==campus1)temp=campus2;
+            else if(map==campus2)temp=campus1;
+            try {
+                if(temp!=null) switchToMap(temp);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            setStudentPosition(studentView.rightNowPosition.getNowBuilding());
+        });
         setStudentPosition(map.getBuilding(0));
         //监听点击的building设置
         setTargetBuildingButton.setOnClickListener((e)->{

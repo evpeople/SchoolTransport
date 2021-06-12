@@ -44,7 +44,7 @@ public   class StudentView extends View {
 
     }
 
-    public void startMove(Runnable AfterMove) {
+    public void startMove(Runnable AfterMove,Runnable WhenSwitchMap) {
        if(toReach==null&&!target().isEmpty()){
            rightNowPosition.setPath(target().peek());
            toReach=rightNowPosition.getPath().getEnd();
@@ -65,10 +65,14 @@ public   class StudentView extends View {
                         rightNowPosition.setY(getY());
                     }
                      else{
+                         if(target().peek().getStart().map!=rightNowPosition.getCurrentMap()){
+                             rightNowPosition.setNowBuilding(target().peek().getStart());
+                             WhenSwitchMap.run();
+                         }
                          rightNowPosition.setPath(target().peek());
                          toReach=rightNowPosition.getPath().getEnd();
                      }
-                    startMove(AfterMove);
+                    startMove(AfterMove,WhenSwitchMap);
                 }
             });
             animatorX.start();animatorY.start();
@@ -93,14 +97,14 @@ public   class StudentView extends View {
     }
 
 
-    public void setCommandClickView(View v){
+    public void setCommandClickView(View v,Runnable WhenSwitchMap){
         v.setOnClickListener((e)->{
             if(animatorX!=null&& animatorX.isRunning()){
                 stopMove();
                 if(v instanceof Button)((Button)v).setText("已停止运动");
             }
             else {
-                startMove(()->{if(v instanceof Button)((Button)v).setText("点击开始运动");});
+                startMove(()->{if(v instanceof Button)((Button)v).setText("点击开始运动");},WhenSwitchMap);
                 if(v instanceof Button)((Button)v).setText("正在运动");
             }
         });

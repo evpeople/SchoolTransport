@@ -43,7 +43,6 @@ public class Student {
   public void setTargetBuilding(Building targetBuilding) {
     this.targetBuilding = targetBuilding;
     getShortestRouteToTarget(targetBuilding,"a");
-    //if(position.getNowBuilding()==null);
   }
   public void setTargetBuilding(Queue<Building> targetBuilding) {
     getShortestRouteToTarget(targetBuilding.poll(),"a");
