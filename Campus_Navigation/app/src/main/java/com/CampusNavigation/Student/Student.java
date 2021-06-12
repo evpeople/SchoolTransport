@@ -46,12 +46,10 @@ public class Student {
     //if(position.getNowBuilding()==null);
   }
   public void setTargetBuilding(Queue<Building> targetBuilding) {
-    int i;//todo: 策略3的实现
-
+    getShortestRouteToTarget(targetBuilding.poll(),"a");
     while (!targetBuilding.isEmpty())
     {
      pathsToGo.addAll(getShortestRouteToTarget(targetBuilding.poll(),targetBuilding.poll(),"a"));
-
     }
       //if(position.getNowBuilding()==null);
   }
