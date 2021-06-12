@@ -66,6 +66,10 @@ public class Student {
         return cost;
         //if(position.getNowBuilding()==null);
     }
+
+    static public  double getTargetBuildingCost(Position position,Building destination, String strategy, String carType) {
+        return new Student(position).getTargetBuildingCost( destination, strategy, carType);
+    }
     /* 得到各种形式的花费*/
     public double getTargetBuildingCost(Building destination, String strategy, String carType) {
         TableEntry.setStrategy(strategy);
@@ -73,11 +77,11 @@ public class Student {
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
             int destinationIndex = destination.index;
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
             totalTime = TableEntry.totalCost;
         } else {
             int busStop = 3;//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
             totalTime = TableEntry.totalCost;
 
             if (strategy == "b" || strategy == "d") {
@@ -126,10 +130,10 @@ public class Student {
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
             int destinationIndex = destination.index;
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
         } else {
             int busStop = 3;//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+            pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
             Queue<Path> pathsToGo2 = new LinkedList<>();
             int busBegin = 1;//todo: 确认车站下标。
             int destinationIndex = destination.index;
@@ -150,7 +154,7 @@ public class Student {
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
             int busStop = 3;//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
             Queue<Path> pathsToGo2 = new LinkedList<>();
             int busBegin = 1;//todo: 确认车站下标。
             int destinationIndex = destination.map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
@@ -164,5 +168,19 @@ public class Student {
     private void getShortestRouteToTarget(int destinationIndex, String strategy) {
         Building destination = position.getCurrentMap().getBuilding(destinationIndex);
         getShortestRouteToTarget(destination, strategy);
+    }
+    private void dealStopInPath(Building destination, String strategy,String carType)
+    {
+        Position endPostion=new Position(position.getPath().getEnd());//通过path更新buiding
+        double endCost=getTargetBuildingCost(endPostion,destination,strategy,carType);
+        Position startPostion=new Position(position.getPath().getStart());//通过path更新buiding
+        double startCost=getTargetBuildingCost(startPostion,destination,strategy,carType);
+        if (endCost>=startCost)
+        {
+           pathsToGo.add(position.getPath().getStart().map.getPaths()[position.getPath().getEnd().index][position.getPath().getStart().index]);
+        }
+        {
+            position.getPath();
+        }
     }
 }

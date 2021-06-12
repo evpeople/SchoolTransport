@@ -9,6 +9,7 @@ import java.io.IOException;
  * 学生当前位置.
  */
 public class Position {
+  boolean isOnBuilding;
   private Building nowBuilding;
   private Map currentMap;
   private int nowFloor;
@@ -56,13 +57,37 @@ public class Position {
     this.nowBuilding = nowBuilding;
   }
 
+  public void setX(double x) {
+    this.x = x;
+  }
 
-  public Position(Map map) {
-    this.currentMap=map;
-    this.nowBuilding=map.getBuilding(0);
+  public void setY(double y) {
+    this.y = y;
+  }
+
+  //
+//  public Position(Map map) {
+//    this.currentMap=map;
+//    this.nowBuilding=map.getBuilding(0);
+//    this.x=nowBuilding.mathX;
+//    this.y=nowBuilding.mathY;
+//    this.path=null;
+//    this.nowFloor=0;
+//  }
+  public Position(Building building) {
+    this.currentMap=building.map;
+    this.nowBuilding=building;
     this.x=nowBuilding.mathX;
     this.y=nowBuilding.mathY;
     this.path=null;
-    this.nowFloor=0;
+    this.nowFloor=building.floor;
+  }
+
+  public void setOnBuilding(boolean onBuilding) {
+    isOnBuilding = onBuilding;
+  }
+
+  public boolean isOnBuilding() {
+    return isOnBuilding;
   }
 }

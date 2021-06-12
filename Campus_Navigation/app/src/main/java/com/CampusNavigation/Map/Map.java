@@ -208,9 +208,14 @@ public class Map {
            case 4:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
-                   if (tableEntries[i].isNotKnown() && temp[i] != null&&temp[i].isBike())
+                   //todo： 自行车死掉
+                   if (tableEntries[i].isNotKnown() && temp[i] != null)
                    //后一个temp[i]为能从起点到这个位置
                    {
+                       if (temp[i].isBike())
+                       {
+                           temp[i].setV(200);
+                       }
                        Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
                                this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
                                this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);

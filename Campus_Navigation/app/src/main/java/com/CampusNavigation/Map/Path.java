@@ -18,6 +18,7 @@ public class Path {
     private boolean isBike;
     private Building start;
     private Building end;
+    private double v;
 
     public Path(Edge edge, Building[] buildings) {
         this.crowdDegree = edge.getDegreeOfCongestion();
@@ -28,17 +29,21 @@ public class Path {
                 .sqrt((start.mathX - end.mathX) * (start.mathX - end.mathX) + (start.mathY
                         - end.mathY) * (start.mathY - end.mathY));
 
+        this.v=60;
     }
 
     public double getTime() {
         setCrowdDegree(start.type);
-        return length / (60 * crowdDegree);
+        return length / (v * crowdDegree);
     }
 
     public boolean isBike() {
         return isBike;
     }
 
+    public void setV(double v) {
+        this.v = v;
+    }
     //
 //    /**
 //     * 构造器方法.
