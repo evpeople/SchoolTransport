@@ -278,7 +278,9 @@ public class Map {
 
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
+        TableEntry.totalCost=0;
         TableEntry[] tableEntries = dijkstra(start);//dj 没有问题
+        TableEntry.totalCost=tableEntries[end].getDist();
         Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
         Log.i(TAG, "getTheShortestRoute: end is"+end);

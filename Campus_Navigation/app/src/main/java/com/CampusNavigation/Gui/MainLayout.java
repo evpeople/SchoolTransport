@@ -99,7 +99,7 @@ public class MainLayout extends LinearLayout {
             if(touchedBuilding ==null)return;
             targetBuilding = touchedBuilding;
             targetBuildingText.setText("[目的地]："+ targetBuilding.dot().getPosition()+"("+strategy[strategyIndex]+")");
-            studentView.setTargetBuilding(touchedBuilding.building(map),"策略:"+(char)(strategyIndex+'a'));
+            studentView.setTargetBuilding(touchedBuilding.building(map),""+(char)(strategyIndex+'a'));
         });
         //监听切换校区
         switchCampus.setOnClickListener((e)->{
