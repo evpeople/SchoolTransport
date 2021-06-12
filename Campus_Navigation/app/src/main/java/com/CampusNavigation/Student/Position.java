@@ -65,15 +65,7 @@ public class Position {
     this.y = y;
   }
 
-  //
-//  public Position(Map map) {
-//    this.currentMap=map;
-//    this.nowBuilding=map.getBuilding(0);
-//    this.x=nowBuilding.mathX;
-//    this.y=nowBuilding.mathY;
-//    this.path=null;
-//    this.nowFloor=0;
-//  }
+
   public Position(Building building) {
     this.currentMap=building.map;
     this.nowBuilding=building;
@@ -81,6 +73,7 @@ public class Position {
     this.y=nowBuilding.mathY;
     this.path=null;
     this.nowFloor=building.floor;
+    this.isOnBuilding=true;
   }
 
   public void setOnBuilding(boolean onBuilding) {

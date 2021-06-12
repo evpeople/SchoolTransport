@@ -75,8 +75,8 @@ public class MainLayout extends LinearLayout {
         targetBuildingText =addText("目的地        ",TextShowLayout);
         touchedBuildingText=addText("选中位置       ",TextShowLayout);
         //地图
-        campus1=new Map(getGraph(Path1));
-        campus2=new Map(getGraph(Path2));
+        campus1=new Map(getGraph(Path1),context.getAssets());
+        campus2=new Map(getGraph(Path2),context.getAssets());
         switchToMap(campus1);
         //学生
         this.student=new Student(null);
@@ -113,7 +113,7 @@ public class MainLayout extends LinearLayout {
             strategyIndex=(strategyIndex+1)%4;
             switchStrategy.setText(strategy[strategyIndex]);
         });
-        //监听设置位置
+        //监听设置当前位置
         setNowPosition.setOnClickListener((e)->{
             setStudentPosition(touchedBuilding.building(map));
         });
