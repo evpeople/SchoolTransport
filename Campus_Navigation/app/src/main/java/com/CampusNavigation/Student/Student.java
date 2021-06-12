@@ -134,7 +134,6 @@ public class Student {
         TableEntry.setStrategy(strategy);
         if (position.isOnBuilding&& destination==position.getNowBuilding()) {
             pathsToGo=new LinkedList<>();
-            return;
         }
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
