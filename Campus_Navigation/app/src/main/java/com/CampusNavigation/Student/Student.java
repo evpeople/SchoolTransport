@@ -47,16 +47,28 @@ public class Student {
     }
 
     public void setTargetBuilding(Queue<Building> targetBuilding) {
+        TableEntry.setStrategy("a");
         getShortestRouteToTarget(targetBuilding.poll(), "a");
         while (!targetBuilding.isEmpty()) {
             pathsToGo.addAll(getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a"));
         }
         //if(position.getNowBuilding()==null);
     }
+    public double getTargetBuildingCost(Queue<Building> targetBuilding) {
+        TableEntry.setStrategy("a");
+        double cost=0;
+        getShortestRouteToTarget(targetBuilding.poll(), "a");
+        cost=TableEntry.totalCost;
+        while (!targetBuilding.isEmpty()) {
+            pathsToGo.addAll(getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a"));
+            cost+=TableEntry.totalCost;
+        }
+        return cost;
+        //if(position.getNowBuilding()==null);
+    }
     /* 得到各种形式的花费*/
     public double getTargetBuildingCost(Building destination, String strategy, String carType) {
         TableEntry.setStrategy(strategy);
-        TableEntry.totalCost = 0;
         double totalTime = 0;
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
@@ -130,6 +142,9 @@ public class Student {
     private Queue<Path> getShortestRouteToTarget(Building destination, Building posBuilding, String strategy) {
         TableEntry.setStrategy(strategy);
         int nowPositinIndex = posBuilding.index;
+        if (destination==posBuilding) {
+            return new LinkedList<>();
+        }
         if (posBuilding.map == destination.map) {
             int destinationIndex = destination.index;
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
