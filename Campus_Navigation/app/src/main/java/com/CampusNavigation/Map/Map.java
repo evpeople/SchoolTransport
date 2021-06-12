@@ -208,7 +208,6 @@ public class Map {
            case 4:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
-                   //todo： 自行车死掉
                    if (tableEntries[i].isNotKnown() && temp[i] != null)
                    //后一个temp[i]为能从起点到这个位置
                    {

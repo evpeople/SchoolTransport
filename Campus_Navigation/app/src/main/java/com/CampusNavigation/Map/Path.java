@@ -68,7 +68,7 @@ public class Path {
         Calendar currentTime = Calendar.getInstance();
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         int minute = currentTime.get(Calendar.MINUTE);
-        double result = 0.0;
+        double result = 1;
         switch (typeOfPath) {
             case canteen://食堂附近道路
             case bus:
