@@ -13,10 +13,10 @@ import org.jetbrains.annotations.NotNull;
 public    class MapLayout extends ZoomLayout {
    private AllBuildings allBuildings;
    private StudentView student;
-    public MapLayout(@NotNull Context context, Graph graph) {
+    public MapLayout(@NotNull Context context, Graph graph,onBuildingViewTouched onTouch) {
         super(context);
         this.setHasClickableChildren(true);
-        allBuildings =new AllBuildings(context,graph);
+        allBuildings =new AllBuildings(context,graph,onTouch);
         addView(allBuildings, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 

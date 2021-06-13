@@ -20,6 +20,7 @@ public    class InformationLayout extends CoolLinearLayout {
     private EditText BuildingName;
     private Map map;
     private int floor=1;
+    private EditText stairInfo;
 
     public InformationLayout(Context context,MainLayout main) {
         super(context);
@@ -53,11 +54,12 @@ public    class InformationLayout extends CoolLinearLayout {
        // if(studentView!=null&& studentView.rightNowPosition().getCurrentMap()==this.map)mapLayout.deleteStudentView();
         if(mapLayout!=null)removeView(mapLayout);
         Graph graph=getGraph(map.filePath);
-        mapLayout = new MapLayout(getContext(),graph);
+        mapLayout = new MapLayout(getContext(),graph,null);
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-       // if(studentView!=null&&studentView.rightNowPosition().getCurrentMap()==map)mapLayout.SetStudentView(studentView);
+      //  if(studentView!=null&&studentView.rightNowPosition().getCurrentMap()==map)mapLayout.SetStudentView(studentView);
         addView(mapLayout, params_map);//*
         this.map=map;
+        if(map.getParent()==null){floor=0;}
     }
 }

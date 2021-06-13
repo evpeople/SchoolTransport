@@ -1,8 +1,11 @@
 package com.CampusNavigation.Map;
 
+import android.content.Context;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -16,12 +19,14 @@ public class Logic {
     private final Map campusTwo;
     private HashMap<String, HashSet<logicRelation>> searcher = new HashMap<>();//逻辑地址-逻辑关系对应表
 
-    public Logic(Map campusOne, Map campusTwo) {               //使用方法：主流程内先实例化一个logic对象
+
+    public Logic(Map campusOne, Map campusTwo, Context context) {               //使用方法：主流程内先实例化一个logic对象
         this.campusOne = campusOne;                            //调用方法：在需要找到逻辑地址对应建筑时
         this.campusTwo = campusTwo;                            //调用方法：调用findPhyAddr(逻辑地址)
 
         try {
-            BufferedReader in = new BufferedReader(new FileReader("logicAddr"));
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(context.getAssets().open("logicAddr")));
             String nextStr;
             String currCampusNum;
             String currBuildNum;

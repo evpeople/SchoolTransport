@@ -10,15 +10,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.GraphImport.graphManage.graphManager;
 import com.CampusNavigation.Map.Building;
+import com.CampusNavigation.Map.Logic;
 import com.CampusNavigation.Map.Map;
+import com.CampusNavigation.Map.SpecificBuild;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Student;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 public class MainLayout extends CoolLinearLayout {
     private static final String Path1="campus1.txt";
@@ -26,6 +30,8 @@ public class MainLayout extends CoolLinearLayout {
     private static final String strategyInfo[]={"最短距离","最短时间","途经最短","自行车"};
     private static final String strategy[]={"a","b","c","d"};
     private int strategyIndex=0;
+    private SpecificBuild specificBuild=null;
+    private int floor=-1;//-1表示在校区地图
     private Map map;
     private Map campus1;
     private Map campus2;
@@ -41,15 +47,21 @@ public class MainLayout extends CoolLinearLayout {
     private Button switchStrategy;
     private Button setNowPosition;
     private Button getCost;
+    private Button upStairButton;
+    private Button downStairButton;
     private BuildingView touchedBuilding;
     private BuildingView targetBuilding;
     private EditText searchWidth;
     private EditText searchWindow;
+    private Logic logic;
+    private TextView stairInfo;
 
 
     @SuppressLint("ResourceAsColor")
     public MainLayout(Context context) throws IOException {
         super(context);
+        campus1=new Map(getGraph(Path1),context.getAssets());
+        campus2=new Map(getGraph(Path2),context.getAssets());
         //布局背景
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER_VERTICAL);
@@ -61,8 +73,12 @@ public class MainLayout extends CoolLinearLayout {
         });
         searchWidth=addEdit("搜索范围",searchLayout1);
         LinearLayout searchLayout2=newLinearLayout(Color.YELLOW);
+        //logic=new Logic(campus1,campus2,context);
         addButton("搜索此地",searchLayout2).setOnClickListener((e)->{
-            //...
+            HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
+            if(hashSet!=null)for(Building building:hashSet){
+                searchWindow.setText(building.nameOfBuildingInEnglish);
+            }
         });
         searchWindow=addEdit("地址搜索",searchLayout2);
         //按键
@@ -74,26 +90,25 @@ public class MainLayout extends CoolLinearLayout {
         switchCampus=addButton("切换校区",ButtonLayout2);
         switchStrategy=addButton("策略:"+strategyInfo[0],ButtonLayout2);
         getCost=addButton("耗费",ButtonLayout2);
+        LinearLayout ButtonLayout3=newLinearLayout(Color.WHITE);
+        upStairButton=addButton("上楼/进楼",ButtonLayout3);
+        downStairButton=addButton("下楼",ButtonLayout3);
+        stairInfo=addText(" ",ButtonLayout3);
         LinearLayout TextShowLayout=newLinearLayout(Color.YELLOW);
         targetBuildingText =addText("目的地        ",TextShowLayout);
         touchedBuildingText=addText("选中位置       ",TextShowLayout);
         //地图
-        campus1=new Map(getGraph(Path1),context.getAssets());
-        campus2=new Map(getGraph(Path2),context.getAssets());
         switchToMap(campus1);
         //学生
         this.student=new Student(null);
         if(studentView==null)studentView=new StudentView(getContext(),student);
-        studentView.setCommandClickView(()->{
+        studentView.setCommandClickView(()->{//运动前
             if(studentView.rightNowPosition().getCurrentMap()!=map){
                 switchToMap(studentView.rightNowPosition().getCurrentMap());
             }
-        },startButton,()->{
+        },startButton,()->{//切换地图时
             mapLayout.deleteStudentView();
-            Map temp=null;
-            if(map==campus1)temp=campus2;
-            else if(map==campus2)temp=campus1;
-            if(temp!=null) switchToMap(temp);
+            switchToMap(studentView.rightNowPosition().getCurrentMap());
             setStudentPosition(studentView.rightNowPosition().getNowBuilding());
         });
         setStudentPosition(map.getBuilding(0));
@@ -109,6 +124,7 @@ public class MainLayout extends CoolLinearLayout {
             Map temp=null;
             if(map==campus1)temp=campus2;
             else if(map==campus2)temp=campus1;
+            else temp=map.getParent();
             if(temp!=null) switchToMap(temp);
         });
         //监听导航策略
@@ -128,6 +144,19 @@ public class MainLayout extends CoolLinearLayout {
         setNowPosition.setOnClickListener((e)->{
             setStudentPosition(touchedBuilding.building(map));
         });
+        //监听上下楼
+        upStairButton.setOnClickListener((e)->{
+                if(floor>=0&&floor<specificBuild.floor){
+                    floor++;
+                    switchToMap(specificBuild.getMapOfFloor(floor));
+                }else Toast.makeText(context,"the building ["+specificBuild.nameOfBuildingInEnglish+"] has no floor "+(floor+1),Toast.LENGTH_SHORT).show();
+        });
+        downStairButton.setOnClickListener((e)->{
+            if(floor>=2){
+                floor--;
+                switchToMap(specificBuild.getMapOfFloor(floor));
+            }else Toast.makeText(context,"the building ["+specificBuild.nameOfBuildingInEnglish+"] has no floor "+(floor-1),Toast.LENGTH_SHORT).show();
+        });
         //实时展示学生位置
         stuPos=new PosView(context, studentView);
         stuPos.setRight(5);
@@ -135,21 +164,32 @@ public class MainLayout extends CoolLinearLayout {
     }//end Main
 
 
-    public void setTouchedBuilding(BuildingView touchedBuilding) {
-        this.touchedBuilding = touchedBuilding;
-        this.touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.dot().getPosition());
-    }
-
     private void switchToMap(Map map){
         if(studentView!=null&& studentView.rightNowPosition().getCurrentMap()==this.map)mapLayout.deleteStudentView();
         if(mapLayout!=null)removeView(mapLayout);
         Graph graph=getGraph(map.filePath);
-        mapLayout = new MapLayout(getContext(),graph);
+        mapLayout = new MapLayout(getContext(),graph,new onBuildingViewTouched(){
+            @Override
+            public void run() {
+                super.run();
+                touchedBuilding = buildingView;
+                touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.dot().getPosition()+"("+touchedBuilding.dot().getType().toString()+")");
+                if(touchedBuilding.building(map) instanceof SpecificBuild){
+                    floor=0;
+                    specificBuild=(SpecificBuild) touchedBuilding.building(map);
+                }
+            }
+        });
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if(studentView!=null&&studentView.rightNowPosition().getCurrentMap()==map)mapLayout.SetStudentView(studentView);
         addView(mapLayout, params_map);//*
         this.map=map;
+        if(map.getParent()==null){floor=-1;stairInfo.setText("在校园");}
+        else {
+            stairInfo.setText("在"+specificBuild.nameOfBuildingInChinese+"第"+floor+"楼");
+        }
     }
+
     private Graph getGraph(String path){
         AssetManager assetManager=getContext().getAssets();
         Graph graph=null;

@@ -18,10 +18,10 @@ public class AllBuildings extends RelativeLayout {
     private Graph graph;
     private ArrayList<BuildingView> buildings = new ArrayList<>();
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
-    public AllBuildings(Context context,Graph graph) {
+    public AllBuildings(Context context,Graph graph,onBuildingViewTouched onTouch) {
         super(context);
         this.graph=graph;
-        setAllBuildings(graph);
+        setAllBuildings(graph,onTouch);
         setWillNotDraw(false);
     }
 
@@ -31,10 +31,10 @@ public class AllBuildings extends RelativeLayout {
         setAllRoads(graph,canvas);
     }
 
-    private void setAllBuildings(Graph graph) {
+    private void setAllBuildings(Graph graph,onBuildingViewTouched onTouch) {
         for (int i=0;i<graph.NumOfDots();i++) {
             Dot dot=graph.getDots()[i];
-            BuildingView building = new BuildingView(getContext(), dot);
+            BuildingView building = new BuildingView(getContext(), dot,onTouch);
             buildings.add(building);
             addView(building, building.getParams());
         }

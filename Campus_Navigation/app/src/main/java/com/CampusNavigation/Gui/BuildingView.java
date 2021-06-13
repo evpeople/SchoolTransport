@@ -14,8 +14,11 @@ import com.example.campus_navigation1.R;
 public class BuildingView extends View {
     private RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     private Dot dot;
-    public BuildingView(Context context, Dot dot) {
+    private Runnable onTouch;
+    public BuildingView(Context context, Dot dot,onBuildingViewTouched onTouch) {
         super(context);
+        this.onTouch=onTouch;
+        onTouch.buildingView =this;
         params.leftMargin = (int) (dot.xg - dot.rg);
         params.topMargin = (int) (dot.yg - dot.rg);
         params.width = (int) dot.rg * 2;
@@ -36,8 +39,10 @@ public class BuildingView extends View {
             case librariy:image=R.drawable.library;break;
             case office:image=R.drawable.office_building;break;
             case service:image=R.drawable.service;break;
+            case exit:break;
             case crossing:image=R.drawable.crossing;
                 break;
+            default:
         }
         setBackgroundResource(image);
     }
@@ -52,7 +57,7 @@ public class BuildingView extends View {
         if(e.getAction()==MotionEvent.ACTION_DOWN){
             if((e.getX()-dot.rg)*(e.getX()-dot.rg)+(e.getY()-dot.rg)*(e.getY()-dot.rg)<dot.rg*dot.rg){
                 if(getContext() instanceof CampusMapActivity){
-                    ((CampusMapActivity)getContext()).getMainLayout().setTouchedBuilding(this);
+                    onTouch.run();
                 }
             }
         }
@@ -66,5 +71,13 @@ public class BuildingView extends View {
 
     public Building building(Map map){
         return  map.getBuilding(dot.getIndex());
+    }
+}
+
+class onBuildingViewTouched implements Runnable{
+    BuildingView buildingView;
+    @Override
+    public void run() {
+
     }
 }
