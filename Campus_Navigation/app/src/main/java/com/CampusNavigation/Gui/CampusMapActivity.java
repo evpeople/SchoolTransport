@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class CampusMapActivity extends AppCompatActivity {
     private MainLayout mainLayout;
-    private InformationLayout informationlayout;
+    private InformationLayout informationlayout=null;
     private RelativeLayout layout_back;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,9 +46,16 @@ public class CampusMapActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.infoItem:
-                informationlayout=new InformationLayout(CampusMapActivity.this,mainLayout);
-                layout_back.removeView(mainLayout);
-                layout_back.addView(informationlayout);
+                if(informationlayout==null){
+                    informationlayout=new InformationLayout(CampusMapActivity.this,mainLayout);
+                     layout_back.removeView(mainLayout);
+                     layout_back.addView(informationlayout);
+                     //informationlayout.show();
+                }else {
+                    layout_back.removeView(informationlayout);
+                    layout_back.addView(mainLayout);
+                    informationlayout=null;
+                }
                 break;
             default:
                 break;

@@ -8,7 +8,17 @@ import java.util.Calendar;
 import static com.CampusNavigation.GraphImport.Graph.BuildingType.*;
 
 /**
- * 道路类，不同于路径类.
+ * @see Path 道路类，不同于路径类
+ * @see Path#Path(Edge, Building[])
+ * @see Path#Path(int, boolean, Building, Building)
+ * @see Path#getTime()
+ * @see Path#setCrowdDegree(BuildingType)
+ * @see Path#length
+ * @see Path#crowdDegree
+ * @see Path#isBike
+ * @see Path#start
+ * @see Path#end
+ * @see Path#v
  */
 public class Path {
 
@@ -20,6 +30,10 @@ public class Path {
     private Building end;
     private double v;
 
+    /**
+     * @param edge
+     * @param buildings
+     * */
     public Path(Edge edge, Building[] buildings) {
         this.crowdDegree = edge.getDegreeOfCongestion();
         this.isBike = edge.isBikeOk();
@@ -65,6 +79,7 @@ public class Path {
 
     /**
      * 目前暂定将路径分为几个不同的type，分别有自己不同的拥挤度函数，到时候就可以根据type抉择算法了
+     * @param typeOfPath 道路的类型
      */
     public double setCrowdDegree(BuildingType typeOfPath) {
         Calendar currentTime = Calendar.getInstance();

@@ -57,7 +57,7 @@ public class MainLayout extends CoolLinearLayout {
     private TextView stairInfo;
 
 
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     public MainLayout(Context context) throws IOException {
         super(context);
         campus1=new Map(getGraph(Path1),context.getAssets());
@@ -73,7 +73,7 @@ public class MainLayout extends CoolLinearLayout {
         });
         searchWidth=addEdit("搜索范围",searchLayout1);
         LinearLayout searchLayout2=newLinearLayout(Color.YELLOW);
-        //logic=new Logic(campus1,campus2,context);
+        logic=new Logic(campus1,campus2,context);
         addButton("搜索此地",searchLayout2).setOnClickListener((e)->{
             HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
             if(hashSet!=null)for(Building building:hashSet){
@@ -93,10 +93,11 @@ public class MainLayout extends CoolLinearLayout {
         LinearLayout ButtonLayout3=newLinearLayout(Color.WHITE);
         upStairButton=addButton("上楼/进楼",ButtonLayout3);
         downStairButton=addButton("下楼",ButtonLayout3);
-        stairInfo=addText(" ",ButtonLayout3);
-        LinearLayout TextShowLayout=newLinearLayout(Color.YELLOW);
-        targetBuildingText =addText("目的地        ",TextShowLayout);
-        touchedBuildingText=addText("选中位置       ",TextShowLayout);
+        stairInfo=addText("楼层 ",ButtonLayout3);
+        LinearLayout TextShowLayout1=newLinearLayout(Color.YELLOW);
+        targetBuildingText =addText("目的地        ",TextShowLayout1);
+        LinearLayout TextShowLayout2=newLinearLayout((Color.WHITE));
+        touchedBuildingText=addText("选中位置       ",TextShowLayout2);
         //地图
         switchToMap(campus1);
         //学生
@@ -106,8 +107,11 @@ public class MainLayout extends CoolLinearLayout {
             if(studentView.rightNowPosition().getCurrentMap()!=map){
                 switchToMap(studentView.rightNowPosition().getCurrentMap());
             }
-        },startButton,()->{//切换地图时
+        },startButton,()->{//运动中切换地图时
+            if(studentView.rightNowPosition().getCurrentMap().getParent()==null&&map.getParent()==null)
+                Toast.makeText(context,"travel to the other campus!",Toast.LENGTH_SHORT).show();
             mapLayout.deleteStudentView();
+            floor=studentView.rightNowPosition().getNowFloor();
             switchToMap(studentView.rightNowPosition().getCurrentMap());
             setStudentPosition(studentView.rightNowPosition().getNowBuilding());
         });
@@ -160,9 +164,8 @@ public class MainLayout extends CoolLinearLayout {
         //实时展示学生位置
         stuPos=new PosView(context, studentView);
         stuPos.setRight(5);
-//        addView(stuPos);//*
-    }
-    //end Main
+        //addView(stuPos);//*
+    }//end Main
 
 
     private void switchToMap(Map map){
@@ -187,7 +190,7 @@ public class MainLayout extends CoolLinearLayout {
         this.map=map;
         if(map.getParent()==null){floor=-1;stairInfo.setText("在校园");}
         else {
-            stairInfo.setText("在"+specificBuild.nameOfBuildingInChinese+"第"+floor+"楼");
+            stairInfo.setText("在["+specificBuild.nameOfBuildingInEnglish+"]第"+floor+"楼");
         }
     }
 

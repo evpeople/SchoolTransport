@@ -1,5 +1,7 @@
 package com.CampusNavigation.Map;
 
+import androidx.dynamicanimation.animation.SpringAnimation;
+
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
@@ -11,10 +13,12 @@ public class Room extends Building {
   /**
    * 默认是属于校区，值是School1，or  School2 层数默认是0，在Building类中设定的初始值
    */
-  SpecificBuild belongToBuilding;
+  private int floorNum;//在第几层
+  private SpecificBuild belongToBuilding;
   public Room(Dot dot, SpecificBuild belongToBuilding,Map map) {
     super(dot,map);
     this.belongToBuilding=belongToBuilding;
+    this.floorNum=belongToBuilding.floor;
   }
 
   public SpecificBuild getBelongToBuilding() {
@@ -48,5 +52,9 @@ public class Room extends Building {
 
   private Position toPosition() {
     return new Position(null);
+  }
+
+  public int getFloorNum() {
+    return floorNum;
   }
 }
