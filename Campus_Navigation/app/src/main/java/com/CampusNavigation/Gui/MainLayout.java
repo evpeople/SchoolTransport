@@ -23,7 +23,8 @@ import java.io.IOException;
 public class MainLayout extends LinearLayout {
     private static final String Path1="campus1.txt";
     private static final String Path2="campus2.txt";
-    private static final String strategy[]={"最短距离","最短时间","途经最短","自行车"};
+    private static final String strategyInfo[]={"最短距离","最短时间","途经最短","自行车"};
+    private static final String strategy[]={"a","b","c","d"};
     private int strategyIndex=0;
     private Map map;
     private Map campus1;
@@ -71,7 +72,7 @@ public class MainLayout extends LinearLayout {
         setNowPosition=addButton("设为当前位置",ButtonLayout1);
         LinearLayout ButtonLayout2=newLinearLayout(Color.WHITE);
         switchCampus=addButton("切换校区",ButtonLayout2);
-        switchStrategy=addButton("策略:"+strategy[0],ButtonLayout2);
+        switchStrategy=addButton("策略:"+strategyInfo[0],ButtonLayout2);
         getCost=addButton("耗费",ButtonLayout2);
         LinearLayout TextShowLayout=newLinearLayout(Color.YELLOW);
         targetBuildingText =addText("目的地        ",TextShowLayout);
@@ -100,8 +101,8 @@ public class MainLayout extends LinearLayout {
         setTargetBuildingButton.setOnClickListener((e)->{
             if(touchedBuilding ==null)return;
             targetBuilding = touchedBuilding;
-            targetBuildingText.setText("[目的地]："+ targetBuilding.dot().getPosition()+"("+strategy[strategyIndex]+")");
-            studentView.setTargetBuilding(touchedBuilding.building(map),""+(char)(strategyIndex+'a'));
+            targetBuildingText.setText("[目的地]："+ targetBuilding.dot().getPosition()+"("+strategyInfo[strategyIndex]+")");
+            studentView.setTargetBuilding(touchedBuilding.building(map),strategy[strategyIndex]);
         });
         //监听切换校区
         switchCampus.setOnClickListener((e)->{
@@ -113,11 +114,15 @@ public class MainLayout extends LinearLayout {
         //监听导航策略
         switchStrategy.setOnClickListener((e)->{
             strategyIndex=(strategyIndex+1)%4;
-            switchStrategy.setText(strategy[strategyIndex]);
+            switchStrategy.setText(strategyInfo[strategyIndex]);
         });
         //监听耗费获取
         getCost.setOnClickListener((e)->{
-
+            try {
+                getCost.setText("到"+touchedBuilding.dot().getPosition()+"需"+student.getCostToTarget(touchedBuilding.building(map),strategy[strategyIndex],true));
+            } catch (CloneNotSupportedException cloneNotSupportedException) {
+                cloneNotSupportedException.printStackTrace();
+            }
         });
         //监听设置当前位置
         setNowPosition.setOnClickListener((e)->{

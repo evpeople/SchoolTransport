@@ -19,8 +19,8 @@ import java.util.Queue;
 
 public   class StudentView extends View {
     private static final int r=32;
-    private double vWalk=100.0;
-    private double vBike=200.0;
+    private double vWalk=200.0;
+    private double vBike=500.0;
     private ObjectAnimator animatorX;
     private ObjectAnimator animatorY;
     private Student student;

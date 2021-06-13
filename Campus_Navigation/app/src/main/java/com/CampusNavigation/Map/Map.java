@@ -73,7 +73,7 @@ public class Map {
                     if(buildings[now].type==BuildingType.car)indexOfCar=now;
                     break;
             }
-            LOG.d(filePath+" "+now+" "+dot.getType().toString()+" "+dot.getPosition()+" 层数:"+dot.getType().getFloorNum());
+            //LOG.d(filePath+" "+now+" "+dot.getType().toString()+" "+dot.getPosition()+" 层数:"+dot.getType().getFloorNum());
             now++;
         }
         Log.d("Map 初始化", String.valueOf(this.numOfBuildings));

@@ -14,6 +14,7 @@ import com.CampusNavigation.Map.Path;
 import com.CampusNavigation.Map.TableEntry;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -72,7 +73,7 @@ public class Student {
         if(strategy.equals("d"))goByBike=true;
         String postFix=" m";
         if(strategy.equals("b")||strategy.equals("d"))postFix=" s";
-        return ans+postFix;
+        return new DecimalFormat("0.000").format(ans)+postFix;
     }
 
 
