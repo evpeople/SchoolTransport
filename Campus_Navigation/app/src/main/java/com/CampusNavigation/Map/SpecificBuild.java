@@ -36,7 +36,7 @@ public class SpecificBuild extends Building {
         super(dot, map);
         //floor=dot.getType().getFloorNum();
         for (int i = floor; i >= 1; i--) {
-            String path=null;
+            String path;
             switch (dot.getType()){
                 case dorm:path=dormPath;break;
                 case office:path=officepath;break;
@@ -74,8 +74,7 @@ public class SpecificBuild extends Building {
 //    Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
 //        nowPosition.getNowBuilding(), destination, strategy);
 
-        // todo 不同的建筑物。
-        HashMap<Building, Path> shortestRoute = new HashMap<>();
+        HashMap<Building, Path> shortestRoute;
         HashMap<Building, Path> estRoute;
 
         //在同一建筑物中 ，this 就是当前的建筑物
@@ -84,7 +83,6 @@ public class SpecificBuild extends Building {
                 return getShortestRoute(nowPosition.getNowFloor(), floorForDestination, strategy,
                                 mapOfFloor[nowPosition.getNowFloor()]);
             } else {
-                //todo : 更改 0 ,新增获取exit
                 shortestRoute = getShortestRoute(nowPosition.getNowFloor(), 0, strategy, mapOfFloor[nowPosition
                                 .getNowFloor()]);
                 if (nowPosition.getNowFloor() < floorForDestination) {

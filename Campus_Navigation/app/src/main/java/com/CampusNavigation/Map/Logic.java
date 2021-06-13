@@ -38,7 +38,7 @@ public class Logic {
             while(nextStr != null) {
                 currLogicAddr = nextStr + "";                     //赋值curr逻辑地址
                 currSet = new HashSet<>();
-                while((nextStr = in.readLine()).contains("*")) {//若下一行包含“*”，也就说明接下来有赋值逻辑关系类的操作
+                while(((nextStr = in.readLine())!=null)&&nextStr.contains("*")) {//若下一行包含“*”，也就说明接下来有赋值逻辑关系类的操作
                     if (nextStr.equals("*")) {//一颗*代表是大楼
                         nextStr = in.readLine();
                         currCampusNum = nextStr + "";           //存储校区号

@@ -12,11 +12,17 @@ public class Room extends Building {
    * 默认是属于校区，值是School1，or  School2 层数默认是0，在Building类中设定的初始值
    */
   SpecificBuild belongToBuilding;
-  public Room(Dot dot, SpecificBuild belongToBuilding) throws IOException {
-    super(dot,belongToBuilding.map);
+  public Room(Dot dot, SpecificBuild belongToBuilding,Map map) {
+    super(dot,map);
     this.belongToBuilding=belongToBuilding;
   }
-//  /**
+
+  public SpecificBuild getBelongToBuilding() {
+    return belongToBuilding;
+  }
+
+
+  //  /**
 //   * 构造器方法.
 //   *
 //   * @param nameOfBuilding   建筑物的名字
@@ -33,15 +39,14 @@ public class Room extends Building {
 //  }
 //
 
-  public HashMap<Building, Path> getShortestRoute(Building destination) throws IOException {
+  public HashMap<Building, Path> getShortestRoute(Building destination) {
     //注意：返回值告诉你是否到了终点，这个返回还是要原封不动送还算法策略,由于校区也抽象成楼了，所以不必判断是否在楼内？
 //    Route[] a = this.belongToBuilding.getShortestRoute(this.toPosition(), destination,
 //        nameOfBuildingInEnglish);//注意：返回值告诉你是否到了终点，这个返回还是要原封不动送还算法策略
-    HashMap<Building, Path> shortestRoute = new HashMap<>();
-    return shortestRoute;//todo
+    return new HashMap<>();
   }
 
-  private Position toPosition() throws IOException {
-    return new Position(null);//todo 需要详细设计
+  private Position toPosition() {
+    return new Position(null);
   }
 }

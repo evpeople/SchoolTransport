@@ -36,16 +36,22 @@ public class TableEntry {
         {
             case "a":
                 stra=1;
+                break;
             case "b":
                 stra=2;
+                break;
             case "c":
                 stra=3;
+                break;
             case "d":
                 stra=4;
+                break;
             case "e":
                 stra=5;
+                break;
             default:
                 stra=1;
+                break;
         }
     }
     public void setHeader(Building header) {
