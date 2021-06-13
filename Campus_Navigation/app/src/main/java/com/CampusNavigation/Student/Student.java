@@ -22,15 +22,15 @@ import static com.shopgun.android.utils.Tag.TAG;
  * @see Student#Student(Position)  传入一个初始位置构造一位学生
  * @see Student#setTargetBuilding(Building, String, boolean) 设置目标地点为Building所代表的值，同时通过String传入了导航策略，并判断是否选择了班车
  * @see Student#setTargetBuilding(Queue) 获取途径最短导航方式的结果
- * @see Student#getCostToTarget(Building, String, boolean)  获取当前位置到目的地的花费
- * @see Student#getTargetBuildingCost(Position, Building, String, String) 获取
- * @see Student#getTargetBuildingCost(Queue)
- * @see Student#getTargetBuildingCost(Building, String, String)
- * @see Student#getShortestRouteToTarget(Building, String)
- * @see Student#getShortestRouteToTarget(int, String)
- * @see Student#getShortestRouteToTarget(Building, Building, String)
- * @see Student#dealStopInPath(Building, String, String)
- * @see Student#getAround(Building, int)
+ * @see Student#getCostToTarget(Building, String, boolean)  获取当前位置到目的地的时间或长度
+ * @see Student#getTargetBuildingCost(Position, Building, String, String) 获取当前位置到目的地的时间或长度
+ * @see Student#getTargetBuildingCost(Queue) 获取当前位置途径最短的时间或长度
+ * @see Student#getTargetBuildingCost(Building, String, String) 获取当前位置到目的地时间或路程
+ * @see Student#getShortestRouteToTarget(Building, String) 得到最短距离
+ * @see Student#getShortestRouteToTarget(int, String) 得到最短距离
+ * @see Student#getShortestRouteToTarget(Building, Building, String) 得到最短距离
+ * @see Student#dealStopInPath(Building, String, String) 处理当学生停在路中间的情况
+ * @see Student#getAround(Building, int) 获取周边一定距离内的建筑物
  * @see Student#position 学生所在位置
  * @see Student#pathsToGo 学生即将走过的道路
  * @see Student#view 在图形化界面的学生图标
