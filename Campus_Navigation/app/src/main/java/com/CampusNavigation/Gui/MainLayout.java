@@ -51,7 +51,6 @@ public class MainLayout extends CoolLinearLayout {
     private Button getCost;
     private Button upStairButton;
     private Button downStairButton;
-    private BuildingView touchedBuildingView;
     private Building touchedBuilding;
     private Building targetBuilding;
     private EditText searchWidth;
@@ -214,12 +213,10 @@ public class MainLayout extends CoolLinearLayout {
             @Override
             public void run() {
                 super.run();
-                touchedBuildingView = this.buildingView;
-                touchedBuilding=buildingView.building(map);
-                touchedBuildingText.setText("  [选中位置]："+ touchedBuildingView.dot().getPosition()+"("+ touchedBuildingView.dot().getType().toString()+")");
-                if(touchedBuildingView.building(map) instanceof SpecificBuild){
+                setTouchedBuilding(buildingView.building(map));
+                if(touchedBuilding instanceof SpecificBuild){
                     floor=0;
-                    specificBuild=(SpecificBuild) touchedBuildingView.building(map);
+                    specificBuild=(SpecificBuild) touchedBuilding;
                 }
             }
         });
@@ -251,7 +248,7 @@ public class MainLayout extends CoolLinearLayout {
         }
     }
     public Building choosedBuilding(){
-        return touchedBuildingView.building(map);
+        return touchedBuilding;
     }
     public boolean switchByBus(){
         byBus=!byBus;
@@ -271,5 +268,6 @@ public class MainLayout extends CoolLinearLayout {
 
     public void setTouchedBuilding(Building touchedBuilding) {
         this.touchedBuilding= touchedBuilding;
+        touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.nameOfBuildingInEnglish+"("+ touchedBuilding.type.toString()+")");
     }
 }
