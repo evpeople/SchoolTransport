@@ -18,7 +18,7 @@ import com.example.campus_navigation1.R;
 import java.util.Queue;
 
 public   class StudentView extends View {
-    private static final int r=32;
+    private int r=32;
     private double vWalk=200.0;
     private double vBike=500.0;
     private ObjectAnimator animatorX;
@@ -97,7 +97,8 @@ public   class StudentView extends View {
         rightNowPosition().setX(getX());
         rightNowPosition().setY(getY());
     }
-    public RelativeLayout.LayoutParams getStuParams() {
+    public RelativeLayout.LayoutParams getStuParams(int size) {
+        this.r=size;
         RelativeLayout.LayoutParams StuParams;
         StuParams = new  RelativeLayout.LayoutParams( RelativeLayout.LayoutParams.MATCH_PARENT,  RelativeLayout.LayoutParams.MATCH_PARENT);
         StuParams.height=r;
@@ -128,9 +129,6 @@ public   class StudentView extends View {
     public void reSetPosition(){
         setX((float) (rightNowPosition().getX()-r/2));
         setY((float) (rightNowPosition().getY()-r));
-    }
-    public void setRightNowPosition(Position position){
-        student.setPosition(position);
     }
 }
 
