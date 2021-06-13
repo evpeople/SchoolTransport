@@ -1,0 +1,146 @@
+ /* Geogebra to Asymptote conversion, documentation at artofproblemsolving.com/Wiki go to User:Azjps/geogebra */
+import graph; size(0cm); 
+real labelscalefactor = 0.5; /* changes label-to-point distance */
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps); /* default pen style */ 
+pen dotstyle = black; /* point style */ 
+real xmin = -10.135991629384664, xmax = 161.55696939879553, ymin = -16.873530704333632, ymax = 116.57521727565234;  /* image dimensions */
+pen ccwwff = rgb(0.8,0.4,1); pen ubqqys = rgb(0.29411764705882354,0,0.5098039215686274); pen qqffff = rgb(0,1,1); pen ffzzcc = rgb(1,0.6,0.8); pen wwqqcc = rgb(0.4,0,0.8); pen qqzzff = rgb(0,0.6,1); pen cqcqcq = rgb(0.7529411764705882,0.7529411764705882,0.7529411764705882); 
+ /* draw grid of horizontal/vertical lines */
+pen gridstyle = linewidth(0.7) + cqcqcq; real gridx = 10, gridy = 10; /* grid intervals */
+for(real i = ceil(xmin/gridx)*gridx; i <= floor(xmax/gridx)*gridx; i += gridx)
+ draw((i,ymin)--(i,ymax), gridstyle);
+for(real i = ceil(ymin/gridy)*gridy; i <= floor(ymax/gridy)*gridy; i += gridy)
+ draw((xmin,i)--(xmax,i), gridstyle);
+ /* end grid */ 
+
+Label laxis; laxis.p = fontsize(10); 
+xaxis(xmin, xmax, Ticks(laxis, Step = 10, Size = 2, NoZero),EndArrow(6), above = true); 
+yaxis(ymin, ymax, Ticks(laxis, Step = 10, Size = 2, NoZero),EndArrow(6), above = true); /* draws axes; NoZero hides '0' label */ 
+ /* draw figures */
+draw(circle((22.215641855031812,39.95524934392351), 17.784414447760586), linewidth(1.6) + ccwwff); 
+draw((40,40)--(22.215641855031812,39.95524934392351), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((50,25), 5), linewidth(1.6) + ubqqys); 
+draw((50,30)--(50,25), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((65,25), 5), linewidth(1.6) + ubqqys); 
+draw((65,30)--(65,25), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((80,25), 5), linewidth(1.6) + ubqqys); 
+draw((80,30)--(80,25), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((95,25), 5), linewidth(1.6) + ubqqys); 
+draw((95,30)--(95,25), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((50,55), 5), linewidth(1.6) + ubqqys); 
+draw((50,50)--(50,55), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((65,55), 5), linewidth(1.6) + ubqqys); 
+draw((65,50)--(65,55), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((80,55), 5), linewidth(1.6) + ubqqys); 
+draw((80,50)--(80,55), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((95,55), 5), linewidth(1.6) + ubqqys); 
+draw((95,50)--(95,55), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((109.01610175403283,48.96133331557164), 2.89240913306562), linewidth(1.6) + qqffff); 
+draw((107.05452984444297,46.8357119389974)--(109.01610175403283,48.96133331557164), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((106.36703697930169,37.29570517508129), 4.2751869227943065), linewidth(1.6) + ffzzcc); 
+draw((107.6324317489323,33.21207942070284)--(106.36703697930169,37.29570517508129), linewidth(1.6) + blue,EndArrow(6)); 
+draw(circle((122.18447159968437,39.96256281059375), 4.270707347503333), linewidth(1.6) + wwqqcc); 
+draw((117.91376425218104,39.96256281059375)--(122.18447159968437,39.96256281059375), linewidth(1.6) + blue,EndArrow(6)); 
+draw((40,40)--(50,30), linewidth(5.2) + qqzzff); 
+draw((50,30)--(65,30), linewidth(5.2) + qqzzff); 
+draw((65,30)--(80,30), linewidth(5.2) + qqzzff); 
+draw((80,30)--(95,30), linewidth(5.2) + qqzzff); 
+draw((95,30)--(107.6324317489323,33.21207942070284), linewidth(5.2) + qqzzff); 
+draw((40,40)--(50,50), linewidth(5.2) + qqzzff); 
+draw((50,50)--(65,50), linewidth(5.2) + qqzzff); 
+draw((65,50)--(80,50), linewidth(5.2) + qqzzff); 
+draw((80,50)--(95,50), linewidth(5.2) + qqzzff); 
+draw((95,50)--(107.05452984444297,46.8357119389974), linewidth(5.2) + qqzzff); 
+draw((107.05452984444297,46.8357119389974)--(117.91376425218104,39.96256281059375), linewidth(5.2) + qqzzff); 
+draw((95,50)--(95,30), linewidth(5.2) + qqzzff); 
+draw((65,50)--(65,30), linewidth(5.2) + qqzzff); 
+draw((107.6324317489323,33.21207942070284)--(117.91376425218104,39.96256281059375), linewidth(5.2) + qqzzff); 
+ /* dots and labels */
+dot((22.215641855031812,39.95524934392351),dotstyle); 
+label("$lectureHall$", (22.793669789188066,41.650564464120755), NE * labelscalefactor); 
+dot((40,40),dotstyle); 
+label("$leHallExit$", (40.6510483694091,41.650564464120755), NE * labelscalefactor); 
+label("$c$", (13.29157843457504,51.663536498841566), NE * labelscalefactor,ccwwff); 
+label("$u$", (30.985127853509642,39.4062776287523), NE * labelscalefactor,blue); 
+dot((50,25),dotstyle); 
+label("$workshop5$", (50.64462720788141,26.80374386091404), NE * labelscalefactor); 
+dot((50,30),dotstyle); 
+label("$w5Exit$", (50.64462720788141,31.810229878274445), NE * labelscalefactor); 
+label("$d$", (47.368043982152784,25.940556616541556), NE * labelscalefactor,ubqqys); 
+label("$v$", (50.64462720788141,27.666931105286523), NE * labelscalefactor,blue); 
+dot((65,25),dotstyle); 
+label("$workshop6$", (65.71691004623311,26.80374386091404), NE * labelscalefactor); 
+dot((65,30),dotstyle); 
+label("$w6Exit$", (65.71691004623311,31.810229878274445), NE * labelscalefactor); 
+label("$e$", (62.44032682050448,25.940556616541556), NE * labelscalefactor,ubqqys); 
+label("$w$", (65.55308088494668,27.666931105286523), NE * labelscalefactor,blue); 
+dot((80,25),dotstyle); 
+label("$workshop7$", (80.62536372329838,26.80374386091404), NE * labelscalefactor); 
+dot((80,30),dotstyle); 
+label("$w7Exit$", (80.62536372329838,31.810229878274445), NE * labelscalefactor); 
+label("$f$", (77.34878049756975,25.940556616541556), NE * labelscalefactor,ubqqys); 
+label("$a$", (80.62536372329838,27.666931105286523), NE * labelscalefactor,blue); 
+dot((95,25),dotstyle); 
+label("$workshop8$", (95.69764656165007,26.80374386091404), NE * labelscalefactor); 
+dot((95,30),dotstyle); 
+label("$w8Exit$", (95.69764656165007,31.810229878274445), NE * labelscalefactor); 
+label("$g$", (92.42106333592145,25.940556616541556), NE * labelscalefactor,ubqqys); 
+label("$b$", (95.53381740036365,27.666931105286523), NE * labelscalefactor,blue); 
+dot((50,55),dotstyle); 
+label("$workshop4$", (50.64462720788141,56.670022516201975), NE * labelscalefactor); 
+dot((50,50),dotstyle); 
+label("$w4Exit$", (50.64462720788141,51.663536498841566), NE * labelscalefactor); 
+label("$h$", (47.368043982152784,55.80683527182949), NE * labelscalefactor,ubqqys); 
+label("$i$", (49.333993917589964,52.52672374321405), NE * labelscalefactor,blue); 
+dot((65,55),dotstyle); 
+label("$workshop3$", (65.71691004623311,56.670022516201975), NE * labelscalefactor); 
+dot((65,50),dotstyle); 
+label("$w3Exit$", (65.71691004623311,51.663536498841566), NE * labelscalefactor); 
+label("$k$", (62.44032682050448,55.80683527182949), NE * labelscalefactor,ubqqys); 
+label("$j$", (64.24244759465523,52.52672374321405), NE * labelscalefactor,blue); 
+dot((80,55),dotstyle); 
+label("$workshop2$", (80.62536372329838,56.670022516201975), NE * labelscalefactor); 
+dot((80,50),dotstyle); 
+label("$w2Exit$", (80.62536372329838,51.663536498841566), NE * labelscalefactor); 
+label("$p$", (77.34878049756975,55.80683527182949), NE * labelscalefactor,ubqqys); 
+label("$l$", (79.31473043300693,52.52672374321405), NE * labelscalefactor,blue); 
+dot((95,55),dotstyle); 
+label("$workshop1$", (95.69764656165007,56.670022516201975), NE * labelscalefactor); 
+dot((95,50),dotstyle); 
+label("$w1Exit$", (95.69764656165007,51.663536498841566), NE * labelscalefactor); 
+label("$q$", (92.42106333592145,55.80683527182949), NE * labelscalefactor,ubqqys); 
+label("$m$", (94.2231841100722,52.52672374321405), NE * labelscalefactor,blue); 
+dot((109.01610175403283,48.96133331557164),dotstyle); 
+label("$waterRoom$", (109.62312527099675,50.627711805594586), NE * labelscalefactor); 
+dot((107.05452984444297,46.8357119389974),dotstyle); 
+label("$wRExit$", (107.65717533555957,48.55606241910063), NE * labelscalefactor); 
+label("$r$", (107.49334617427314,48.03815007247714), NE * labelscalefactor,qqffff); 
+label("$n$", (107.49334617427314,48.38342497022613), NE * labelscalefactor,blue); 
+dot((106.36703697930169,37.29570517508129),dotstyle); 
+label("$bathroom$", (107.00185869041385,39.061002731003306), NE * labelscalefactor); 
+dot((107.6324317489323,33.21207942070284),dotstyle); 
+label("$bExit$", (108.3124919807053,34.91770395801539), NE * labelscalefactor); 
+label("$s$", (104.21676294854451,37.50726569113284), NE * labelscalefactor,ffzzcc); 
+label("$t$", (106.34654204526812,35.090341406889884), NE * labelscalefactor,blue); 
+dot((122.18447159968437,39.96256281059375),dotstyle); 
+label("$stairs$", (122.8932873351977,41.650564464120755), NE * labelscalefactor); 
+dot((117.91376425218104,39.96256281059375),dotstyle); 
+label("$stairsExit$", (118.63372914175048,41.650564464120755), NE * labelscalefactor); 
+label("$c_1$", (119.94436243204194,40.26946487312478), NE * labelscalefactor,wwqqcc); 
+label("$u_1$", (119.94436243204194,40.78737721974827), NE * labelscalefactor,blue); 
+label("$f_1$", (43.108485788705565,33.018692020395925), NE * labelscalefactor,qqzzff); 
+label("$g_1$", (57.36162282062511,27.32165620753753), NE * labelscalefactor,qqzzff); 
+label("$h_1$", (72.4339056589768,27.32165620753753), NE * labelscalefactor,qqzzff); 
+label("$i_1$", (87.34235933604207,27.32165620753753), NE * labelscalefactor,qqzzff); 
+label("$j_1$", (101.92315469053447,29.048030696282495), NE * labelscalefactor,qqzzff); 
+label("$k_1$", (46.71272733700706,43.031664055116735), NE * labelscalefactor,qqzzff); 
+label("$l_1$", (57.36162282062511,47.34760027697915), NE * labelscalefactor,qqzzff); 
+label("$m_1$", (72.4339056589768,47.34760027697915), NE * labelscalefactor,qqzzff); 
+label("$n_1$", (87.34235933604207,47.34760027697915), NE * labelscalefactor,qqzzff); 
+label("$p_1$", (100.28486307767015,45.79386323710868), NE * labelscalefactor,qqzzff); 
+label("$q_1$", (111.09758772257463,41.132652117497265), NE * labelscalefactor,qqzzff); 
+label("$r_1$", (92.25723417463502,40.096827424250286), NE * labelscalefactor,qqzzff); 
+label("$s_1$", (62.27649765921805,40.096827424250286), NE * labelscalefactor,qqzzff); 
+label("$t_1$", (114.0465126257304,34.3997916113919), NE * labelscalefactor,qqzzff); 
+clip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); 
+ /* end of picture */
