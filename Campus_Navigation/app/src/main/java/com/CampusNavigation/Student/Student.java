@@ -15,6 +15,8 @@ import com.CampusNavigation.Map.Room;
 import com.CampusNavigation.Map.TableEntry;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -43,11 +45,9 @@ public class Student {
     public void setTargetBuilding(Building targetBuilding,String strategy,boolean ByBus) {
         this.targetBuilding = targetBuilding;
         //todo:busType 的输入
-        if (!position.isOnBuilding())
-        {
-            if(ByBus)dealStopInPath(targetBuilding,strategy,"bus");
-            else dealStopInPath(targetBuilding,strategy,"bus");
-        }
+        if(!position.isOnBuilding()) {
+            if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
+            else dealStopInPath(targetBuilding, strategy, "car");
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
@@ -61,7 +61,10 @@ public class Student {
         //todo:busType 的输入
         double ans=0;
         String carType=ByBus?"bus":"car";
-        dealStopInPath(targetBuilding,strategy,carType);
+        if(!position.isOnBuilding()) {
+            if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
+            else dealStopInPath(targetBuilding, strategy, "car");
+        }
         switch (strategy){
             case "c": new Student((Position) position.clone()).getTargetBuildingCost(null); break;
             case "a": case "b": case "d":
@@ -71,7 +74,7 @@ public class Student {
         if(strategy.equals("d"))goByBike=true;
         String postFix=" m";
         if(strategy.equals("b")||strategy.equals("d"))postFix=" s";
-        return ans+postFix;
+        return new DecimalFormat("0.000").format(ans)+postFix;
     }
 
 
@@ -193,7 +196,6 @@ public class Student {
             pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
 
             Queue<Path> pathsToGo2 = new LinkedList<>();
-
             int destinationIndex = destination.index;
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
@@ -258,11 +260,9 @@ public class Student {
         if (endCost>=startCost)
         {
            pathsToGo.add(position.getPath().getStart().map.getPaths()[position.getPath().getEnd().index][position.getPath().getStart().index]);
-            Log.e(TAG, "dealStopInPath: "+"dsdasdasdasdsa" );
-        }else
+        }
         {
             pathsToGo.add(position.getPath());
-            Log.e(TAG, "dealStopInPath: "+"sadasdasdasdasdsadasdasdasdasdasdsadsadsadawsWWWWWWWWWWWWWWWWWWWWWWWWWWWW" );
         }
     }
     private Queue<Pair<Building,Double>>getAround(Building center,int deepth)

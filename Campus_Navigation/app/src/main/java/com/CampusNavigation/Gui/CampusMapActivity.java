@@ -6,7 +6,6 @@ import android.widget.RelativeLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.CampusNavigation.Gui.information.informationActivity;
 import com.CampusNavigation.Log.LOG;
 import com.example.campus_navigation1.R;
 

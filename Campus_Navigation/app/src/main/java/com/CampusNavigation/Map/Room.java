@@ -12,9 +12,9 @@ public class Room extends Building {
    * 默认是属于校区，值是School1，or  School2 层数默认是0，在Building类中设定的初始值
    */
   SpecificBuild belongToBuilding;
-
-  public Room(Dot dot, Map map) throws IOException {
-    super(dot, map);
+  public Room(Dot dot, SpecificBuild belongToBuilding) throws IOException {
+    super(dot,belongToBuilding.map);
+    this.belongToBuilding=belongToBuilding;
   }
 //  /**
 //   * 构造器方法.
