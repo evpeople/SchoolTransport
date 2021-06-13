@@ -1,9 +1,10 @@
 package com.CampusNavigation.Gui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.CampusNavigation.Map.Building;
 import com.example.campus_navigation1.R;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 
 public class CampusMapActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class CampusMapActivity extends AppCompatActivity {
     private InformationLayout informationlayout=null;
     private RelativeLayout layout_back;
     private CoolLinearLayout showingQueue=null;
+    private CoolLinearLayout answerLayout=null;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,12 +83,38 @@ public class CampusMapActivity extends AppCompatActivity {
                 }
 
                 break;
+            case R.id.answer:
+                if(answerLayout==null){
+                    layout_back.removeView(mainLayout);
+                    answerLayout=new CoolLinearLayout(this);
+                    answerLayout.setOrientation(LinearLayout.VERTICAL);
+                    answerLayout.addText("附近搜索结果：",answerLayout);
+                    for(Pair<Building, Double> pair:mainLayout.getARound()){
+                         Button button=answerLayout.addButton(pair.first.nameOfBuildingInEnglish+" is "+new DecimalFormat("0.000").format(pair.second)+" m away.",answerLayout);
+                         button.setOnClickListener((e)->{
+                             mainLayout.setTouchedBuilding(pair.first);
+                         });
+                    }
+                    answerLayout.addText("文字搜索结果：",answerLayout);
+                    for(Building ans:mainLayout.getSearchAnswer()){
+                        Button button=answerLayout.addButton(ans.nameOfBuildingInEnglish,answerLayout);
+                        button.setOnClickListener((e)->{
+                            mainLayout.setTouchedBuilding(ans);
+                        });
+                    }
+                    layout_back.addView(answerLayout);
+                }else{
+                    layout_back.removeView(answerLayout);
+                    layout_back.addView(mainLayout);
+                    answerLayout=null;
+                }
+                break;
             case R.id.ByBus:
                 String carType;
                 if(mainLayout.switchByBus()){
                     carType="bus";
                 }else carType="car";
-                Toast.makeText(this,"you will travel to the other campus by"+carType,Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"you will travel to the other campus by "+carType,Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
