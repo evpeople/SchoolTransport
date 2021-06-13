@@ -18,7 +18,25 @@ import java.util.Queue;
 import static com.shopgun.android.utils.log.LogUtil.TAG;
 import com.CampusNavigation.Log.LOG;
 /**
- * 地图类.
+ * @see Map 地图类
+ * @see Map#Map(Graph, AssetManager)
+ * @see Map#Map(Map, int, Graph, AssetManager, SpecificBuild)  
+ * @see Map#Map(int) 
+ * @see Map#getByGraph(Graph, AssetManager, SpecificBuild)  
+ * @see Map#getBuildingsOrder(String)  
+ * @see Map#initTable(Map, TableEntry[])  
+ * @see Map#getAroundTable(int, int)  
+ * @see Map#dijkstra(int)  
+ * @see Map#updateTableEntry(TableEntry[], TableEntry)
+ * @see Map#numOfBuildings
+ * @see Map#buildings
+ * @see Map#paths
+ * @see Map#isCampus
+ * @see Map#floor
+ * @see Map#parent
+ * @see Map#indexOfBus
+ * @see Map#indexOfCar
+ * @see Map#indexOfExit
  */
 public class Map {
     public static final int MaxNumOfDots = 150;
@@ -45,6 +63,14 @@ public class Map {
         getByGraph(graph, asset,null);
     }
 
+    /**
+     * @param map
+     * @param floor
+     * @param graph
+     * @param asset
+     * @param build
+     * @exception IOException 读取文件出错
+     * */
     public Map(Map map,int floor,Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
         this.filePath=graph.filePath;
         isCampus=false;
@@ -54,6 +80,12 @@ public class Map {
         getByGraph(graph,asset,build);
     }
 
+    /**
+     * @param graph
+     * @param asset
+     * @param build
+     * @exception IOException 读取文件出错
+     * */
     private void getByGraph(Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
         int now = 0;
         for (Dot dot : graph.getDots()) {
@@ -112,6 +144,10 @@ public class Map {
         return buildings[index];
     }
 
+    /**
+     * @param nameOfBuilding 传入建筑物的唯一英文名
+     * @return 返回对应建筑物在地图中的序号
+     * */
     public int getBuildingsOrder(String nameOfBuilding) {
         int order, judgeOrder = 0;
         for (order = 0; order < MaxNumOfDots; order++) {
@@ -126,6 +162,10 @@ public class Map {
         return order;
     }
 
+    /**
+     * @param graph
+     * @param t
+     * */
     private void initTable(Map graph, TableEntry[] t) {
         for (int i = 0; i < graph.numOfBuildings; i++) {
             t[i] = new TableEntry(i, graph.buildings[i], false, Double.POSITIVE_INFINITY, null);
@@ -134,7 +174,8 @@ public class Map {
     }
 
     /**
-     *
+     * @param vertex
+     * @param deepth
      * @return 一个DJ算法所用表
      */
     protected LinkedList<TableEntry> getAroundTable(int vertex,int deepth)
@@ -153,6 +194,10 @@ public class Map {
         return ans;
     }
 
+    /**
+     * @param vertex
+     * @return
+     * */
     protected TableEntry[] dijkstra(int vertex) {
         int orginalVertex=vertex;
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
@@ -177,6 +222,11 @@ public class Map {
         return tableEntries;
     }
 
+    /**
+     * @param tableEntries
+     * @param known
+     * @return
+     * */
     private int updateTableEntry(TableEntry[] tableEntries, TableEntry known) {
         Path[] temp = this.paths[known.getNumOfBuilding()];
         double dv = Double.POSITIVE_INFINITY;

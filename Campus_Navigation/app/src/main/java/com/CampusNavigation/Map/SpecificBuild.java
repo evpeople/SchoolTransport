@@ -15,9 +15,16 @@ import java.util.HashMap;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 
-
 /**
- * 楼类有层，有图的数组，有道路的数组.
+ * @see SpecificBuild 楼类有层，有图的数组，有道路的数组
+ * @see SpecificBuild#SpecificBuild(Dot, Map, AssetManager)  通过生成的图构建邻接表，构造具体建筑物对象
+ * @see SpecificBuild#getExit(int)
+ * @see SpecificBuild#inBuilding(String)
+ * @see SpecificBuild#getShortestRoute(int, int, String, Map)
+ * @see SpecificBuild#getMapOfFloor(int)
+ * @see SpecificBuild#mapOfFloor
+ * @see SpecificBuild#upStairs
+ * @see SpecificBuild#downStairs
  */
 public class SpecificBuild extends Building {
     public static final String dormPath="dorm.txt";
@@ -32,6 +39,12 @@ public class SpecificBuild extends Building {
     Path[] upStairs = new Path[maxOfFloor + 2];//上楼梯数组 i->i+1
     Path[] downStairs = new Path[maxOfFloor+2];//下楼梯数组 i->i-1
 
+    /**
+     * @param dot
+     * @param map
+     * @param assetManager
+     * @exception IOException 读取文件错误
+     * */
     public SpecificBuild(Dot dot, Map map, AssetManager assetManager) throws IOException {
         super(dot, map);
         for ( floor=1; floor<=dot.getType().getFloorNum(); floor++) {
@@ -61,6 +74,9 @@ public class SpecificBuild extends Building {
 
     }
 
+    /**
+     * @param Floorindex
+     * */
     private Building getExit(int Floorindex){
         return mapOfFloor[Floorindex].getBuilding(mapOfFloor[Floorindex].IndexOfExit());
     }
@@ -160,6 +176,9 @@ public class SpecificBuild extends Building {
 
     }
 
+    /**
+     * @param index
+     * */
     public Map getMapOfFloor (int index) {
         return mapOfFloor[index];
     }
