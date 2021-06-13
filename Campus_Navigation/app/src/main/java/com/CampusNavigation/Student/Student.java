@@ -259,6 +259,7 @@ public class Student {
         }
         Position temp =new Position(posBuilding);
         Student temp2=new Student(temp);
+        //todo: 此处new了 一个Student
         temp2.getShortestRouteToTarget(destination,strategy);
         pathsToGo.addAll(temp2.pathsToGo);
         }
