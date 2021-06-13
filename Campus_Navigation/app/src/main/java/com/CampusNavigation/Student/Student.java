@@ -80,8 +80,10 @@ public class Student {
         }
     public void setTargetBuilding(Queue<Building> targetBuilding,  boolean ByBus) {
         String carType=ByBus?"bus":"car";
-        dealStopInPath(targetBuilding.peek(),"a",carType);
-                setTargetBuilding(targetBuilding);
+        if (!position.isOnBuilding()) {
+            dealStopInPath(targetBuilding.peek(), "a", carType);
+        }
+        setTargetBuilding(targetBuilding);
     }
 
 
