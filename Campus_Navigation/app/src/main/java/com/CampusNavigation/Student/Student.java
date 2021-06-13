@@ -106,7 +106,7 @@ public class Student {
     }
 
     /**
-     * @param targetBuilding
+     * @param targetBuilding 即将途径的建筑物队列
      * */
     public void setTargetBuilding(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
@@ -118,7 +118,7 @@ public class Student {
     }
 
     /**
-     * @param targetBuilding
+     * @param targetBuilding 即将途径的建筑物队列
      * */
     public double getTargetBuildingCost(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
@@ -134,7 +134,7 @@ public class Student {
     }
 
     /**
-     * @param position
+     * @param position 用户所在位置
      * @param destination 目标建筑物
      * @param strategy 使用的导航策略
      * @param carType 使用的交通工具
@@ -305,7 +305,7 @@ public class Student {
 
     /**
      * @param destination 目标建筑物
-     * @param posBuilding
+     * @param posBuilding 当前所在建筑物
      * @param strategy 使用的导航策略
      * */
     private void getShortestRouteToTarget(Building destination, Building posBuilding, String strategy) {

@@ -18,13 +18,13 @@ import static java.lang.Math.max;
 /**
  * @see SpecificBuild 楼类有层，有图的数组，有道路的数组
  * @see SpecificBuild#SpecificBuild(Dot, Map, AssetManager)  通过生成的图构建邻接表，构造具体建筑物对象
- * @see SpecificBuild#getExit(int)
- * @see SpecificBuild#inBuilding(String)
- * @see SpecificBuild#getShortestRoute(int, int, String, Map)
- * @see SpecificBuild#getMapOfFloor(int)
- * @see SpecificBuild#mapOfFloor
- * @see SpecificBuild#upStairs
- * @see SpecificBuild#downStairs
+ * @see SpecificBuild#getExit(int) 寻找目标楼层的出口
+ * @see SpecificBuild#inBuilding(String) 通过名字是否相同判断是否在同一栋楼
+ * @see SpecificBuild#getShortestRoute(int, int, String, Map) 最短路径算法
+ * @see SpecificBuild#getMapOfFloor(int) 得到目标楼层的地图
+ * @see SpecificBuild#mapOfFloor 楼层地图
+ * @see SpecificBuild#upStairs 上楼的道路组
+ * @see SpecificBuild#downStairs 下楼的道路组
  */
 public class SpecificBuild extends Building {
     public static final String dormPath="dorm.txt";
@@ -40,9 +40,8 @@ public class SpecificBuild extends Building {
     Path[] downStairs = new Path[maxOfFloor+2];//下楼梯数组 i->i-1
 
     /**
-     * @param dot
-     * @param map
-     * @param assetManager
+     * @param dot 顶点
+     * @param map 所在地图
      * @exception IOException 读取文件错误
      * */
     public SpecificBuild(Dot dot, Map map, AssetManager assetManager) throws IOException {
@@ -75,7 +74,8 @@ public class SpecificBuild extends Building {
     }
 
     /**
-     * @param Floorindex
+     * @param Floorindex 要找出口的楼层号
+     * @return  找到的出口，作为建筑物类型返回
      * */
     private Building getExit(int Floorindex){
         return mapOfFloor[Floorindex].getBuilding(mapOfFloor[Floorindex].IndexOfExit());
@@ -140,7 +140,7 @@ public class SpecificBuild extends Building {
 
 
     /**
-     * 通过名字是否相同判断是否在同一栋楼.
+     * @param nameOfBuilding 目标建筑名
      */
     private boolean inBuilding(String nameOfBuilding) {
         return this.nameOfBuildingInChinese.equals(nameOfBuilding);
@@ -162,13 +162,12 @@ public class SpecificBuild extends Building {
 //        SpecificBuild test1 = new SpecificBuild("I am test", 3, a, b, 4, c, d, ex);
 //    }
     /**
-     *
-     * 实际使用的最短路径
+     * 实际使用的最短路径算法
      * @param nowPositionIndex 当前建筑为序列号
      * @param destinationIndex 目标建筑为序列号
      * @param strategy  导航方式
      * @param map  在那张地图上使用
-     * @return  Ver的哈希表
+     * @return  建筑物-道路哈希表
      */
     public static   HashMap<Building, Path> getShortestRoute(int nowPositionIndex, int destinationIndex,
                                                      String strategy, Map map) {
@@ -177,7 +176,7 @@ public class SpecificBuild extends Building {
     }
 
     /**
-     * @param index
+     * @param index 需要地图的楼层号
      * */
     public Map getMapOfFloor (int index) {
         return mapOfFloor[index];
