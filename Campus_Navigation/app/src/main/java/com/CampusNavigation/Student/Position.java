@@ -29,10 +29,6 @@ public class Position implements Cloneable {
     return currentMap;
   }
 
-  public void setCurrentMap(Map currentMap) {
-    this.currentMap = currentMap;
-  }
-
   public Path getPath() {
     return path;
   }
@@ -55,6 +51,7 @@ public class Position implements Cloneable {
 
   public void setNowBuilding(Building nowBuilding) {
     this.nowBuilding = nowBuilding;
+    this.currentMap=nowBuilding.map;
   }
 
   public void setX(double x) {

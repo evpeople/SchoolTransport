@@ -2,6 +2,7 @@ package com.CampusNavigation.Gui;
 
 import android.content.Context;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.Map.Building;
@@ -32,13 +33,17 @@ public    class MapLayout extends ZoomLayout {
             studentView.setX((int)studentView.rightNowPosition().getX());
             studentView.setY(((int)studentView.rightNowPosition().getY()));
         }
-        allBuildings.addView(this.student,this.student.getStuParams());
+        int size=32;
+        if(this.student.rightNowPosition().getCurrentMap().getParent()!=null){size=5;}
+        allBuildings.addView(this.student,this.student.getStuParams(size));
     }
     public void SetStudentViewPosition(StudentView studentView){
         if(this.student!=null)deleteStudentView();
         this.student=studentView;
         studentView.reSetPosition();
-        allBuildings.addView(this.student,this.student.getStuParams());
+        int size=32;
+        if(this.student.rightNowPosition().getCurrentMap().getParent()!=null){size=5;}
+        allBuildings.addView(this.student,this.student.getStuParams(size));
     }
     public void deleteStudentView(){
         if(student!=null)allBuildings.removeView(student);
