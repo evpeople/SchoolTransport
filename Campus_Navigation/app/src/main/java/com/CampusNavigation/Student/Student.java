@@ -133,12 +133,21 @@ public class Student {
         if (position.getNowBuilding() == targetBuilding.peek()) {
             return;
         }
+
         while (!targetBuilding.isEmpty()) {
-            Position temp = new Position(targetBuilding.peek());
+            Position temp = new Position(targetBuilding.poll());
             Student temp2 = new Student(temp);
-            temp2.getShortestRouteToTarget(targetBuilding.poll(), "a");
+            Building temp3=targetBuilding.poll();
+            if (temp3==null)
+            {
+                temp2.getShortestRouteToTarget(temp.getNowBuilding(),"c");
+            }else
+            {
+                temp2.getShortestRouteToTarget(temp3,"c");
+            }
             pathsToGo.addAll(temp2.pathsToGo);
         }
+        int x=2;
     }
 
     /**
