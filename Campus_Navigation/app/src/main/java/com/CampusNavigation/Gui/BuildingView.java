@@ -14,7 +14,6 @@ import com.example.campus_navigation1.R;
 public class BuildingView extends View {
     private RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     private Dot dot;
-
     public BuildingView(Context context, Dot dot) {
         super(context);
         params.leftMargin = (int) (dot.xg - dot.rg);

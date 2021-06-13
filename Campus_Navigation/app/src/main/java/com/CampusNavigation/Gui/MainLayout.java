@@ -146,7 +146,6 @@ public class MainLayout extends CoolLinearLayout {
         Graph graph=getGraph(map.filePath);
         mapLayout = new MapLayout(getContext(),graph);
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
         if(studentView!=null&&studentView.rightNowPosition().getCurrentMap()==map)mapLayout.SetStudentView(studentView);
         addView(mapLayout, params_map);//*
         this.map=map;
@@ -171,4 +170,6 @@ public class MainLayout extends CoolLinearLayout {
     public Building choosedBuilding(){
         return touchedBuilding.building(map);
     }
+
+
 }

@@ -10,7 +10,6 @@
         android:roundIcon="@drawable/avatar"
         android:supportsRtl="true"
         android:theme="@style/Theme.Campus_Navigation">
-        <activity android:name="com.CampusNavigation.Gui.informationActivity"></activity>
         <activity
             android:name="com.CampusNavigation.Gui.CampusMapActivity"
             tools:ignore="Instantiatable">
