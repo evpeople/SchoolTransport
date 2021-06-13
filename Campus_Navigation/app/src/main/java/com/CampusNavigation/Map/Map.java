@@ -180,6 +180,10 @@ public class Map {
 
     private int updateTableEntry(TableEntry[] tableEntries, TableEntry known) {
         Path[] temp = this.paths[known.getNumOfBuilding()];
+        for (int i=0;i<=temp.length;i++)
+        {
+            temp[i].setCrowdDegree(temp[i].getStart().type);
+        }
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
 //更新完之后，当前表中最低的点
