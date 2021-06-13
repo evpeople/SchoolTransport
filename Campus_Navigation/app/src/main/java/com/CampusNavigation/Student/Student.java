@@ -44,6 +44,7 @@ public class Student {
         if (!position.isOnBuilding()) {
             if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
             else dealStopInPath(targetBuilding, strategy, "car");
+        }
             switch (strategy) {
                 case "c":
                     setTargetBuilding(null);
@@ -58,7 +59,7 @@ public class Student {
             }
             if (strategy.equals("d")) goByBike = true;
         }
-    }
+
     //唯二共前端调用接口
     public String getCostToTarget(Building targetBuilding,String strategy,boolean ByBus) throws CloneNotSupportedException {
         double ans=0;
