@@ -1,9 +1,5 @@
 package com.CampusNavigation.Student;
 
-/**
- * 学生类的基础架子.
- */
-
 import android.util.Log;
 import android.util.Pair;
 
@@ -21,6 +17,25 @@ import java.util.Queue;
 
 import static com.shopgun.android.utils.Tag.TAG;
 
+/**
+ * @see Student 学生类的基础架子.
+ * @see Student#Student(Position)  传入一个初始位置构造一位学生
+ * @see Student#setTargetBuilding(Building, String, boolean)  
+ * @see Student#setTargetBuilding(Queue)
+ * @see Student#getCostToTarget(Building, String, boolean)  
+ * @see Student#getTargetBuildingCost(Position, Building, String, String)  
+ * @see Student#getTargetBuildingCost(Queue)  
+ * @see Student#getTargetBuildingCost(Building, String, String)  
+ * @see Student#getShortestRouteToTarget(Building, String)  
+ * @see Student#getShortestRouteToTarget(int, String)  
+ * @see Student#getShortestRouteToTarget(Building, Building, String)  
+ * @see Student#dealStopInPath(Building, String, String)  
+ * @see Student#getAround(Building, int)
+ * @see Student#position 学生所在位置
+ * @see Student#pathsToGo 学生即将走过的道路
+ * @see Student#view 在图形化界面的学生图标
+ * @see Student#goByBike 学生是否处于使用自行车的状态
+ */
 public class Student {
 
     private Position position;
@@ -31,14 +46,17 @@ public class Student {
     private boolean goByBike;
 
     /**
-     *
      * @param position   学生位置
      */
     public Student(Position position) {
         this.position = position;
         this.walkSpeed = 60;//初始速度60米每分钟
     }
-
+    /**
+     * @param targetBuilding 目标地点建筑物
+     * @param strategy 使用的导航策略
+     * @param ByBus 学生是否乘坐巴士
+     * */
     //唯一供前端调用接口
     public void setTargetBuilding(Building targetBuilding, String strategy, boolean ByBus) {
         String carType=ByBus?"bus":"car";
@@ -61,6 +79,12 @@ public class Student {
             if (strategy.equals("d")) goByBike = true;
         }
 
+
+    /**
+     * @param targetBuilding 目标地点建筑物
+     * @param strategy 使用的导航策略
+     * @param ByBus 学生是否乘坐巴士
+     * */
     //唯二共前端调用接口
     public String getCostToTarget(Building targetBuilding,String strategy,boolean ByBus) throws CloneNotSupportedException {
         double ans=0;
@@ -81,7 +105,9 @@ public class Student {
         return new DecimalFormat("0.000").format(ans)+postFix;
     }
 
-
+    /**
+     * @param targetBuilding
+     * */
     public void setTargetBuilding(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
         getShortestRouteToTarget(targetBuilding.poll(), "a");
@@ -90,6 +116,10 @@ public class Student {
         }
         //if(position.getNowBuilding()==null);
     }
+
+    /**
+     * @param targetBuilding
+     * */
     public double getTargetBuildingCost(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
         double cost;
@@ -103,9 +133,21 @@ public class Student {
         //if(position.getNowBuilding()==null);
     }
 
+    /**
+     * @param position
+     * @param destination 目标建筑物
+     * @param strategy 使用的导航策略
+     * @param carType 使用的交通工具
+     * */
     static public  double getTargetBuildingCost(Position position,Building destination, String strategy, String carType) {
         return new Student(position).getTargetBuildingCost( destination, strategy, carType);
     }
+
+    /**
+     * @param destination 目标建筑物
+     * @param strategy 使用的导航策略
+     * @param carType 使用的交通工具
+     * */
     /* 得到各种形式的花费*/
     public double getTargetBuildingCost(Building destination, String strategy, String carType) {
         TableEntry.setStrategy(strategy);
@@ -144,7 +186,10 @@ public class Student {
         return totalTime;
     }
 
-
+    /**
+     * @param destination 目标建筑物
+     * @param strategy 使用的导航策略
+     * */
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
         if (!strategy.equals("c")&&position.isOnBuilding)//todo:not understand
@@ -250,7 +295,11 @@ public class Student {
         }
     }
 
-
+    /**
+     * @param destination 目标建筑物
+     * @param posBuilding
+     * @param strategy 使用的导航策略
+     * */
     private void getShortestRouteToTarget(Building destination, Building posBuilding, String strategy) {
         TableEntry.setStrategy(strategy);
         int nowPositinIndex = posBuilding.index;
@@ -262,7 +311,7 @@ public class Student {
         //todo: 此处new了 一个Student
         temp2.getShortestRouteToTarget(destination,strategy);
         pathsToGo.addAll(temp2.pathsToGo);
-        }
+    }
 
     private void getShortestRouteToTarget(int destinationIndex, String strategy) {
         Building destination = position.getCurrentMap().getBuilding(destinationIndex);
@@ -280,6 +329,12 @@ public class Student {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    /**
+     * @param destination 目标建筑物
+     * @param strategy 使用的导航策略
+     * @param carType 使用的交通工具
+     * */
     private void dealStopInPath(Building destination, String strategy,String carType)
     {
         pathsToGo.clear();
@@ -295,6 +350,11 @@ public class Student {
             pathsToGo.add(position.getPath());
         }
     }
+
+    /**
+     * @param center 指定其周边的目标建筑物
+     * @param deepth 指定附近的最大距离
+     * */
     private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
     {
         return center.map.getAround(center.index,deepth);

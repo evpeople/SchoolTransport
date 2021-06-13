@@ -6,7 +6,15 @@ import com.CampusNavigation.Map.*;
 import java.io.IOException;
 
 /**
- * 学生当前位置.
+ * @see Position 学生当前位置
+ * @see Position#Position(Building) 指定一个建筑物的坐标构造当前位置
+ * @see Position#isOnBuilding 学生是否处于建筑物相同位置，若false则代表在路上
+ * @see Position#nowBuilding 现在处于相同位置的建筑物
+ * @see Position#currentMap 学生处于的地图
+ * @see Position#nowFloor 学生处于的楼层
+ * @see Position#path 学生处于的道路
+ * @see Position#x 学生处于物理位置的X坐标
+ * @see Position#y 学生处于的物理位置的Y坐标
  */
 public class Position implements Cloneable {
   boolean isOnBuilding;
@@ -62,7 +70,9 @@ public class Position implements Cloneable {
     this.y = y;
   }
 
-
+/**
+ * @param building 指定为位置的建筑物
+ * */
   public Position(Building building) {
     this.currentMap=building.map;
     this.nowBuilding=building;

@@ -73,7 +73,7 @@ public class MainLayout extends CoolLinearLayout {
         });
         searchWidth=addEdit("搜索范围",searchLayout1);
         LinearLayout searchLayout2=newLinearLayout(Color.YELLOW);
-        //logic=new Logic(campus1,campus2,context);
+        logic=new Logic(campus1,campus2,context);
         addButton("搜索此地",searchLayout2).setOnClickListener((e)->{
             HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
             if(hashSet!=null)for(Building building:hashSet){

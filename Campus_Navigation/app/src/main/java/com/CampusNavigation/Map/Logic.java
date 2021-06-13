@@ -10,6 +10,20 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+/**
+ * @see Logic 导览系统的物理-逻辑地址相对应逻辑类
+ * @see Logic#Logic(Map, Map, Context) 导入两个校区的地图初始化导览逻辑类
+ * @see Logic#findPhyAddr(String) 通过传入的逻辑地址（字符串）寻到并返回其对应的物理地址集合
+ * @see Logic#campusOne 校区一
+ * @see Logic#campusTwo 校区二
+ * @see Logic#searcher 全局逻辑地址-逻辑关系对应表
+ * @see Logic.logicRelation 存储逻辑关系的结构体
+ * @see Logic.logicRelation#type 对应建筑物类型
+ * @see Logic.logicRelation#campusNum 对应所在的校区
+ * @see Logic.logicRelation#indexOfBuild 对应建筑物所在大楼的地图内序号
+ * @see Logic.logicRelation#floorNum 对应建筑物所在层号
+ * @see Logic.logicRelation#indexOfRoom 对应建筑物所在楼层地图内的序号
+ * */
 public class Logic {
     public final static int NULL = 0;
     public final static int BUILD = 1;
@@ -17,9 +31,13 @@ public class Logic {
 
     private final Map campusOne;
     private final Map campusTwo;
-    private HashMap<String, HashSet<logicRelation>> searcher = new HashMap<>();//逻辑地址-逻辑关系对应表
+    private HashMap<String, HashSet<logicRelation>> searcher = new HashMap<>();
 
-
+    /**
+     * @param campusOne 传入校区一
+     * @param campusTwo 传入校区二
+     * @param context 读文件用
+     * */
     public Logic(Map campusOne, Map campusTwo, Context context) {               //使用方法：主流程内先实例化一个logic对象
         this.campusOne = campusOne;                            //调用方法：在需要找到逻辑地址对应建筑时
         this.campusTwo = campusTwo;                            //调用方法：调用findPhyAddr(逻辑地址)
@@ -38,7 +56,7 @@ public class Logic {
             while(nextStr != null) {
                 currLogicAddr = nextStr + "";                     //赋值curr逻辑地址
                 currSet = new HashSet<>();
-                while(((nextStr = in.readLine())!=null)&&nextStr.contains("*")) {//若下一行包含“*”，也就说明接下来有赋值逻辑关系类的操作
+                while(((nextStr = in.readLine()) != null) && (nextStr.contains("*"))) {//若下一行包含“*”，也就说明接下来有赋值逻辑关系类的操作
                     if (nextStr.equals("*")) {//一颗*代表是大楼
                         nextStr = in.readLine();
                         currCampusNum = nextStr + "";           //存储校区号
@@ -68,6 +86,9 @@ public class Logic {
 
     }
 
+    /**
+     * @param logicAddr 传入的逻辑地址
+     * */
     public HashSet<Building> findPhyAddr(String logicAddr) {
         HashSet<Building> retBuild = new HashSet<>();
         HashSet<logicRelation> currFound = this.searcher.get(logicAddr);
