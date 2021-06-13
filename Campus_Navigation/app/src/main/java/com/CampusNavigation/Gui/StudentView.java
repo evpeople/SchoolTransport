@@ -53,7 +53,9 @@ public   class StudentView extends View {
         if(toReach!=null){//运动
             double v=vWalk;
             if(student.isGoByBike()&&rightNowPosition().getPath().isBike())v=vBike;
-            setAnimateMoveTo((int)toReach.mathX,(int)toReach.mathY,v*rightNowPosition().getPath().CrowdDegree());
+            v*=rightNowPosition().getPath().CrowdDegree();
+            if(v<0)v=12.0;
+            setAnimateMoveTo((int)toReach.mathX,(int)toReach.mathY,v);
             animatorX.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationStart(Animator animation) {

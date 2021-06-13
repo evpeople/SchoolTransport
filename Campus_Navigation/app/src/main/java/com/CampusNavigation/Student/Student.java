@@ -414,7 +414,7 @@ public class Student {
      * @param center 指定其周边的目标建筑物
      * @param deepth 指定附近的最大距离
      * */
-    private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
+    public Queue<Pair<Building,Double>>getAround(Building center,int deepth)
     {
         return center.map.getAround(center.index,deepth);
 

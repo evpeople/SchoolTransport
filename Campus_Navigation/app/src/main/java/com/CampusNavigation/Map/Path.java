@@ -122,6 +122,8 @@ public class Path {
             default:
                 result = 0.75;
         }
+        if(result<0.1)result=0.1;
+        else if(result>1)result=1;
         crowdDegree=result;
         return result;
     }

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.text.Layout;
+import android.util.Pair;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,14 +51,16 @@ public class MainLayout extends CoolLinearLayout {
     private Button getCost;
     private Button upStairButton;
     private Button downStairButton;
-    private BuildingView touchedBuilding;
-    private BuildingView targetBuilding;
+    private Building touchedBuilding;
+    private Building targetBuilding;
     private EditText searchWidth;
     private EditText searchWindow;
     private Logic logic;
     private TextView stairInfo;
     private Queue<Building> queue=new LinkedList<>();
     private boolean byBus=true;
+    private Queue<Pair<Building,Double>> ARound=new LinkedList<>();
+    private HashSet<Building> SearchAnswer=new HashSet<>();
 
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     public MainLayout(Context context) throws IOException {
@@ -72,24 +74,36 @@ public class MainLayout extends CoolLinearLayout {
         //editable.
         LinearLayout searchLayout1=newLinearLayout(Color.YELLOW);
         addButton("搜索附近",searchLayout1).setOnClickListener((e)->{
+            int len=Integer.parseInt(searchWidth.getText().toString());
+           if(student.getAround(touchedBuilding,len)!=null){
+               ARound=student.getAround(touchedBuilding,len);
+            Toast.makeText(context,"find"+ARound.size()+"answers.",Toast.LENGTH_SHORT).show();
+           }
             //...
         });
         searchWidth=addEdit("搜索范围",searchLayout1);
         LinearLayout searchLayout2=newLinearLayout(Color.YELLOW);
         logic=new Logic(campus1,campus2,context);
         addButton("搜索此地",searchLayout2).setOnClickListener((e)->{
-            HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
-            if(hashSet!=null)for(Building building:hashSet) {
-                searchWindow.setText(building.nameOfBuildingInEnglish);
+
+            if(logic.findPhyAddr(searchWindow.getText().toString())!=null){
+                SearchAnswer=logic.findPhyAddr(searchWindow.getText().toString());
+                Toast.makeText(context,"find"+SearchAnswer.size()+"answers.",Toast.LENGTH_SHORT).show();
             }
-            if (searchWindow.getText().toString().equals("食堂"))
-            if(hashSet!=null)for(Building building:hashSet){
-                    int x= (int) (System.currentTimeMillis() & hashSet.size());
-                    if (x%2==0)
-                    {
-                        //todo: 写一个totast
-                    }
-                }
+//=======
+//            HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
+//            if(hashSet!=null)for(Building building:hashSet) {
+//                searchWindow.setText(building.nameOfBuildingInEnglish);
+//            }
+//            if (searchWindow.getText().toString().equals("食堂"))
+//            if(hashSet!=null)for(Building building:hashSet){
+//                    int x= (int) (System.currentTimeMillis() & hashSet.size());
+//                    if (x%2==0)
+//                    {
+//                        //todo: 写一个totast
+//                    }
+//                }
+//>>>>>>> dev22
 
         });
         searchWindow=addEdit("地址搜索",searchLayout2);
@@ -132,9 +146,9 @@ public class MainLayout extends CoolLinearLayout {
         setTargetBuildingButton.setOnClickListener((e)->{
             if(touchedBuilding ==null)return;
             targetBuilding = touchedBuilding;
-            if(!strategy[strategyIndex].equals("c")){studentView.setTargetBuilding(touchedBuilding.building(map),strategy[strategyIndex],byBus);}
-            else {queue.add(targetBuilding.building(map));}
-            targetBuildingText.setText("[目的地]："+ targetBuilding.dot().getPosition()+"("+strategyInfo[strategyIndex]+")");
+            if(!strategy[strategyIndex].equals("c")){studentView.setTargetBuilding(touchedBuilding,strategy[strategyIndex],byBus);}
+            else {queue.add(targetBuilding);}
+            targetBuildingText.setText("[目的地]："+ targetBuilding.nameOfBuildingInEnglish+"("+strategyInfo[strategyIndex]+")");
 
         });
         //监听切换校区
@@ -161,15 +175,15 @@ public class MainLayout extends CoolLinearLayout {
                 String ans="52.31";
                 if(strategy[strategyIndex].equals("c")){
                    ans=student.getCostToTarget(queue,byBus);
-                }else  ans=student.getCostToTarget(touchedBuilding.building(map),strategy[strategyIndex],byBus);
-                 getCost.setText("到"+touchedBuilding.dot().getPosition()+"需"+ans);
+                }else  ans=student.getCostToTarget(touchedBuilding,strategy[strategyIndex],byBus);
+                 getCost.setText("到"+ touchedBuilding.nameOfBuildingInEnglish+"需"+ans);
             } catch (CloneNotSupportedException cloneNotSupportedException) {
                 cloneNotSupportedException.printStackTrace();
             }
         });
         //监听设置当前位置
         setNowPosition.setOnClickListener((e)->{
-            setStudentPosition(touchedBuilding.building(map));
+            setStudentPosition(touchedBuilding);
         });
         //监听上下楼
         upStairButton.setOnClickListener((e)->{
@@ -199,11 +213,10 @@ public class MainLayout extends CoolLinearLayout {
             @Override
             public void run() {
                 super.run();
-                touchedBuilding = this.buildingView;
-                touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.dot().getPosition()+"("+touchedBuilding.dot().getType().toString()+")");
-                if(touchedBuilding.building(map) instanceof SpecificBuild){
+                setTouchedBuilding(buildingView.building(map));
+                if(touchedBuilding instanceof SpecificBuild){
                     floor=0;
-                    specificBuild=(SpecificBuild) touchedBuilding.building(map);
+                    specificBuild=(SpecificBuild) touchedBuilding;
                 }
             }
         });
@@ -235,7 +248,7 @@ public class MainLayout extends CoolLinearLayout {
         }
     }
     public Building choosedBuilding(){
-        return touchedBuilding.building(map);
+        return touchedBuilding;
     }
     public boolean switchByBus(){
         byBus=!byBus;
@@ -245,4 +258,16 @@ public class MainLayout extends CoolLinearLayout {
         return queue;
     }
 
+    public Queue<Pair<Building, Double>> getARound() {
+        return ARound;
+    }
+
+    public HashSet<Building> getSearchAnswer() {
+        return SearchAnswer;
+    }
+
+    public void setTouchedBuilding(Building touchedBuilding) {
+        this.touchedBuilding= touchedBuilding;
+        touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.nameOfBuildingInEnglish+"("+ touchedBuilding.type.toString()+")");
+    }
 }
