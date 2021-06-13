@@ -34,8 +34,7 @@ public class SpecificBuild extends Building {
 
     public SpecificBuild(Dot dot, Map map, AssetManager assetManager) throws IOException {
         super(dot, map);
-        //floor=dot.getType().getFloorNum();
-        for (int i = floor; i >= 1; i--) {
+        for ( floor=1; floor<=dot.getType().getFloorNum(); floor++) {
             String path;
             switch (dot.getType()){
                 case dorm:path=dormPath;break;
@@ -46,8 +45,9 @@ public class SpecificBuild extends Building {
                 default:path=teachBuildPath;
             }
             Graph graph=graphManager.manage(assetManager,path);
-            mapOfFloor[i] = new Map(map,floor,graph,assetManager,this);
+            mapOfFloor[floor] = new Map(map,floor,graph,assetManager,this);
         }
+        floor--;
         mapOfFloor[0] = map;
         for (int i = floor ; i >= 1; i--) {
             if (i != floor ) {

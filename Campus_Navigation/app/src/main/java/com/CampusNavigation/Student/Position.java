@@ -52,6 +52,10 @@ public class Position implements Cloneable {
   public void setNowBuilding(Building nowBuilding) {
     this.nowBuilding = nowBuilding;
     this.currentMap=nowBuilding.map;
+    if(nowBuilding instanceof Room){
+      nowFloor=((Room)nowBuilding).getFloorNum();
+    }
+    else nowFloor=0;
   }
 
   public void setX(double x) {
@@ -71,6 +75,8 @@ public class Position implements Cloneable {
     this.path=null;
     this.nowFloor=building.floor;
     this.isOnBuilding=true;
+    if(nowBuilding instanceof Room)nowFloor=((Room)nowBuilding).floor;
+    else nowFloor=0;
   }
 
   public void setOnBuilding(boolean onBuilding) {

@@ -33,7 +33,7 @@ public class Building {
     this.mathX = dot.X;
     this.mathY = dot.Y;
     this.nameOfBuildingInEnglish = dot.getPosition();
-    this.floor = dot.getType().getFloorNum();
+    this.floor = 0;
     this.index = dot.getIndex();
     this.map = map;
    // this.schoolNum = 0;
