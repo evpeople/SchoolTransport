@@ -1,9 +1,5 @@
 package com.CampusNavigation.Student;
 
-/**
- * 学生类的基础架子.
- */
-
 import android.util.Log;
 import android.util.Pair;
 
@@ -21,6 +17,25 @@ import java.util.Queue;
 
 import static com.shopgun.android.utils.Tag.TAG;
 
+/**
+ * @see Student 学生类的基础架子.
+ * @see Student#Student(Position)  传入一个初始位置构造一位学生
+ * @see Student#setTargetBuilding(Building, String, boolean)
+ * @see Student#setTargetBuilding(Queue)
+ * @see Student#getCostToTarget(Building, String, boolean)
+ * @see Student#getTargetBuildingCost(Position, Building, String, String)
+ * @see Student#getTargetBuildingCost(Queue)
+ * @see Student#getTargetBuildingCost(Building, String, String)
+ * @see Student#getShortestRouteToTarget(Building, String)
+ * @see Student#getShortestRouteToTarget(int, String)
+ * @see Student#getShortestRouteToTarget(Building, Building, String)
+ * @see Student#dealStopInPath(Building, String, String)
+ * @see Student#getAround(Building, int)
+ * @see Student#position 学生所在位置
+ * @see Student#pathsToGo 学生即将走过的道路
+ * @see Student#view 在图形化界面的学生图标
+ * @see Student#goByBike 学生是否处于使用自行车的状态
+ */
 public class Student {
 
     private Position position;
