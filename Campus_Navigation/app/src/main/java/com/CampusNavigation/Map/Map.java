@@ -26,7 +26,6 @@ public class Map {
     private int numOfBuildings=0;
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
-    //todo:这个是Ver的，他写注释
     private boolean isCampus=true;
     private int floor=0;
     private Map parent=null;
@@ -61,7 +60,7 @@ public class Map {
             if (dot == null) {
                 break;
             }
-            if(isCampus==false&&dot.getType()!=BuildingType.exit){dot.setType(BuildingType.room);};
+            if(!isCampus&&dot.getType()!=BuildingType.exit){dot.setType(BuildingType.room);};
             switch (dot.getType()) {
                 case exit:
                     if(build!=null)buildings[now] = new Room(dot, build);
@@ -136,7 +135,6 @@ public class Map {
     }
 
     /**
-     * 最短路径所用的DJ算法. //todo 不同的导航策略
      *
      * @return 一个DJ算法所用表
      */
@@ -347,13 +345,13 @@ public class Map {
     public Queue<Pair<Building,Double>>getAround(int center,int deepth)
     {
         Queue<Pair<Building,Double>> ans= new LinkedList<>();
-        LinkedList<TableEntry>tempAns = new LinkedList<>();
+        LinkedList<TableEntry>tempAns;
         tempAns=getAroundTable(center,deepth);
 
        for (int size=tempAns.size(),i=0;i<size;i++)
        {
 
-           Pair<Building,Double>temp= new Pair<Building,Double>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
+           Pair<Building,Double>temp= new Pair<>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
            ans.add(temp);
        }
         return ans;
