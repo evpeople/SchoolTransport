@@ -199,4 +199,8 @@ public class SpecificBuild extends Building {
         return map.getTheShortestRoute(nowPositionIndex, destinationIndex);
 
     }
+
+    public Map getMapOfFloor (int index) {
+        return mapOfFloor[index];
+    }
 }
