@@ -50,13 +50,18 @@ public enum BuildingType implements Serializable {
         ans = 1;
         break;
       case lab:
+        ans=2;
+        break;
       case dorm:
       case librariy:
       case canteen:
       case teach:
       case office:
       case studentCenter:
-        ans = new Random(4).nextInt() + 1;
+        ans =  3;
+        break;
+      default:
+        ans=0;
     }
     return ans;
   }

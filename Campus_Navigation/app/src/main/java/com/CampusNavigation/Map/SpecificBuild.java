@@ -20,40 +20,22 @@ import static java.lang.Math.max;
  * 楼类有层，有图的数组，有道路的数组.
  */
 public class SpecificBuild extends Building {
-    private static final String dormPath="floors//dorm.txt";
-    private static final String libPath="floors//lib.txt";
-    private static final String canteenPath="floors//canteen.txt";
-    private static final String officepath="floors//office.txt";
-    private static final String teachBuildPath="floors//teachBuild";
-    private static final int length = 10;
-    private static final int maxOfFloor = 10;
+    private static final String dormPath="dorm.txt";
+    private static final String libPath="lib.txt";
+    private static final String canteenPath="canteen.txt";
+    private static final String officepath="office.txt";
+    private static final String teachBuildPath="teachBuild.txt";
+    private static final int length = 15;
+    private static final int maxOfFloor = 5;
 
-    Map[] mapOfFloor = new Map[maxOfFloor];
-
-    //  ArrayList<Map> mapOfFloor=new ArrayList<>();
-    Path[] upStairs = new Path[maxOfFloor + 1];//楼梯数组
-    Path[] downStairs = new Path[maxOfFloor];//楼梯数组
+    Map[] mapOfFloor = new Map[maxOfFloor];//0是父地图
+    Path[] upStairs = new Path[maxOfFloor + 2];//上楼梯数组 i->i+1
+    Path[] downStairs = new Path[maxOfFloor+2];//下楼梯数组 i->i-1
 
     public SpecificBuild(Dot dot, Map map, AssetManager assetManager) throws IOException {
         super(dot, map);
-        switch (dot.getType()) {
-            case bus:
-            case car:
-            case crossing:
-            case buildingCrossing:
-            case runway:
-
-                floor = 0;
-            case soccer:
-            case canteen:
-                floor = 0;
-
-                break;
-            default:
-                floor = 0;
-                break;
-        }
-        for (int i = floor - 1; i >= 0; i--) {
+        //floor=dot.getType().getFloorNum();
+        for (int i = floor; i >= 1; i--) {
             String path=null;
             switch (dot.getType()){
                 case dorm:path=dormPath;break;
@@ -66,42 +48,22 @@ public class SpecificBuild extends Building {
             Graph graph=graphManager.manage(assetManager,path);
             mapOfFloor[i] = new Map(map,floor,graph,assetManager);
         }
-        for (int i = floor - 1; i >= 0; i--) {
-            if (i != floor - 1) {
-                upStairs[i] = new Path(length, false, mapOfFloor[i].getBuilding(0),
-                        mapOfFloor[i + 1].getBuilding(0));
-            }
-            if (i > 0) {
-                downStairs[i] = new Path(length, false, mapOfFloor[i].getBuilding(0),
-                        mapOfFloor[i - 1].getBuilding(0));
-            }
-        }
-        mapOfFloor = new Map[maxOfFloor];
         mapOfFloor[0] = map;
+        for (int i = floor ; i >= 1; i--) {
+            if (i != floor ) {
+                upStairs[i] = new Path(length, false, getExit(i),getExit(i+1));
+            }else  if (i >= 2) {
+                downStairs[i] = new Path(length, false,getExit(i),getExit(i-1));
+            }
+            upStairs[floor]=null;
+            downStairs[1]=new Path(1,false,getExit(1),this);
+        }
+
     }
 
-//    /**
-//     * 具体建筑物的构造器方法.
-//     *
-//     * @param nameOfBuilding 建筑物的名字
-//     * @param schoolNum      1是1号校区 2是2号校区
-//     * @param guiCorrdinate  gui坐标，目前是int数组，
-//     * @param mathCoordinate 连接表的坐标，是int数组
-//     * @param numOfFloor     层数
-//     * @param mapOfFloor     每个楼层的图构建成的数组
-//     * @param paths          设计中提及的，暂时还不知道啥意思,猜测是用于楼梯？
-//     */
-//
-//
-//    SpecificBuild(String nameOfBuilding, int schoolNum, int[] guiCorrdinate, double[] mathCoordinate,
-//                  int numOfFloor, Map[] mapOfFloor, Path[] paths,
-//                  Exit exitDoor) {
-//        super(nameOfBuilding, schoolNum, guiCorrdinate,
-//                mathCoordinate, exitDoor);
-//        this.mapOfFloor = mapOfFloor.clone();
-//        this.paths = paths.clone();
-//
-//    }
+    private Building getExit(int Floorindex){
+        return mapOfFloor[Floorindex].getBuilding(mapOfFloor[Floorindex].IndexOfExit());
+    }
 
     /**
      * 建筑物寻找最短路径的算法，按照是否在同一建筑物分类.
