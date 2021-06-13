@@ -19,17 +19,16 @@ import static com.shopgun.android.utils.Tag.TAG;
 
 /**
  * @see Student 学生类的基础架子.
- * @see Student#Student(Position)  传入一个初始位置构造一位学生
- * @see Student#setTargetBuilding(Building, String, boolean)  
+ *  @see Student#setTargetBuilding(Building, String, boolean)
  * @see Student#setTargetBuilding(Queue)
- * @see Student#getCostToTarget(Building, String, boolean)  
- * @see Student#getTargetBuildingCost(Position, Building, String, String)  
- * @see Student#getTargetBuildingCost(Queue)  
- * @see Student#getTargetBuildingCost(Building, String, String)  
- * @see Student#getShortestRouteToTarget(Building, String)  
- * @see Student#getShortestRouteToTarget(int, String)  
- * @see Student#getShortestRouteToTarget(Building, Building, String)  
- * @see Student#dealStopInPath(Building, String, String)  
+ * @see Student#getCostToTarget(Building, String, boolean)
+ * @see Student#getTargetBuildingCost(Position, Building, String, String)
+ * @see Student#getTargetBuildingCost(Queue)
+ * @see Student#getTargetBuildingCost(Building, String, String)
+ * @see Student#getShortestRouteToTarget(Building, String)
+ * @see Student#getShortestRouteToTarget(int, String)
+ * @see Student#getShortestRouteToTarget(Building, Building, String)
+ * @see Student#dealStopInPath(Building, String, String)
  * @see Student#getAround(Building, int)
  * @see Student#position 学生所在位置
  * @see Student#pathsToGo 学生即将走过的道路
@@ -212,6 +211,7 @@ public class Student {
             if (destination.map.isCampus()&&position.getCurrentMap().isCampus())
             {
                 //跨校区
+                TableEntry.totalCost=200;
                 busStop =position.getCurrentMap().IndexOfBus();
                 pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
                 busBegin=destination.map.IndexOfBus();
@@ -227,6 +227,7 @@ public class Student {
                         busBegin=destination.map.IndexOfExit();
                     }else
                     {
+                        TableEntry.totalCost=200;
                         busStop =position.getCurrentMap().IndexOfBus();
                         //从当前位置导航到车站
                         pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
@@ -244,10 +245,12 @@ public class Student {
                         busStop = position.getCurrentMap().IndexOfExit();
                         pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
                         busBegin = destination.map.IndexOfExit();
+                        TableEntry.totalCost=20;
                     }
                     else { //不同建筑为室内
                         if (((Room) position.getNowBuilding()).getBelongToBuilding().map==((Room) destination).getBelongToBuilding().map)
                         {//同一校区
+                            TableEntry.totalCost=40;
                             busStop=position.getCurrentMap().IndexOfExit();
                             pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
                             pathsToGo.addAll(((Room) position.getNowBuilding()).getBelongToBuilding().map.getShortestRoute(((Room) position.getNowBuilding()).getBelongToBuilding().index,((Room) destination).getBelongToBuilding().index));
@@ -256,6 +259,8 @@ public class Student {
                         }
                         else
                         {//不同校区
+                            TableEntry.totalCost=200;
+                            //todo:  set拥挤度,途径,时间倒流,查找
                             busStop=position.getCurrentMap().IndexOfExit();
                             pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
                             int busStation=((Room) position.getNowBuilding()).getBelongToBuilding().map.IndexOfBus();
@@ -263,7 +268,7 @@ public class Student {
                             pathsToGo.addAll(((Room) position.getNowBuilding()).getBelongToBuilding().map.getShortestRoute(indexOfBuild,busStation));
                             busStation=((Room) destination).getBelongToBuilding().map.IndexOfBus();
                             indexOfBuild=((Room) destination).getBelongToBuilding().index;
-                            pathsToGo.addAll(((Room) position.getNowBuilding()).getBelongToBuilding().map.getShortestRoute(busStation,indexOfBuild));
+                            pathsToGo.addAll(((Room) destination).getBelongToBuilding().map.getShortestRoute(busStation,indexOfBuild));
                             busBegin=destination.map.IndexOfExit();
                         }
                     }
@@ -273,6 +278,7 @@ public class Student {
                     if (((Room)position.getNowBuilding()).getBelongToBuilding().map==destination.map)
                     {
                         //直接出楼
+                        TableEntry.totalCost=20;
                         busStop=position.getCurrentMap().IndexOfExit();
                         pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
 
@@ -280,6 +286,7 @@ public class Student {
                     }
                     else
                     {
+                        TableEntry.totalCost=200;
                         busStop=position.getCurrentMap().IndexOfExit();
                         pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
                         pathsToGo.addAll(((Room) position.getNowBuilding()).getBelongToBuilding().map.getShortestRoute(((Room) position.getNowBuilding()).getBelongToBuilding().index,((Room) position.getNowBuilding()).getBelongToBuilding().map.IndexOfBus()));
