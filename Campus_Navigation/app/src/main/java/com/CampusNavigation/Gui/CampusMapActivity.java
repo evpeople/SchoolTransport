@@ -4,13 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.CampusNavigation.Log.LOG;
+import com.CampusNavigation.Map.Building;
 import com.example.campus_navigation1.R;
 
 import java.io.IOException;
@@ -20,6 +24,7 @@ public class CampusMapActivity extends AppCompatActivity {
     private MainLayout mainLayout;
     private InformationLayout informationlayout=null;
     private RelativeLayout layout_back;
+    private CoolLinearLayout showingQueue=null;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,29 @@ public class CampusMapActivity extends AppCompatActivity {
                     layout_back.addView(mainLayout);
                     informationlayout=null;
                 }
+                break;
+            case R.id.strategeCItem:
+                if(showingQueue==null){
+                    showingQueue=new CoolLinearLayout(this);
+                    showingQueue.setOrientation(LinearLayout.VERTICAL);
+                    for(Building building:mainLayout.getQueue()){
+                        TextView Text =new TextView(this);
+                        Text.setText(building.nameOfBuildingInEnglish);
+                        showingQueue.addView(Text);
+                    }
+                }else{
+                    layout_back.removeView(showingQueue);
+                    layout_back.addView(mainLayout);
+                    showingQueue=null;
+                }
+
+                break;
+            case R.id.ByBus:
+                String carType;
+                if(mainLayout.switchByBus()){
+                    carType="bus";
+                }else carType="car";
+                Toast.makeText(this,"you will travel to the other campus by"+carType,Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

@@ -78,6 +78,11 @@ public class Student {
             }
             if (strategy.equals("d")) goByBike = true;
         }
+    public void setTargetBuilding(Queue<Building> targetBuilding,  boolean ByBus) {
+        String carType=ByBus?"bus":"car";
+        dealStopInPath(targetBuilding.peek(),"a",carType);
+                setTargetBuilding(targetBuilding);
+    }
 
 
     /**
@@ -94,7 +99,6 @@ public class Student {
             else dealStopInPath(targetBuilding, strategy, "car");
         }
         switch (strategy){
-            case "c": new Student((Position) position.clone()).getTargetBuildingCost(null); break;
             case "a": case "b": case "d":
                  ans=getTargetBuildingCost((Position) position.clone(),targetBuilding,strategy,carType);break;
             default:  break;
@@ -102,6 +106,17 @@ public class Student {
         if(strategy.equals("d"))goByBike=true;
         String postFix=" m";
         if(strategy.equals("b")||strategy.equals("d"))postFix=" s";
+        return new DecimalFormat("0.000").format(ans)+postFix;
+    }
+    public String getCostToTarget(Queue<Building>targetBuilding,boolean ByBus) throws CloneNotSupportedException {
+        double ans=0;
+        String carType=ByBus?"bus":"car";
+        if(!position.isOnBuilding()) {
+            dealStopInPath(targetBuilding.peek(), "a", carType);
+        }
+
+        ans=getTargetBuildingCost(targetBuilding);
+        String postFix=" m";
         return new DecimalFormat("0.000").format(ans)+postFix;
     }
 
