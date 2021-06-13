@@ -143,6 +143,7 @@ public abstract class graphManager {
 
         edges[index1][index2].setDegreeOfCongestion((float) (width / 5.2));
         edges[index2][index1].setDegreeOfCongestion((float) (width / 5.2));
+
       } else if (now.contains("draw") && now.contains("EndArrow")) {//建筑
         MyMatcher matcher = new MyMatcher(now);
         String dot1 = matcher.theFirst(toMatchArrowDot1);

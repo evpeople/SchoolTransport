@@ -15,7 +15,7 @@ public class Building {
   private Exit exit = null;
   public final double mathX;
   public final double mathY;
-  public final int schoolNum;
+  public final int schoolNum=0;
   public int floor; //默认是0，代表地面上的平房。
   public final String nameOfBuildingInEnglish;
   public final String nameOfBuildingInChinese = "";
@@ -34,11 +34,10 @@ public class Building {
     this.mathX = dot.X;
     this.mathY = dot.Y;
     this.nameOfBuildingInEnglish = dot.getPosition();
-    this.floor = 0;
-    //this.floor=dot.getType().getFloorNum();
-    this.schoolNum = 0;
+    this.floor = dot.getType().getFloorNum();
     this.index = dot.getIndex();
     this.map = map;
+   // this.schoolNum = 0;
   }
 
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 public enum BuildingType implements Serializable {
+  room,//房间
   canteen,//餐厅
   crossing,//路口
   exit,//大门//出口
@@ -49,13 +50,18 @@ public enum BuildingType implements Serializable {
         ans = 1;
         break;
       case lab:
+        ans=2;
+        break;
       case dorm:
       case librariy:
       case canteen:
       case teach:
       case office:
       case studentCenter:
-        ans = new Random(4).nextInt() + 1;
+        ans =  3;
+        break;
+      default:
+        ans=0;
     }
     return ans;
   }

@@ -1,91 +1,136 @@
 package com.CampusNavigation.Map;
 
+import android.content.res.AssetManager;
+
 import com.CampusNavigation.GraphImport.Graph.Dot;
+import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.Student.Position;
 import com.CampusNavigation.Student.Route;
+import com.CampusNavigation.GraphImport.graphManage.graphManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
 
 
 /**
  * 楼类有层，有图的数组，有道路的数组.
  */
 public class SpecificBuild extends Building {
+    private static final String dormPath="dorm.txt";
+    private static final String libPath="lib.txt";
+    private static final String canteenPath="canteen.txt";
+    private static final String officepath="office.txt";
+    private static final String teachBuildPath="teachBuild.txt";
+    private static final int length = 15;
+    private static final int maxOfFloor = 5;
 
-  Map[] mapOfFloor;
-  Path[] paths;
+    Map[] mapOfFloor = new Map[maxOfFloor];//0是父地图
+    Path[] upStairs = new Path[maxOfFloor + 2];//上楼梯数组 i->i+1
+    Path[] downStairs = new Path[maxOfFloor+2];//下楼梯数组 i->i-1
 
+    public SpecificBuild(Dot dot, Map map, AssetManager assetManager) throws IOException {
+        super(dot, map);
+        //floor=dot.getType().getFloorNum();
+        for (int i = floor; i >= 1; i--) {
+            String path=null;
+            switch (dot.getType()){
+                case dorm:path=dormPath;break;
+                case office:path=officepath;break;
+                case librariy:path=libPath;break;
+                case canteen:path=canteenPath;break;
+                case teach:path=teachBuildPath;break;
+                default:path=teachBuildPath;
+            }
+            Graph graph=graphManager.manage(assetManager,path);
+            mapOfFloor[i] = new Map(map,floor,graph,assetManager);
+        }
+        mapOfFloor[0] = map;
+        for (int i = floor ; i >= 1; i--) {
+            if (i != floor ) {
+                upStairs[i] = new Path(length, false, getExit(i),getExit(i+1));
+            }else  if (i >= 2) {
+                downStairs[i] = new Path(length, false,getExit(i),getExit(i-1));
+            }
+            upStairs[floor]=null;
+            downStairs[1]=new Path(1,false,getExit(1),this);
+        }
 
-  public SpecificBuild(Dot dot, Map map) throws IOException {
-    super(dot, map);
-    floor=dot.getType().getFloorNum();
+    }
+
+    private Building getExit(int Floorindex){
+        return mapOfFloor[Floorindex].getBuilding(mapOfFloor[Floorindex].IndexOfExit());
+    }
+
+    /**
+     * 建筑物寻找最短路径的算法，按照是否在同一建筑物分类.
+     */
+
+    public HashMap<Building, Path> getShortestRoute(Position nowPosition, Building destination,
+                                                    String strategy,int floorForDestination) {
+//    Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
+//        nowPosition.getNowBuilding(), destination, strategy);
+
+        // todo 不同的建筑物。
+        HashMap<Building, Path> shortestRoute = new HashMap<>();
+        HashMap<Building, Path> estRoute;
+
+        //在同一建筑物中 ，this 就是当前的建筑物
+        if (inBuilding(destination.getNameOfBuildingInEnglish())) {
+            if (nowPosition.getNowFloor() == floorForDestination) {
+                return getShortestRoute(nowPosition.getNowFloor(), floorForDestination, strategy,
+                                mapOfFloor[nowPosition.getNowFloor()]);
+            } else {
+                //todo : 更改 0 ,新增获取exit
+                shortestRoute = getShortestRoute(nowPosition.getNowFloor(), 0, strategy, mapOfFloor[nowPosition
+                                .getNowFloor()]);
+                if (nowPosition.getNowFloor() < floorForDestination) {
+                    for (int i = nowPosition.getNowFloor(); i < floorForDestination; i++) {
+                        shortestRoute.put(mapOfFloor[i].getBuilding(0), upStairs[i]);
+                    }
+                } else {
+                    for (int i = floorForDestination; i > nowPosition.getNowFloor(); i--) {
+                        shortestRoute.put(mapOfFloor[i].getBuilding(0), downStairs[i]);
+                    }
+                }
+
+                estRoute = getShortestRoute(0, floorForDestination, strategy,
+                        mapOfFloor[floorForDestination]);
+                shortestRoute.putAll(estRoute);
+            }
+            //此处为不在同一建筑物中。
+        } else {
+            //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
+            shortestRoute = getShortestRoute(nowPosition.getNowFloor(), 0, strategy, mapOfFloor[nowPosition
+                            .getNowFloor()]);
+
+            for (int i = nowPosition.getNowFloor(); i > 0; i--) {
+                shortestRoute.put(mapOfFloor[i].getBuilding(0), downStairs[i]);
+            }
+
+//      System.out.println("下楼！下了 "+nowPosition.getNowFloor()+"层");
+//      System.out.println("上楼！上了 "+floorForDestination+"层")
+            for (int i = 0; i < floorForDestination; i++) {
+                shortestRoute.put(mapOfFloor[i].getBuilding(0), upStairs[i]);
+            }
+            estRoute = getShortestRoute(0, floorForDestination, strategy,
+                    mapOfFloor[floorForDestination]);
+            shortestRoute.putAll(estRoute);
+        }
+//    return new Route[0];
+        return shortestRoute;//todo
     }
 
 
-
-//    /**
-//     * 具体建筑物的构造器方法.
-//     *
-//     * @param nameOfBuilding 建筑物的名字
-//     * @param schoolNum      1是1号校区 2是2号校区
-//     * @param guiCorrdinate  gui坐标，目前是int数组，
-//     * @param mathCoordinate 连接表的坐标，是int数组
-//     * @param numOfFloor     层数
-//     * @param mapOfFloor     每个楼层的图构建成的数组
-//     * @param paths          设计中提及的，暂时还不知道啥意思,猜测是用于楼梯？
-//     */
-//
-//
-//    SpecificBuild(String nameOfBuilding, int schoolNum, int[] guiCorrdinate, double[] mathCoordinate,
-//                  int numOfFloor, Map[] mapOfFloor, Path[] paths,
-//                  Exit exitDoor) {
-//        super(nameOfBuilding, schoolNum, guiCorrdinate,
-//                mathCoordinate, exitDoor);
-//        this.mapOfFloor = mapOfFloor.clone();
-//        this.paths = paths.clone();
-//
-//    }
-
-  /**
-   * 建筑物寻找最短路径的算法，按照是否在同一建筑物分类.
-   * @return
-   */
-
-  public Queue<Path> getShortestRoute(Position nowPosition, Building destination,
-                                      String strategy) {
-    Route[] a = mapOfFloor[nowPosition.getNowFloor()].getShortestRoute(
-        nowPosition.getNowBuilding(), destination, strategy);
-    //todo 需要route完成后再详细的写
-    Queue<Path> shortestRoute = new LinkedList<>();
-//    if (!inBuilding(destination.nameOfBuildingInChinese)) {
-//      boolean b = a[0].isToDestination;
-//      //此处的布尔变量 b 传回算法策略，告诉他我完成了目前的工作，但是还没到达终点。
-//    } else {
-//      //a 代表当前位置到楼梯口的最短路径，b是目的地到楼梯口，c是上下楼梯
-//      int c = abs(nowPosition.getNowFloor() - destination.floor);
-//      if (c == 0) {
-//        return new Route[0];///同一层
-//      }
-//      Route[] b = mapOfFloor[destination.floor]
-//          .getShortestRoute(nowPosition.getNowBuilding(), destination, strategy);
-//
-//    }
-//    return new Route[0];
-    return shortestRoute;//todo
-  }
-
-
-  /**
-   * 通过名字是否相同判断是否在同一栋楼.
-   */
-  private boolean inBuilding(String nameOfBuilding) {
-    return this.nameOfBuildingInChinese.equals(nameOfBuilding);
-  }
+    /**
+     * 通过名字是否相同判断是否在同一栋楼.
+     */
+    private boolean inBuilding(String nameOfBuilding) {
+        return this.nameOfBuildingInChinese.equals(nameOfBuilding);
+    }
 //
 //    public static void main(String[] args) throws IOException {
 //        int[] a = {1, 2};
@@ -102,5 +147,22 @@ public class SpecificBuild extends Building {
 //        };
 //        SpecificBuild test1 = new SpecificBuild("I am test", 3, a, b, 4, c, d, ex);
 //    }
+    /**
+     *
+     * 实际使用的最短路径
+     * @param nowPositionIndex 当前建筑为序列号
+     * @param destinationIndex 目标建筑为序列号
+     * @param strategy  导航方式
+     * @param map  在那张地图上使用
+     * @return  Ver的哈希表
+     */
+    public static   HashMap<Building, Path> getShortestRoute(int nowPositionIndex, int destinationIndex,
+                                                     String strategy, Map map) {
+        return map.getTheShortestRoute(nowPositionIndex, destinationIndex);
 
+    }
+
+    public Map getMapOfFloor (int index) {
+        return mapOfFloor[index];
+    }
 }

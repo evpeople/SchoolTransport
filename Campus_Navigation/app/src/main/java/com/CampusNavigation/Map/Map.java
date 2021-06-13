@@ -1,8 +1,10 @@
 package com.CampusNavigation.Map;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.Pair;
 
+import com.CampusNavigation.GraphImport.Graph.BuildingType;
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.GraphImport.Graph.Graph;
 import com.CampusNavigation.Student.Position;
@@ -14,7 +16,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import static com.shopgun.android.utils.log.LogUtil.TAG;
-
+import com.CampusNavigation.Log.LOG;
 /**
  * 地图类.
  */
@@ -25,29 +27,53 @@ public class Map {
     private Building[] buildings = new Building[MaxNumOfDots];
     private Path[][] paths = new Path[MaxNumOfDots][MaxNumOfDots];
     //todo:这个是Ver的，他写注释
-
+    private boolean isCampus=true;
+    private int floor=0;
+    private Map parent=null;
+    private int indexOfBus=0;
+    private int indexOfCar=0;
+    private int indexOfExit=0;
     /**
      * 构建邻接表用于DJ算法.
      *
      * @param graph 地图
      * @throws IOException 读取文件出错
      */
-    public Map(Graph graph) throws IOException {
-        this.numOfBuildings = graph.NumOfDots();
+    public Map(Graph graph,AssetManager asset) throws IOException {
         this.filePath =graph.filePath;
+        isCampus=true;
+        this.numOfBuildings = graph.NumOfDots();
+        getByGraph(graph, asset);
+    }
+
+    public Map(Map map,int floor,Graph graph,AssetManager asset) throws IOException {
+        this.filePath=graph.filePath;
+        isCampus=false;
+        this.numOfBuildings = graph.NumOfDots();
+        this.floor=floor;
+        this.parent=map;
+        getByGraph(graph,asset);
+    }
+
+    private void getByGraph(Graph graph,AssetManager asset) throws IOException {
         int now = 0;
         for (Dot dot : graph.getDots()) {
             if (dot == null) {
                 break;
             }
+            if(isCampus==false&&dot.getType()!=BuildingType.exit){dot.setType(BuildingType.room);};
             switch (dot.getType()) {
                 case exit:
                     buildings[now] = new Exit(dot, this);
+                    this.indexOfExit=now;
                     break;
                 default:
-                    buildings[now] = new SpecificBuild(dot, this);
+                    buildings[now] = new SpecificBuild(dot, this,asset);
+                    if(buildings[now].type== BuildingType.bus)indexOfBus=now;
+                    if(buildings[now].type==BuildingType.car)indexOfCar=now;
                     break;
             }
+            LOG.d(filePath+" "+now+" "+dot.getType().toString()+" "+dot.getPosition()+" 层数:"+dot.getType().getFloorNum());
             now++;
         }
         Log.d("Map 初始化", String.valueOf(this.numOfBuildings));
@@ -61,7 +87,6 @@ public class Map {
             }
         }
     }
-
     public Map(int a ){
         this.filePath ="default";
     }
@@ -382,6 +407,18 @@ public class Map {
 
     public ArrayList<Building> getSurroundings(int numOfBuilding) {
         return breadthFirstSearch(numOfBuilding, 100.0);
+    }
+
+    public int IndexOfBus() {
+        return indexOfBus;
+    }
+
+    public int IndexOfCar() {
+        return indexOfCar;
+    }
+
+    public int IndexOfExit() {
+        return indexOfExit;
     }
 }
 
