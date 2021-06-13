@@ -179,9 +179,10 @@ public class Map {
     protected LinkedList<TableEntry> getAroundTable(int vertex,int deepth)
     {
         TableEntry.totalCost=0;
+        TableEntry.setStrategy("a");
         TableEntry[] tableEntries = dijkstra(vertex);//dj 没有问题
         LinkedList<TableEntry>ans = new LinkedList<>();
-        for (int i=0;i<=tableEntries.length;i++)
+        for (int i=0;i<tableEntries.length;i++)
         {
             if (tableEntries[i].getDist()<deepth)
             {
