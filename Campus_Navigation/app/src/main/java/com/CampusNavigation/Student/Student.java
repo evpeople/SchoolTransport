@@ -42,8 +42,10 @@ public class Student {
     public void setTargetBuilding(Building targetBuilding,String strategy,boolean ByBus) {
         this.targetBuilding = targetBuilding;
         //todo:busType 的输入
-        if(ByBus)dealStopInPath(targetBuilding,strategy,"bus");
-        else dealStopInPath(targetBuilding,strategy,"bus");
+        if(!position.isOnBuilding()) {
+            if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
+            else dealStopInPath(targetBuilding, strategy, "car");
+        }
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
@@ -57,7 +59,10 @@ public class Student {
         //todo:busType 的输入
         double ans=0;
         String carType=ByBus?"bus":"car";
-        dealStopInPath(targetBuilding,strategy,carType);
+        if(!position.isOnBuilding()) {
+            if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
+            else dealStopInPath(targetBuilding, strategy, "car");
+        }
         switch (strategy){
             case "c": new Student((Position) position.clone()).getTargetBuildingCost(null); break;
             case "a": case "b": case "d":
