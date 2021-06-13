@@ -172,7 +172,7 @@ public class MainLayout extends CoolLinearLayout {
             @Override
             public void run() {
                 super.run();
-                touchedBuilding = buildingView;
+                touchedBuilding = this.buildingView;
                 touchedBuildingText.setText("  [选中位置]："+ touchedBuilding.dot().getPosition()+"("+touchedBuilding.dot().getType().toString()+")");
                 if(touchedBuilding.building(map) instanceof SpecificBuild){
                     floor=0;

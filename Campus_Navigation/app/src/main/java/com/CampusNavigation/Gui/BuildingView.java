@@ -14,11 +14,11 @@ import com.example.campus_navigation1.R;
 public class BuildingView extends View {
     private RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
     private Dot dot;
-    private Runnable onTouch;
+    private onBuildingViewTouched onTouch;
     public BuildingView(Context context, Dot dot,onBuildingViewTouched onTouch) {
         super(context);
         this.onTouch=onTouch;
-        onTouch.buildingView =this;
+        onTouch.buildingView =BuildingView.this;
         params.leftMargin = (int) (dot.xg - dot.rg);
         params.topMargin = (int) (dot.yg - dot.rg);
         params.width = (int) dot.rg * 2;
@@ -57,6 +57,7 @@ public class BuildingView extends View {
         if(e.getAction()==MotionEvent.ACTION_DOWN){
             if((e.getX()-dot.rg)*(e.getX()-dot.rg)+(e.getY()-dot.rg)*(e.getY()-dot.rg)<dot.rg*dot.rg){
                 if(getContext() instanceof CampusMapActivity){
+                    onTouch.buildingView=this;
                     onTouch.run();
                 }
             }
