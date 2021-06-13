@@ -160,8 +160,9 @@ public class MainLayout extends CoolLinearLayout {
         //实时展示学生位置
         stuPos=new PosView(context, studentView);
         stuPos.setRight(5);
-        addView(stuPos);//*
-    }//end Main
+//        addView(stuPos);//*
+    }
+    //end Main
 
 
     private void switchToMap(Map map){
