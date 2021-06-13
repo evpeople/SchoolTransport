@@ -207,12 +207,16 @@ public class Student {
         getShortestRouteToTarget(destination,strategy);
         pathsToGo.clear();
         double totalTime=TableEntry.totalCost;
-            if (strategy.equals("b")|| strategy.equals("d")) {
+            if ((strategy.equals("b")|| strategy.equals("d"))&&destination.map.isCampus()&&position.getCurrentMap().isCampus()&&position.getCurrentMap()!=destination.map) {
                 Calendar currentTime = Calendar.getInstance();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
                 if (carType .equals( "bus") ){
-                    totalTime += (( - minute) % 30);
+                    if (minute<=30)
+                    {totalTime += (( 30- minute) % 30);}
+                    else {
+                        totalTime+=((60-minute)%30);
+                    }
                 } else {
                     double temp;
                     if (minute==0&&(hour==8||hour==12||hour==18)) {
