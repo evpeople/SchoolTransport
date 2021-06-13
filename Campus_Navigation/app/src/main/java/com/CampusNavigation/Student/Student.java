@@ -208,6 +208,7 @@ public class Student {
     private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
     {
         Queue<Pair<Building,Double>> around = new LinkedList<>();
+
         return around;
     }
 }

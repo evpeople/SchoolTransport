@@ -1,6 +1,7 @@
 package com.CampusNavigation.Map;
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.CampusNavigation.GraphImport.Graph.Dot;
 import com.CampusNavigation.GraphImport.Graph.Graph;
@@ -110,6 +111,22 @@ public class Map {
      *
      * @return 一个DJ算法所用表
      */
+    protected LinkedList<TableEntry> getAroundTable(int vertex,int deepth)
+    {
+        TableEntry.totalCost=0;
+        TableEntry[] tableEntries = dijkstra(vertex);//dj 没有问题
+        LinkedList<TableEntry>ans = new LinkedList<>();
+        for (int i=0;i<=tableEntries.length;i++)
+        {
+            if (tableEntries[i].getDist()<deepth)
+            {
+                ans.add(tableEntries[i]);
+            }
+
+        }
+        return ans;
+    }
+
     protected TableEntry[] dijkstra(int vertex) {
         int orginalVertex=vertex;
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
@@ -141,6 +158,15 @@ public class Map {
 //更新完之后，当前表中最低的点
        switch (TableEntry.stra)
        {
+           case 5: {
+               for (int i = 0; i<this.numOfBuildings;i++)
+               {
+                   if (temp[i] != null) {
+                       tableEntries[i].setDist(temp[i].getLength()+known.getDist());
+                   }
+               }
+           }
+                break;
            case 1:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
@@ -289,7 +315,20 @@ public class Map {
         }
         return (shortestRoute);
     }
+    public Queue<Pair<Building,Double>>getAround(int center,int deepth)
+    {
+        Queue<Pair<Building,Double>> ans= new LinkedList<>();
+        LinkedList<TableEntry>tempAns = new LinkedList<>();
+        tempAns=getAroundTable(center,deepth);
 
+       for (int size=tempAns.size(),i=0;i<size;i++)
+       {
+
+           Pair<Building,Double>temp= new Pair<Building,Double>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
+           ans.add(temp);
+       }
+        return ans;
+    }
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
         TableEntry.totalCost=0;

@@ -42,6 +42,8 @@ public class TableEntry {
                 stra=3;
             case "d":
                 stra=4;
+            case "e":
+                stra=5;
             default:
                 stra=1;
         }
