@@ -41,10 +41,10 @@ public class Student {
 
     //唯一供前端调用接口
     public void setTargetBuilding(Building targetBuilding, String strategy, boolean ByBus) {
+        String carType=ByBus?"bus":"car";
         this.targetBuilding = targetBuilding;
         if (!position.isOnBuilding()) {
-            if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
-            else dealStopInPath(targetBuilding, strategy, "car");
+            dealStopInPath(targetBuilding,strategy,carType);
         }
             switch (strategy) {
                 case "c":
@@ -53,7 +53,7 @@ public class Student {
                 case "a":
                 case "b":
                 case "d":
-                    getShortestRouteToTarget(targetBuilding, strategy);
+                    getShortestRouteToTarget(targetBuilding,strategy);
                     break;
                 default:
                     break;
@@ -147,7 +147,7 @@ public class Student {
 
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
-        if (!strategy.equals("c")&&position.isOnBuilding)
+        if (!strategy.equals("c")&&position.isOnBuilding)//todo:not understand
         {
             pathsToGo.clear();
         }

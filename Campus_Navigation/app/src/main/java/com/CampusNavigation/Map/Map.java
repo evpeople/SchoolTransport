@@ -63,12 +63,12 @@ public class Map {
             if(!isCampus&&dot.getType()!=BuildingType.exit){dot.setType(BuildingType.room);};
             switch (dot.getType()) {
                 case exit:
-                    if(build!=null)buildings[now] = new Room(dot, build);
+                    if(build!=null)buildings[now] = new Room(dot, build,this);
                     else buildings[now]=new Building(dot,this);
                     this.indexOfExit=now;
                     break;
                 case room:
-                    buildings[now]=new Room(dot,build);
+                    buildings[now]=new Room(dot,build,this);
                     break;
                 default:
                     buildings[now] = new SpecificBuild(dot, this,asset);
@@ -345,22 +345,21 @@ public class Map {
     public Queue<Pair<Building,Double>>getAround(int center,int deepth)
     {
         Queue<Pair<Building,Double>> ans= new LinkedList<>();
-        LinkedList<TableEntry>tempAns = new LinkedList<>();
+        LinkedList<TableEntry>tempAns;
         tempAns=getAroundTable(center,deepth);
 
        for (int size=tempAns.size(),i=0;i<size;i++)
        {
 
-           Pair<Building,Double>temp= new Pair<Building,Double>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
+           Pair<Building,Double>temp= new Pair<>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
            ans.add(temp);
        }
         return ans;
     }
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
-        TableEntry.totalCost=0;
         TableEntry[] tableEntries = dijkstra(start);//dj 没有问题
-        TableEntry.totalCost=tableEntries[end].getDist();
+        TableEntry.totalCost+=tableEntries[end].getDist();
         Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
         Log.i(TAG, "getTheShortestRoute: end is"+end);
@@ -423,12 +422,12 @@ public class Map {
         return indexOfExit;
     }
 
-    public boolean isCampus() {
-        return isCampus;
-    }
 
     public Map getParent() {
         return parent;
+    }
+    public boolean isCampus() {
+        return isCampus;
     }
 }
 
