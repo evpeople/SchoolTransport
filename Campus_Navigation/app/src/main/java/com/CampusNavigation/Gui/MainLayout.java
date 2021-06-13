@@ -23,11 +23,13 @@ import com.CampusNavigation.Student.Student;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class MainLayout extends CoolLinearLayout {
     private static final String Path1="campus1.txt";
     private static final String Path2="campus2.txt";
-    private static final String strategyInfo[]={"最短距离","最短时间","途经最短","自行车"};
+    private static final String strategyInfo[]={"最短距离","最短时间","途经最短(待确认)","自行车"};
     private static final String strategy[]={"a","b","c","d"};
     private int strategyIndex=0;
     private SpecificBuild specificBuild=null;
@@ -55,7 +57,8 @@ public class MainLayout extends CoolLinearLayout {
     private EditText searchWindow;
     private Logic logic;
     private TextView stairInfo;
-
+    private Queue<Building> queue=new LinkedList<>();
+    private boolean byBus=true;
 
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     public MainLayout(Context context) throws IOException {
@@ -129,8 +132,10 @@ public class MainLayout extends CoolLinearLayout {
         setTargetBuildingButton.setOnClickListener((e)->{
             if(touchedBuilding ==null)return;
             targetBuilding = touchedBuilding;
+            if(!strategy[strategyIndex].equals("c")){studentView.setTargetBuilding(touchedBuilding.building(map),strategy[strategyIndex],byBus);}
+            else {queue.add(targetBuilding.building(map));}
             targetBuildingText.setText("[目的地]："+ targetBuilding.dot().getPosition()+"("+strategyInfo[strategyIndex]+")");
-            studentView.setTargetBuilding(touchedBuilding.building(map),strategy[strategyIndex]);
+
         });
         //监听切换校区
         switchCampus.setOnClickListener((e)->{
@@ -142,13 +147,22 @@ public class MainLayout extends CoolLinearLayout {
         });
         //监听导航策略
         switchStrategy.setOnClickListener((e)->{
+            if(strategy[strategyIndex].equals("c")&&switchStrategy.getText().equals(strategyInfo[strategyIndex])){
+                switchStrategy.setText("途经最短已确认");
+                student.setTargetBuilding(queue,byBus);
+            }
+            if( strategy[strategyIndex].equals("c")){queue.clear();}
             strategyIndex=(strategyIndex+1)%4;
             switchStrategy.setText(strategyInfo[strategyIndex]);
         });
         //监听耗费获取
         getCost.setOnClickListener((e)->{
             try {
-                getCost.setText("到"+touchedBuilding.dot().getPosition()+"需"+student.getCostToTarget(touchedBuilding.building(map),strategy[strategyIndex],true));
+                String ans="52.31";
+                if(strategy[strategyIndex].equals("c")){
+                   ans=student.getCostToTarget(queue,byBus);
+                }else  ans=student.getCostToTarget(touchedBuilding.building(map),strategy[strategyIndex],byBus);
+                 getCost.setText("到"+touchedBuilding.dot().getPosition()+"需"+ans);
             } catch (CloneNotSupportedException cloneNotSupportedException) {
                 cloneNotSupportedException.printStackTrace();
             }
@@ -223,6 +237,12 @@ public class MainLayout extends CoolLinearLayout {
     public Building choosedBuilding(){
         return touchedBuilding.building(map);
     }
-
+    public boolean switchByBus(){
+        byBus=!byBus;
+        return byBus;
+    }
+    public Queue<Building> getQueue(){
+        return queue;
+    }
 
 }

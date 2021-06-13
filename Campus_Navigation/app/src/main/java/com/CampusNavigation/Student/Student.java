@@ -78,6 +78,11 @@ public class Student {
             }
             if (strategy.equals("d")) goByBike = true;
         }
+    public void setTargetBuilding(Queue<Building> targetBuilding,  boolean ByBus) {
+        String carType=ByBus?"bus":"car";
+        dealStopInPath(targetBuilding.peek(),"a",carType);
+                setTargetBuilding(targetBuilding);
+    }
 
 
     /**
@@ -94,7 +99,6 @@ public class Student {
             else dealStopInPath(targetBuilding, strategy, "car");
         }
         switch (strategy){
-            case "c": new Student((Position) position.clone()).getTargetBuildingCost(null); break;
             case "a": case "b": case "d":
                  ans=getTargetBuildingCost((Position) position.clone(),targetBuilding,strategy,carType);break;
             default:  break;
@@ -104,9 +108,20 @@ public class Student {
         if(strategy.equals("b")||strategy.equals("d"))postFix=" s";
         return new DecimalFormat("0.000").format(ans)+postFix;
     }
+    public String getCostToTarget(Queue<Building>targetBuilding,boolean ByBus) throws CloneNotSupportedException {
+        double ans=0;
+        String carType=ByBus?"bus":"car";
+        if(!position.isOnBuilding()) {
+            dealStopInPath(targetBuilding.peek(), "a", carType);
+        }
+
+        ans=getTargetBuildingCost(targetBuilding);
+        String postFix=" m";
+        return new DecimalFormat("0.000").format(ans)+postFix;
+    }
 
     /**
-     * @param targetBuilding
+     * @param targetBuilding 即将途径的建筑物队列
      * */
     public void setTargetBuilding(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
@@ -118,7 +133,7 @@ public class Student {
     }
 
     /**
-     * @param targetBuilding
+     * @param targetBuilding 即将途径的建筑物队列
      * */
     public double getTargetBuildingCost(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
@@ -134,7 +149,7 @@ public class Student {
     }
 
     /**
-     * @param position
+     * @param position 用户所在位置
      * @param destination 目标建筑物
      * @param strategy 使用的导航策略
      * @param carType 使用的交通工具
@@ -305,7 +320,7 @@ public class Student {
 
     /**
      * @param destination 目标建筑物
-     * @param posBuilding
+     * @param posBuilding 当前所在建筑物
      * @param strategy 使用的导航策略
      * */
     private void getShortestRouteToTarget(Building destination, Building posBuilding, String strategy) {

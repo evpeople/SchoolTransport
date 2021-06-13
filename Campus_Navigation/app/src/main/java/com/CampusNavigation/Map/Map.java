@@ -19,24 +19,24 @@ import static com.shopgun.android.utils.log.LogUtil.TAG;
 import com.CampusNavigation.Log.LOG;
 /**
  * @see Map 地图类
- * @see Map#Map(Graph, AssetManager)
- * @see Map#Map(Map, int, Graph, AssetManager, SpecificBuild)  
- * @see Map#Map(int) 
- * @see Map#getByGraph(Graph, AssetManager, SpecificBuild)  
- * @see Map#getBuildingsOrder(String)  
- * @see Map#initTable(Map, TableEntry[])  
- * @see Map#getAroundTable(int, int)  
- * @see Map#dijkstra(int)  
- * @see Map#updateTableEntry(TableEntry[], TableEntry)
- * @see Map#numOfBuildings
- * @see Map#buildings
- * @see Map#paths
- * @see Map#isCampus
- * @see Map#floor
- * @see Map#parent
- * @see Map#indexOfBus
- * @see Map#indexOfCar
- * @see Map#indexOfExit
+ * @see Map#Map(Graph, AssetManager) 构建邻接表，构造校园地图
+ * @see Map#Map(Map, int, Graph, AssetManager, SpecificBuild)  构建邻接表，构造楼层地图
+ * @see Map#Map(int) 默认的空地图
+ * @see Map#getByGraph(Graph, AssetManager, SpecificBuild)  通过地图蓝图构造具有可用数据的地图
+ * @see Map#getBuildingsOrder(String)  通过建筑物名返回其在地图中的序号
+ * @see Map#initTable(Map, TableEntry[])  初始化寻路表
+ * @see Map#getAroundTable(int, int)  搜索附近
+ * @see Map#dijkstra(int)  用于寻路的迪杰斯特拉算法
+ * @see Map#updateTableEntry(TableEntry[], TableEntry) 包装迪杰斯特拉算法
+ * @see Map#numOfBuildings 地图内建筑物的数量
+ * @see Map#buildings 地图内的建筑物组
+ * @see Map#paths 道路组成的邻接矩阵
+ * @see Map#isCampus 地图是否为校园地图（否则就是楼层地图）
+ * @see Map#floor 地图所在层数
+ * @see Map#parent 楼层地图的归属大地图
+ * @see Map#indexOfBus 公交车站的序号
+ * @see Map#indexOfCar 班车站的序号
+ * @see Map#indexOfExit 大门的序号
  */
 public class Map {
     public static final int MaxNumOfDots = 150;
@@ -51,8 +51,7 @@ public class Map {
     private int indexOfCar=0;
     private int indexOfExit=0;
     /**
-     * 构建邻接表用于DJ算法.
-     *
+     * 构建邻接表用于DJ算法
      * @param graph 地图
      * @throws IOException 读取文件出错
      */
@@ -64,11 +63,10 @@ public class Map {
     }
 
     /**
-     * @param map
-     * @param floor
-     * @param graph
-     * @param asset
-     * @param build
+     * @param map 归属的校园地图
+     * @param floor 所在楼层
+     * @param graph 地图
+     * @param build 归属的建筑楼
      * @exception IOException 读取文件出错
      * */
     public Map(Map map,int floor,Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
@@ -81,9 +79,8 @@ public class Map {
     }
 
     /**
-     * @param graph
-     * @param asset
-     * @param build
+     * @param graph 地图
+     * @param build 归属的建筑楼
      * @exception IOException 读取文件出错
      * */
     private void getByGraph(Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
@@ -121,6 +118,7 @@ public class Map {
             }
         }
     }
+
     public Map(int a ){
         this.filePath ="default";
     }
@@ -163,8 +161,8 @@ public class Map {
     }
 
     /**
-     * @param graph
-     * @param t
+     * @param graph 地图
+     * @param t 需要初始化的寻路表
      * */
     private void initTable(Map graph, TableEntry[] t) {
         for (int i = 0; i < graph.numOfBuildings; i++) {
@@ -174,8 +172,8 @@ public class Map {
     }
 
     /**
-     * @param vertex
-     * @param deepth
+     * @param vertex 顶点，实为建筑物的序号
+     * @param deepth 查找附近的最大范围
      * @return 一个DJ算法所用表
      */
     protected LinkedList<TableEntry> getAroundTable(int vertex,int deepth)
@@ -195,8 +193,8 @@ public class Map {
     }
 
     /**
-     * @param vertex
-     * @return
+     * @param vertex 围绕该点进行寻路表的构造
+     * @return 返回构造完成的寻路表
      * */
     protected TableEntry[] dijkstra(int vertex) {
         int orginalVertex=vertex;
@@ -223,9 +221,9 @@ public class Map {
     }
 
     /**
-     * @param tableEntries
-     * @param known
-     * @return
+     * @param tableEntries 要更新的寻路表
+     * @param known 寻路起始点
+     * @return 已知的路径最短点下标
      * */
     private int updateTableEntry(TableEntry[] tableEntries, TableEntry known) {
         Path[] temp = this.paths[known.getNumOfBuilding()];
@@ -358,18 +356,6 @@ public class Map {
            }
            break;
        }
-
-
-
-
-
-
-
-
-
-
-
-
 
         for (int i = 0; i < this.numOfBuildings; i++) {
             if ((tableEntries[i].isNotKnown()) && tableEntries[i].getDist() < dv) {
