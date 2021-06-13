@@ -20,10 +20,10 @@ import static com.shopgun.android.utils.Tag.TAG;
 /**
  * @see Student 学生类的基础架子.
  * @see Student#Student(Position)  传入一个初始位置构造一位学生
- * @see Student#setTargetBuilding(Building, String, boolean)
- * @see Student#setTargetBuilding(Queue)
- * @see Student#getCostToTarget(Building, String, boolean)
- * @see Student#getTargetBuildingCost(Position, Building, String, String)
+ * @see Student#setTargetBuilding(Building, String, boolean) 设置目标地点为Building所代表的值，同时通过String传入了导航策略，并判断是否选择了班车
+ * @see Student#setTargetBuilding(Queue) 获取途径最短导航方式的结果
+ * @see Student#getCostToTarget(Building, String, boolean)  获取当前位置到目的地的花费
+ * @see Student#getTargetBuildingCost(Position, Building, String, String) 获取
  * @see Student#getTargetBuildingCost(Queue)
  * @see Student#getTargetBuildingCost(Building, String, String)
  * @see Student#getShortestRouteToTarget(Building, String)
