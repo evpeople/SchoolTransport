@@ -424,5 +424,9 @@ public class Map {
     public int IndexOfExit() {
         return indexOfExit;
     }
+
+    public boolean isCampus() {
+        return isCampus;
+    }
 }
 

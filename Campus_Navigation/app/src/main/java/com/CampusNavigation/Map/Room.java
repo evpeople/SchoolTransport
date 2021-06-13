@@ -16,7 +16,13 @@ public class Room extends Building {
     super(dot,belongToBuilding.map);
     this.belongToBuilding=belongToBuilding;
   }
-//  /**
+
+  public SpecificBuild getBelongToBuilding() {
+    return belongToBuilding;
+  }
+
+
+  //  /**
 //   * 构造器方法.
 //   *
 //   * @param nameOfBuilding   建筑物的名字

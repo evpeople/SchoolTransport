@@ -9,13 +9,10 @@ import android.util.Pair;
 
 import com.CampusNavigation.Gui.StudentView;
 import com.CampusNavigation.Map.Building;
-import com.CampusNavigation.Map.Map;
 import com.CampusNavigation.Map.Path;
 import com.CampusNavigation.Map.Room;
 import com.CampusNavigation.Map.TableEntry;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
@@ -42,19 +39,26 @@ public class Student {
     }
 
     //唯一供前端调用接口
-    public void setTargetBuilding(Building targetBuilding,String strategy,boolean ByBus) {
+    public void setTargetBuilding(Building targetBuilding, String strategy, boolean ByBus) {
         this.targetBuilding = targetBuilding;
         //todo:busType 的输入
-        if(!position.isOnBuilding()) {
+        if (!position.isOnBuilding()) {
             if (ByBus) dealStopInPath(targetBuilding, strategy, "bus");
             else dealStopInPath(targetBuilding, strategy, "car");
-        switch (strategy){
-            case "c": setTargetBuilding(null); break;
-            case "a": case "b": case "d":
-                getShortestRouteToTarget(targetBuilding,strategy);break;
-            default:  break;
+            switch (strategy) {
+                case "c":
+                    setTargetBuilding(null);
+                    break;
+                case "a":
+                case "b":
+                case "d":
+                    getShortestRouteToTarget(targetBuilding, strategy);
+                    break;
+                default:
+                    break;
+            }
+            if (strategy.equals("d")) goByBike = true;
         }
-        if(strategy.equals("d"))goByBike=true;
     }
     //唯二共前端调用接口
     public String getCostToTarget(Building targetBuilding,String strategy,boolean ByBus) throws CloneNotSupportedException {
@@ -92,7 +96,7 @@ public class Student {
         getShortestRouteToTarget(targetBuilding.poll(), "a");
         cost=TableEntry.totalCost;
         while (!targetBuilding.isEmpty()) {
-            pathsToGo.addAll(getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a"));
+            getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a");
             cost+=TableEntry.totalCost;
         }
         return cost;
@@ -174,8 +178,8 @@ public class Student {
             int destinationIndex = destination.index;
             pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
         } else {
-            int busStop;
-            int busBegin;
+            int busStop = 0;
+            int busBegin=0;
             if (destination.map.isCampus())
             {
                 busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
@@ -185,10 +189,10 @@ public class Student {
             {
                 if (destination instanceof Room)
                 {
+                   busStop= ((Room)destination).getBelongToBuilding().index;
                 //todo:新的busStop
                 }
 
-                busStop=destination.index;
                 busBegin=destination.map.IndexOfExit();
             }
 
@@ -213,19 +217,27 @@ public class Student {
             int destinationIndex = destination.index;
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
-            int busStop;
+            int busStop=0;
+            int busBegin=0;
             if (position.getCurrentMap().isCampus())
             {
-                busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
+                busStop =posBuilding.map.IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
+                busBegin=destination.map.IndexOfBus();
             }
             else
             {
-                busStop=destination.index;
+                if (destination instanceof Room)
+                {
+                    busStop= ((Room)destination).getBelongToBuilding().index;
+                    busBegin=destination.map.IndexOfExit();
+                    //todo:新的busStop
+                }
+
             }
             pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
 
             Queue<Path> pathsToGo2 = new LinkedList<>();
-            int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
+
             int destinationIndex = destination.map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
