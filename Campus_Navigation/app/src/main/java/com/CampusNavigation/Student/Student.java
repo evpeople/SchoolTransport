@@ -4,6 +4,8 @@ package com.CampusNavigation.Student;
  * 学生类的基础架子.
  */
 
+import android.util.Log;
+
 import com.CampusNavigation.Gui.StudentView;
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Map;
@@ -14,6 +16,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import static com.shopgun.android.utils.Tag.TAG;
 
 public class Student {
 
@@ -131,9 +135,15 @@ public class Student {
 
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
+        if (strategy!="c")
+        {
+            pathsToGo.clear();
+        }
         TableEntry.setStrategy(strategy);
         if (position.isOnBuilding&& destination==position.getNowBuilding()) {
+            Log.e(TAG, "getShortestRouteToTarget: "+position.isOnBuilding );
             pathsToGo=new LinkedList<>();
+            return;
         }
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {

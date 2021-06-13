@@ -111,6 +111,7 @@ public class Map {
      * @return 一个DJ算法所用表
      */
     protected TableEntry[] dijkstra(int vertex) {
+        int orginalVertex=vertex;
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
         initTable(this, tableEntries);
         while (true) {
@@ -121,6 +122,9 @@ public class Map {
             }
             vertex = updateTableEntry(tableEntries, tableEntries[vertex]);
             if (vertex == -1) {
+                Route tempP = new Route(this.buildings[orginalVertex],
+                        this.buildings[orginalVertex]);
+                tableEntries[orginalVertex].setPathToBuilding( tempP );
                 break;
             }
             for (int ie = 0; ie < this.numOfBuildings; ie++) {
@@ -134,7 +138,7 @@ public class Map {
         Path[] temp = this.paths[known.getNumOfBuilding()];
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
-
+//更新完之后，当前表中最低的点
        switch (TableEntry.stra)
        {
            case 1:
@@ -146,10 +150,11 @@ public class Map {
                        Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
                                this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
                                this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
-                       Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                       Log.e("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
                        double oldDist = tableEntries[i].getDist();//设置早了此处
                        if (oldDist>=known.getDist()+temp[i].getLength()) {
                            tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                           Log.i("Map 求最短路径","本点更改后的距离是 {}"+ tableEntries[i].getDist()+"经过的是"+temp[i].toString());
                        }
                        double newDist = tableEntries[i].getDist();
                        if (oldDist == newDist) {
@@ -169,6 +174,7 @@ public class Map {
                    }
                }
            }
+           break;
            case 2:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
@@ -201,6 +207,7 @@ public class Map {
                    }
                }
            }
+           break;
            case 3:
            {
 
@@ -241,6 +248,7 @@ public class Map {
                    }
                }
            }
+           break;
        }
 
 
@@ -273,9 +281,11 @@ public class Map {
         Queue<Path> shortestRoute = new LinkedList<>();
         HashMap<Building,Path> hashMap=getTheShortestRoute(start,end);
         Building now=buildings[start];
-        while (hashMap.containsKey(now)){
-            shortestRoute.add(hashMap.get(now));
-            now=hashMap.get(now).getEnd();
+        if (hashMap!=null) {
+            while (hashMap.containsKey(now)) {
+                shortestRoute.add(hashMap.get(now));
+                now = hashMap.get(now).getEnd();
+            }
         }
         return (shortestRoute);
     }
@@ -288,6 +298,10 @@ public class Map {
         Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
         Log.i(TAG, "getTheShortestRoute: end is"+end);
+        if (currentVertex==start)
+        {
+            return null;
+        }
         do {
             Log.i(TAG, "getTheShortestRoute: currentVertex is"+currentVertex);
             shortestRoute.put(tableEntries[currentVertex].pathToBuilding.getStart(),
