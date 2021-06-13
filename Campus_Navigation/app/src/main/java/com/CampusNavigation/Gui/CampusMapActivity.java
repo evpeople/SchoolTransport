@@ -64,8 +64,10 @@ public class CampusMapActivity extends AppCompatActivity {
                 break;
             case R.id.strategeCItem:
                 if(showingQueue==null){
+                    layout_back.removeView(mainLayout);
                     showingQueue=new CoolLinearLayout(this);
                     showingQueue.setOrientation(LinearLayout.VERTICAL);
+                    layout_back.addView(showingQueue);
                     for(Building building:mainLayout.getQueue()){
                         TextView Text =new TextView(this);
                         Text.setText(building.nameOfBuildingInEnglish);

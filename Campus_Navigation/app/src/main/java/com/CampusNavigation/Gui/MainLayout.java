@@ -138,7 +138,7 @@ public class MainLayout extends CoolLinearLayout {
         });
         //监听导航策略
         switchStrategy.setOnClickListener((e)->{
-            if(strategy[strategyIndex].equals("c")&&switchStrategy.getText().equals(strategy[strategyIndex])){
+            if(strategy[strategyIndex].equals("c")&&switchStrategy.getText().equals(strategyInfo[strategyIndex])){
                 switchStrategy.setText("途经最短已确认");
                 student.setTargetBuilding(queue,byBus);
             }
