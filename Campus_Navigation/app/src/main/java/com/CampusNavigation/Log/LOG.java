@@ -11,6 +11,8 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public abstract class LOG {
         private static FileWriter fileWriter=null;
@@ -42,9 +44,11 @@ public abstract class LOG {
             }
         }
         public static void u(String msg)  {
-            Log.d("USER-D",msg);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String time=df.format(new Date());
+            Log.d("USER",msg);
             try {
-                if(fileWriter!=null)fileWriter.write("USER-D "+msg);//写入本地文件的方法
+                if(fileWriter!=null)fileWriter.write("USER["+time+"]"+msg+"\n");//写入本地文件的方法
             } catch (IOException e) {
                 e.printStackTrace();
             }

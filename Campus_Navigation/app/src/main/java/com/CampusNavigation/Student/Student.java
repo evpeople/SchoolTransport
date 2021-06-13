@@ -65,9 +65,6 @@ public class Student {
             dealStopInPath(targetBuilding,strategy,carType);
         }
             switch (strategy) {
-                case "c":
-                    setTargetBuilding(null);
-                    break;
                 case "a":
                 case "b":
                 case "d":
