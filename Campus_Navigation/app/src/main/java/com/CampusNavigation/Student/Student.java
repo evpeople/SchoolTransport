@@ -42,8 +42,11 @@ public class Student {
     public void setTargetBuilding(Building targetBuilding,String strategy,boolean ByBus) {
         this.targetBuilding = targetBuilding;
         //todo:busType 的输入
-        if(ByBus)dealStopInPath(targetBuilding,strategy,"bus");
-        else dealStopInPath(targetBuilding,strategy,"bus");
+        if (!position.isOnBuilding())
+        {
+            if(ByBus)dealStopInPath(targetBuilding,strategy,"bus");
+            else dealStopInPath(targetBuilding,strategy,"bus");
+        }
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
@@ -152,7 +155,7 @@ public class Student {
 
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
-        if (strategy!="c")
+        if (strategy!="c"&&position.isOnBuilding)
         {
             pathsToGo.clear();
         }
@@ -222,6 +225,7 @@ public class Student {
     }
     private void dealStopInPath(Building destination, String strategy,String carType)
     {
+        pathsToGo.clear();
         Position endPostion=new Position(position.getPath().getEnd());//通过path更新buiding
         double endCost=getTargetBuildingCost(endPostion,destination,strategy,carType);
         Position startPostion=new Position(position.getPath().getStart());//通过path更新buiding
@@ -229,9 +233,11 @@ public class Student {
         if (endCost>=startCost)
         {
            pathsToGo.add(position.getPath().getStart().map.getPaths()[position.getPath().getEnd().index][position.getPath().getStart().index]);
-        }
+            Log.e(TAG, "dealStopInPath: "+"dsdasdasdasdsa" );
+        }else
         {
             pathsToGo.add(position.getPath());
+            Log.e(TAG, "dealStopInPath: "+"sadasdasdasdasdsadasdasdasdasdasdsadsadsadawsWWWWWWWWWWWWWWWWWWWWWWWWWWWW" );
         }
     }
     private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
