@@ -47,7 +47,7 @@ public class Path {
     }
 
     public double getTime() {
-        setCrowdDegree(start.type);
+        //setCrowdDegree(start.type);
         return length / (v * crowdDegree);
     }
 
@@ -123,6 +123,7 @@ public class Path {
             default:
                 result = 0.75;
         }
+        crowdDegree=result;
         return result;
     }
 
