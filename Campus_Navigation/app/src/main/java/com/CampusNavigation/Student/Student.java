@@ -80,7 +80,12 @@ public class Student {
         if (!position.isOnBuilding()) {
             dealStopInPath(targetBuilding.peek(), "a", carType);
         }
+        if (targetBuilding.size()==0)
+        {
+            return;
+        }
         setTargetBuilding(targetBuilding);
+
     }
 
 
@@ -91,6 +96,7 @@ public class Student {
      * */
     //唯二共前端调用接口
     public String getCostToTarget(Building targetBuilding,String strategy,boolean ByBus) throws CloneNotSupportedException {
+        TableEntry.totalCost=0;
         double ans=0;
         String carType=ByBus?"bus":"car";
         if(!position.isOnBuilding()) {
@@ -124,11 +130,15 @@ public class Student {
      * */
     public void setTargetBuilding(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
-        getShortestRouteToTarget(targetBuilding.poll(), "a");
-        while (!targetBuilding.isEmpty()) {
-          getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a");
+        if (position.getNowBuilding() == targetBuilding.peek()) {
+            return;
         }
-        //if(position.getNowBuilding()==null);
+        while (!targetBuilding.isEmpty()) {
+            Position temp = new Position(targetBuilding.peek());
+            Student temp2 = new Student(temp);
+            temp2.getShortestRouteToTarget(targetBuilding.poll(), "a");
+            pathsToGo.addAll(temp2.pathsToGo);
+        }
     }
 
     /**
