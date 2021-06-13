@@ -12,7 +12,6 @@ import java.util.Queue;
  */
 public class Building {
 
-  private Exit exit = null;
   public final double mathX;
   public final double mathY;
   public final int schoolNum=0;

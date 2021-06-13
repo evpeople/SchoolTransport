@@ -46,7 +46,7 @@ public class SpecificBuild extends Building {
                 default:path=teachBuildPath;
             }
             Graph graph=graphManager.manage(assetManager,path);
-            mapOfFloor[i] = new Map(map,floor,graph,assetManager);
+            mapOfFloor[i] = new Map(map,floor,graph,assetManager,this);
         }
         mapOfFloor[0] = map;
         for (int i = floor ; i >= 1; i--) {

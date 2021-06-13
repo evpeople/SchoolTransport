@@ -43,19 +43,19 @@ public class Map {
         this.filePath =graph.filePath;
         isCampus=true;
         this.numOfBuildings = graph.NumOfDots();
-        getByGraph(graph, asset);
+        getByGraph(graph, asset,null);
     }
 
-    public Map(Map map,int floor,Graph graph,AssetManager asset) throws IOException {
+    public Map(Map map,int floor,Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
         this.filePath=graph.filePath;
         isCampus=false;
         this.numOfBuildings = graph.NumOfDots();
         this.floor=floor;
         this.parent=map;
-        getByGraph(graph,asset);
+        getByGraph(graph,asset,build);
     }
 
-    private void getByGraph(Graph graph,AssetManager asset) throws IOException {
+    private void getByGraph(Graph graph,AssetManager asset,SpecificBuild build) throws IOException {
         int now = 0;
         for (Dot dot : graph.getDots()) {
             if (dot == null) {
@@ -64,8 +64,12 @@ public class Map {
             if(isCampus==false&&dot.getType()!=BuildingType.exit){dot.setType(BuildingType.room);};
             switch (dot.getType()) {
                 case exit:
-                    buildings[now] = new Exit(dot, this);
+                    if(build!=null)buildings[now] = new Room(dot, build);
+                    else buildings[now]=new Building(dot,this);
                     this.indexOfExit=now;
+                    break;
+                case room:
+                    buildings[now]=new Room(dot,build);
                     break;
                 default:
                     buildings[now] = new SpecificBuild(dot, this,asset);

@@ -20,7 +20,7 @@ import com.CampusNavigation.Student.Student;
 
 import java.io.IOException;
 
-public class MainLayout extends LinearLayout {
+public class MainLayout extends CoolLinearLayout {
     private static final String Path1="campus1.txt";
     private static final String Path2="campus2.txt";
     private static final String strategyInfo[]={"最短距离","最短时间","途经最短","自行车"};
@@ -134,22 +134,6 @@ public class MainLayout extends LinearLayout {
         addView(stuPos);//*
     }//end Main
 
-    private Button addButton(String text,LinearLayout layout) {
-        Button button = new Button(getContext());
-        button.setGravity(Gravity.CENTER);
-        button.setText(text);
-        LinearLayout.LayoutParams params_button = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        //params_button.setMargins(50,0,0,0);
-        layout.addView(button, params_button);
-        return button;
-    }
-    private TextView addText(String text,LinearLayout layout){
-        TextView Text =new TextView(getContext(),null);
-       Text.setText(text);
-       Text.setRight(6);
-       layout.addView(Text);
-        return  Text;
-    }
 
     public void setTouchedBuilding(BuildingView touchedBuilding) {
         this.touchedBuilding = touchedBuilding;
@@ -162,7 +146,7 @@ public class MainLayout extends LinearLayout {
         Graph graph=getGraph(map.filePath);
         mapLayout = new MapLayout(getContext(),graph);
         LinearLayout.LayoutParams params_map = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        mapLayout.setRight(150);//参数含义？？？
+
         if(studentView!=null&&studentView.rightNowPosition().getCurrentMap()==map)mapLayout.SetStudentView(studentView);
         addView(mapLayout, params_map);//*
         this.map=map;
@@ -184,18 +168,7 @@ public class MainLayout extends LinearLayout {
             mapLayout.SetStudentViewPosition(studentView);
         }
     }
-    private EditText addEdit(String hint, LinearLayout layout){
-        EditText editText=new EditText(getContext());
-        editText.setHint(hint);
-        layout.addView(editText);
-        return editText;
-    }
-    private LinearLayout newLinearLayout(int color){
-        LinearLayout top=new LinearLayout(getContext());
-        top.setOrientation(HORIZONTAL);
-        top.setGravity(Gravity.CENTER_VERTICAL);
-        top.setBackgroundColor(color);
-        addView(top);
-        return top;
+    public Building choosedBuilding(){
+        return touchedBuilding.building(map);
     }
 }
