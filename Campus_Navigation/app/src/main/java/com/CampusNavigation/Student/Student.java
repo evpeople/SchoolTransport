@@ -5,6 +5,7 @@ package com.CampusNavigation.Student;
  */
 
 import android.util.Log;
+import android.util.Pair;
 
 import com.CampusNavigation.Gui.StudentView;
 import com.CampusNavigation.Map.Building;
@@ -47,6 +48,8 @@ public class Student {
 
     public void setTargetBuilding(Building targetBuilding,String strategy) {
         this.targetBuilding = targetBuilding;
+        //todo:busType 的输入
+        dealStopInPath(targetBuilding,strategy,"bus");
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
@@ -199,7 +202,12 @@ public class Student {
            pathsToGo.add(position.getPath().getStart().map.getPaths()[position.getPath().getEnd().index][position.getPath().getStart().index]);
         }
         {
-            position.getPath();
+            pathsToGo.add(position.getPath());
         }
+    }
+    private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
+    {
+        Queue<Pair<Building,Double>> around = new LinkedList<>();
+        return around;
     }
 }
