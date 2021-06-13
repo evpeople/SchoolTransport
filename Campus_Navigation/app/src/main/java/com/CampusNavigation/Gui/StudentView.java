@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.CampusNavigation.Log.LOG;
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Path;
 import com.CampusNavigation.Student.Position;
@@ -71,15 +72,18 @@ public   class StudentView extends View {
                         AfterMove.run();
                         rightNowPosition().setX(getX());
                         rightNowPosition().setY(getY());
+                        LOG.u("Suceecefully move to "+rightNowPosition().getNowBuilding().nameOfBuildingInEnglish);
                        // Toast.makeText(getContext(),rightNowPosition().getNowBuilding().mathX+" "+getX(),Toast.LENGTH_SHORT).show();
                     }
                      else{
+                        LOG.u(" moved to "+rightNowPosition().getNowBuilding().nameOfBuildingInEnglish);
                          if(target().peek().getStart().map!=rightNowPosition().getCurrentMap()){
                              rightNowPosition().setNowBuilding(target().peek().getStart());
                              WhenSwitchMap.run();
                          }
                          rightNowPosition().setPath(target().peek());
                          toReach=rightNowPosition().getPath().getEnd();
+
                      }
                     startMove(AfterMove,WhenSwitchMap);
                 }
@@ -96,6 +100,7 @@ public   class StudentView extends View {
         toReach=null;
         rightNowPosition().setX(getX());
         rightNowPosition().setY(getY());
+        LOG.u("stopped at half way between "+rightNowPosition().getPath().getStart()+" and "+rightNowPosition().getPath().getEnd());
     }
     public RelativeLayout.LayoutParams getStuParams(int size) {
         this.r=size;
