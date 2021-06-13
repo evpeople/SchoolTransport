@@ -123,4 +123,8 @@ public class Path {
     public Building getStart() {
         return start;
     }
+
+    public double CrowdDegree() {
+        return crowdDegree;
+    }
 }

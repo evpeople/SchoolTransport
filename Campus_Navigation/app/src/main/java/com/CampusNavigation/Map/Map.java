@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import static com.shopgun.android.utils.log.LogUtil.TAG;
-
+import com.CampusNavigation.Log.LOG;
 /**
  * 地图类.
  */
@@ -72,6 +72,7 @@ public class Map {
                     if(buildings[now].type==BuildingType.car)indexOfCar=now;
                     break;
             }
+            LOG.d(filePath+" "+now+" "+dot.getType().toString()+" "+dot.getPosition());
             now++;
         }
         Log.d("Map 初始化", String.valueOf(this.numOfBuildings));
@@ -349,6 +350,18 @@ public class Map {
 
     public ArrayList<Building> getSurroundings(int numOfBuilding) {
         return breadthFirstSearch(numOfBuilding, 100.0);
+    }
+
+    public int IndexOfBus() {
+        return indexOfBus;
+    }
+
+    public int IndexOfCar() {
+        return indexOfCar;
+    }
+
+    public int IndexOfExit() {
+        return indexOfExit;
     }
 }
 

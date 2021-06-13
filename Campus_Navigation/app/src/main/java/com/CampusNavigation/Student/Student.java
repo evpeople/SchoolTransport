@@ -17,11 +17,12 @@ import java.util.Queue;
 
 public class Student {
 
-    public Position position; //todo 凑数的位置类
+    private Position position; //todo 凑数的位置类
     private double walkSpeed;
     public Queue<Path> pathsToGo = new LinkedList<>();
     public StudentView view;
     private Building targetBuilding;
+    private boolean goByBike;
 
     /**
      *
@@ -32,15 +33,7 @@ public class Student {
         this.walkSpeed = 60;//初始速度60米每分钟
     }
 
-
-    public void setSpeed(int newSpeed) {
-        this.walkSpeed = newSpeed;
-    }
-
-    public void setPosition(Position currentPosition) {
-        position = currentPosition;
-    }
-
+    //唯一供前端调用接口
     public void setTargetBuilding(Building targetBuilding,String strategy) {
         this.targetBuilding = targetBuilding;
         switch (strategy){
@@ -49,6 +42,7 @@ public class Student {
                 getShortestRouteToTarget(targetBuilding,strategy);break;
             default:  break;
         }
+        if(strategy=="d")goByBike=true;
     }
 
     public void setTargetBuilding(Queue<Building> targetBuilding) {
@@ -81,7 +75,7 @@ public class Student {
             pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
             totalTime = TableEntry.totalCost;
         } else {
-            int busStop = 3;//todo: //确认车站的下标Index
+            int busStop = position.getCurrentMap().IndexOfBus();//todo: //确认车站的下标Index
             pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
             totalTime = TableEntry.totalCost;
 
@@ -114,7 +108,7 @@ public class Student {
             }
 
             Queue<Path> pathsToGo2 = new LinkedList<>();
-            int busBegin = 1;//todo: 确认车站下标。
+            int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
             int destinationIndex = destination.index;
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
@@ -133,10 +127,10 @@ public class Student {
             int destinationIndex = destination.index;
             pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
-            int busStop = 3;//todo: //确认车站的下标Index
+            int busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
             pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
             Queue<Path> pathsToGo2 = new LinkedList<>();
-            int busBegin = 1;//todo: 确认车站下标。
+            int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
             int destinationIndex = destination.index;
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
@@ -154,10 +148,10 @@ public class Student {
             int destinationIndex = destination.index;
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
-            int busStop = 3;//todo: //确认车站的下标Index
+            int busStop = posBuilding.map.IndexOfBus();//todo: //确认车站的下标Index
             pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
             Queue<Path> pathsToGo2 = new LinkedList<>();
-            int busBegin = 1;//todo: 确认车站下标。
+            int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
             int destinationIndex = destination.map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
@@ -169,5 +163,17 @@ public class Student {
     private void getShortestRouteToTarget(int destinationIndex, String strategy) {
         Building destination = position.getCurrentMap().getBuilding(destinationIndex);
         getShortestRouteToTarget(destination, strategy);
+    }
+
+    public boolean isGoByBike() {
+        return goByBike;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }

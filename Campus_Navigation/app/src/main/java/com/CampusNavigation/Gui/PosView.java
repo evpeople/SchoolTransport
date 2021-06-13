@@ -31,8 +31,8 @@ public class PosView extends TextView {
             }
             String text="("+format.format(target.getX())+","+format.format(target.getY())+")";
             if(target instanceof StudentView){
-                Path path=((StudentView)target).rightNowPosition.getPath();
-                Building building=((StudentView)target).rightNowPosition.getNowBuilding();
+                Path path=((StudentView)target).rightNowPosition().getPath();
+                Building building=((StudentView)target).rightNowPosition().getNowBuilding();
                 if(path!=null&&path.getStart()!=null&&path.getStart().nameOfBuildingInEnglish!=null)text+=" path start:"+path.getStart().nameOfBuildingInEnglish+" ";
                 if(path!=null&&path.getEnd()!=null&&path.getEnd().nameOfBuildingInEnglish!=null)text+=" path end :"+path.getEnd().nameOfBuildingInEnglish+" ";
                 if(building!=null&&building.nameOfBuildingInEnglish!=null)text+=" now building: "+building.nameOfBuildingInEnglish+" ";

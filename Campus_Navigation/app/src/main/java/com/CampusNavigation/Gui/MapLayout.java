@@ -28,17 +28,16 @@ public    class MapLayout extends ZoomLayout {
         if(this.student!=null)deleteStudentView();
         //this.student=new StudentView(getContext(),student);
         this.student=studentView;
-        if(studentView.rightNowPosition!=null){
-            studentView.setX((int)studentView.rightNowPosition.getX());
-            studentView.setY(((int)studentView.rightNowPosition.getY()));
+        if(studentView.rightNowPosition()!=null){
+            studentView.setX((int)studentView.rightNowPosition().getX());
+            studentView.setY(((int)studentView.rightNowPosition().getY()));
         }
         allBuildings.addView(this.student,this.student.getStuParams());
     }
-    public void SetStudentViewPosition(StudentView studentView, Building building){
+    public void SetStudentViewPosition(StudentView studentView){
         if(this.student!=null)deleteStudentView();
         this.student=studentView;
-        studentView.setX((int)building.mathX);
-        studentView.setY((int)building.mathY);
+        studentView.reSetPosition();
         allBuildings.addView(this.student,this.student.getStuParams());
     }
     public void deleteStudentView(){
