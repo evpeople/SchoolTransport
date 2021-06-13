@@ -2,6 +2,7 @@ package com.CampusNavigation.Map;
 
 import android.content.res.AssetManager;
 import android.util.Log;
+import android.util.Pair;
 
 import com.CampusNavigation.GraphImport.Graph.BuildingType;
 import com.CampusNavigation.GraphImport.Graph.Dot;
@@ -135,7 +136,24 @@ public class Map {
      *
      * @return 一个DJ算法所用表
      */
+    protected LinkedList<TableEntry> getAroundTable(int vertex,int deepth)
+    {
+        TableEntry.totalCost=0;
+        TableEntry[] tableEntries = dijkstra(vertex);//dj 没有问题
+        LinkedList<TableEntry>ans = new LinkedList<>();
+        for (int i=0;i<=tableEntries.length;i++)
+        {
+            if (tableEntries[i].getDist()<deepth)
+            {
+                ans.add(tableEntries[i]);
+            }
+
+        }
+        return ans;
+    }
+
     protected TableEntry[] dijkstra(int vertex) {
+        int orginalVertex=vertex;
         TableEntry[] tableEntries = new TableEntry[this.numOfBuildings ];
         initTable(this, tableEntries);
         while (true) {
@@ -146,6 +164,9 @@ public class Map {
             }
             vertex = updateTableEntry(tableEntries, tableEntries[vertex]);
             if (vertex == -1) {
+                Route tempP = new Route(this.buildings[orginalVertex],
+                        this.buildings[orginalVertex]);
+                tableEntries[orginalVertex].setPathToBuilding( tempP );
                 break;
             }
             for (int ie = 0; ie < this.numOfBuildings; ie++) {
@@ -159,9 +180,18 @@ public class Map {
         Path[] temp = this.paths[known.getNumOfBuilding()];
         double dv = Double.POSITIVE_INFINITY;
         int minRoute = -1;
-
+//更新完之后，当前表中最低的点
        switch (TableEntry.stra)
        {
+           case 5: {
+               for (int i = 0; i<this.numOfBuildings;i++)
+               {
+                   if (temp[i] != null) {
+                       tableEntries[i].setDist(temp[i].getLength()+known.getDist());
+                   }
+               }
+           }
+                break;
            case 1:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
@@ -171,10 +201,11 @@ public class Map {
                        Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
                                this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
                                this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
-                       Log.d("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
+                       Log.e("Map 求最短路径","本点更改前的距离是 {}"+ tableEntries[i].getDist());
                        double oldDist = tableEntries[i].getDist();//设置早了此处
                        if (oldDist>=known.getDist()+temp[i].getLength()) {
                            tableEntries[i].setDist(temp[i].getLength() + known.getDist());
+                           Log.i("Map 求最短路径","本点更改后的距离是 {}"+ tableEntries[i].getDist()+"经过的是"+temp[i].toString());
                        }
                        double newDist = tableEntries[i].getDist();
                        if (oldDist == newDist) {
@@ -194,6 +225,7 @@ public class Map {
                    }
                }
            }
+           break;
            case 2:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
@@ -226,6 +258,7 @@ public class Map {
                    }
                }
            }
+           break;
            case 3:
            {
 
@@ -233,9 +266,13 @@ public class Map {
            case 4:
            {
                for (int i = 0; i < this.numOfBuildings; i++) {
-                   if (tableEntries[i].isNotKnown() && temp[i] != null&&temp[i].isBike())
+                   if (tableEntries[i].isNotKnown() && temp[i] != null)
                    //后一个temp[i]为能从起点到这个位置
                    {
+                       if (temp[i].isBike())
+                       {
+                           temp[i].setV(200);
+                       }
                        Log.d("Map 求最短路径","当前点 {} 能到达的一个点是 {} "+
                                this.buildings[known.getNumOfBuilding()].nameOfBuildingInEnglish+
                                this.buildings[tableEntries[i].getNumOfBuilding()].nameOfBuildingInEnglish);
@@ -262,6 +299,7 @@ public class Map {
                    }
                }
            }
+           break;
        }
 
 
@@ -294,13 +332,28 @@ public class Map {
         Queue<Path> shortestRoute = new LinkedList<>();
         HashMap<Building,Path> hashMap=getTheShortestRoute(start,end);
         Building now=buildings[start];
-        while (hashMap.containsKey(now)){
-            shortestRoute.add(hashMap.get(now));
-            now=hashMap.get(now).getEnd();
+        if (hashMap!=null) {
+            while (hashMap.containsKey(now)) {
+                shortestRoute.add(hashMap.get(now));
+                now = hashMap.get(now).getEnd();
+            }
         }
         return (shortestRoute);
     }
+    public Queue<Pair<Building,Double>>getAround(int center,int deepth)
+    {
+        Queue<Pair<Building,Double>> ans= new LinkedList<>();
+        LinkedList<TableEntry>tempAns = new LinkedList<>();
+        tempAns=getAroundTable(center,deepth);
 
+       for (int size=tempAns.size(),i=0;i<size;i++)
+       {
+
+           Pair<Building,Double>temp= new Pair<Building,Double>(this.getBuilding(tempAns.get(i).getNumOfBuilding()),tempAns.get(i).getDist());
+           ans.add(temp);
+       }
+        return ans;
+    }
     public HashMap<Building, Path> getTheShortestRoute(int start, int end) {
         HashMap<Building, Path> shortestRoute = new HashMap<>();
         TableEntry.totalCost=0;
@@ -309,6 +362,10 @@ public class Map {
         Log.i(TAG, "getTheShortestRoute: start is "+start);
         int currentVertex = end;
         Log.i(TAG, "getTheShortestRoute: end is"+end);
+        if (currentVertex==start)
+        {
+            return null;
+        }
         do {
             Log.i(TAG, "getTheShortestRoute: currentVertex is"+currentVertex);
             shortestRoute.put(tableEntries[currentVertex].pathToBuilding.getStart(),

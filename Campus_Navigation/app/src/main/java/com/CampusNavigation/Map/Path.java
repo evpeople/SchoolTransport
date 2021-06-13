@@ -18,6 +18,7 @@ public class Path {
     private boolean isBike;
     private Building start;
     private Building end;
+    private double v;
 
     public Path(Edge edge, Building[] buildings) {
         this.crowdDegree = edge.getDegreeOfCongestion();
@@ -28,16 +29,18 @@ public class Path {
                 .sqrt((start.mathX - end.mathX) * (start.mathX - end.mathX) + (start.mathY
                         - end.mathY) * (start.mathY - end.mathY));
 
+        this.v=60;
     }
 
     public double getTime() {
         setCrowdDegree(start.type);
-        return length / (60 * crowdDegree);
+        return length / (v * crowdDegree);
     }
 
     public boolean isBike() {
         return isBike;
     }
+
 
 
     /**
@@ -56,6 +59,10 @@ public class Path {
         this.end = end;
     }
 
+    public void setV(double v) {
+        this.v = v;
+    }
+
     /**
      * 目前暂定将路径分为几个不同的type，分别有自己不同的拥挤度函数，到时候就可以根据type抉择算法了
      */
@@ -63,7 +70,7 @@ public class Path {
         Calendar currentTime = Calendar.getInstance();
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         int minute = currentTime.get(Calendar.MINUTE);
-        double result = 0.0;
+        double result = 1;
         switch (typeOfPath) {
             case canteen://食堂附近道路
             case bus:

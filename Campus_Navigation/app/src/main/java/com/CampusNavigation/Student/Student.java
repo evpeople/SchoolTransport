@@ -4,6 +4,9 @@ package com.CampusNavigation.Student;
  * 学生类的基础架子.
  */
 
+import android.util.Log;
+import android.util.Pair;
+
 import com.CampusNavigation.Gui.StudentView;
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Map;
@@ -14,6 +17,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
+
+import static com.shopgun.android.utils.Tag.TAG;
 
 public class Student {
 
@@ -34,16 +39,37 @@ public class Student {
     }
 
     //唯一供前端调用接口
-    public void setTargetBuilding(Building targetBuilding,String strategy) {
+    public void setTargetBuilding(Building targetBuilding,String strategy,boolean ByBus) {
         this.targetBuilding = targetBuilding;
+        //todo:busType 的输入
+        if(ByBus)dealStopInPath(targetBuilding,strategy,"bus");
+        else dealStopInPath(targetBuilding,strategy,"bus");
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
                 getShortestRouteToTarget(targetBuilding,strategy);break;
             default:  break;
         }
-        if(strategy=="d")goByBike=true;
+        if(strategy.equals("d"))goByBike=true;
     }
+    //唯二共前端调用接口
+    public String getCostToTarget(Building targetBuilding,String strategy,boolean ByBus) throws CloneNotSupportedException {
+        //todo:busType 的输入
+        double ans=0;
+        String carType=ByBus?"bus":"car";
+        dealStopInPath(targetBuilding,strategy,carType);
+        switch (strategy){
+            case "c": new Student((Position) position.clone()).getTargetBuildingCost(null); break;
+            case "a": case "b": case "d":
+                 ans=getTargetBuildingCost((Position) position.clone(),targetBuilding,strategy,carType);break;
+            default:  break;
+        }
+        if(strategy.equals("d"))goByBike=true;
+        String postFix=" m";
+        if(strategy.equals("b")||strategy.equals("d"))postFix=" s";
+        return ans+postFix;
+    }
+
 
     public void setTargetBuilding(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
@@ -65,6 +91,10 @@ public class Student {
         return cost;
         //if(position.getNowBuilding()==null);
     }
+
+    static public  double getTargetBuildingCost(Position position,Building destination, String strategy, String carType) {
+        return new Student(position).getTargetBuildingCost( destination, strategy, carType);
+    }
     /* 得到各种形式的花费*/
     public double getTargetBuildingCost(Building destination, String strategy, String carType) {
         TableEntry.setStrategy(strategy);
@@ -72,18 +102,19 @@ public class Student {
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
             int destinationIndex = destination.index;
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
             totalTime = TableEntry.totalCost;
         } else {
             int busStop = position.getCurrentMap().IndexOfBus();//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
+
             totalTime = TableEntry.totalCost;
 
-            if (strategy == "b" || strategy == "d") {
+            if (strategy.equals("b")|| strategy.equals("d")) {
                 Calendar currentTime = Calendar.getInstance();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
-                if (carType == "bus") {
+                if (carType .equals( "bus") ){
                     totalTime += ((0 - minute) % 30);
                 } else {
                     double temp=0;
@@ -121,14 +152,25 @@ public class Student {
 
     //1代表最短路径，2代表最短时间，3代表途径最短距离，4代表交通工具最短
     private void getShortestRouteToTarget(Building destination, String strategy) {
+        if (strategy!="c")
+        {
+            pathsToGo.clear();
+        }
         TableEntry.setStrategy(strategy);
+        if (position.isOnBuilding&& destination==position.getNowBuilding()) {
+            Log.e(TAG, "getShortestRouteToTarget: "+position.isOnBuilding );
+            pathsToGo=new LinkedList<>();
+            return;
+        }
         int nowPositinIndex = position.getCurrentMap().getBuildingsOrder(position.getNowBuilding().getNameOfBuildingInEnglish());
         if (position.getCurrentMap() == destination.map) {
             int destinationIndex = destination.index;
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex);
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
         } else {
             int busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+
+            pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
+
             Queue<Path> pathsToGo2 = new LinkedList<>();
             int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
             int destinationIndex = destination.index;
@@ -149,7 +191,9 @@ public class Student {
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
             int busStop = posBuilding.map.IndexOfBus();//todo: //确认车站的下标Index
-            pathsToGo = position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop);
+
+            pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
+
             Queue<Path> pathsToGo2 = new LinkedList<>();
             int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
             int destinationIndex = destination.map.getBuildingsOrder(destination.getNameOfBuildingInEnglish());
@@ -175,5 +219,26 @@ public class Student {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+    private void dealStopInPath(Building destination, String strategy,String carType)
+    {
+        Position endPostion=new Position(position.getPath().getEnd());//通过path更新buiding
+        double endCost=getTargetBuildingCost(endPostion,destination,strategy,carType);
+        Position startPostion=new Position(position.getPath().getStart());//通过path更新buiding
+        double startCost=getTargetBuildingCost(startPostion,destination,strategy,carType);
+        if (endCost>=startCost)
+        {
+           pathsToGo.add(position.getPath().getStart().map.getPaths()[position.getPath().getEnd().index][position.getPath().getStart().index]);
+        }
+        {
+            pathsToGo.add(position.getPath());
+        }
+    }
+    private Queue<Pair<Building,Double>>getAround(Building center,int deepth)
+    {
+        Queue<Pair<Building,Double>> around = new LinkedList<>();
+
+        return around;
+
     }
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * 学生当前位置.
  */
-public class Position {
+public class Position implements Cloneable {
   boolean isOnBuilding;
   private Building nowBuilding;
   private Map currentMap;
@@ -82,5 +82,10 @@ public class Position {
 
   public boolean isOnBuilding() {
     return isOnBuilding;
+  }
+
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone();
   }
 }

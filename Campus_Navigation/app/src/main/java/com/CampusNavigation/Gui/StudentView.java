@@ -121,7 +121,7 @@ public   class StudentView extends View {
     }
 
     public void setTargetBuilding(Building targetBuilding,String strategy) {
-        student.setTargetBuilding(targetBuilding,strategy);
+        student.setTargetBuilding(targetBuilding,strategy,true);
     }
     private Queue<Path> target(){return student.pathsToGo;}
 

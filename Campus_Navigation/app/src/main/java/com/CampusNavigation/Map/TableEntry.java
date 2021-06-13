@@ -32,21 +32,20 @@ public class TableEntry {
     }
     public static void setStrategy(String stratery)
     {
-        if (stratery=="a")
+        switch (stratery)
         {
-            stra=1;
-        }
-        else if (stratery=="b")
-        {
-            stra=2;
-        }
-        else if (stratery=="c")
-        {
-            stra=3;
-        }
-        else
-        {
-            stra=4;
+            case "a":
+                stra=1;
+            case "b":
+                stra=2;
+            case "c":
+                stra=3;
+            case "d":
+                stra=4;
+            case "e":
+                stra=5;
+            default:
+                stra=1;
         }
     }
     public void setHeader(Building header) {
