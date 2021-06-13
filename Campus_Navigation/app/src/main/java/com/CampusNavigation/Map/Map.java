@@ -55,7 +55,11 @@ public class Map {
         getByGraph(graph,asset);
     }
 
-    private void getByGraph(Graph graph,AssetManager asset) throws IOException {
+    public boolean isCampus() {
+        return isCampus;
+    }
+
+    private void getByGraph(Graph graph, AssetManager asset) throws IOException {
         int now = 0;
         for (Dot dot : graph.getDots()) {
             if (dot == null) {

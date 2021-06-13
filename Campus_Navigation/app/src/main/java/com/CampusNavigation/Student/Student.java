@@ -11,6 +11,7 @@ import com.CampusNavigation.Gui.StudentView;
 import com.CampusNavigation.Map.Building;
 import com.CampusNavigation.Map.Map;
 import com.CampusNavigation.Map.Path;
+import com.CampusNavigation.Map.Room;
 import com.CampusNavigation.Map.TableEntry;
 
 import java.io.IOException;
@@ -170,12 +171,29 @@ public class Student {
             int destinationIndex = destination.index;
             pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, destinationIndex));
         } else {
-            int busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
+            int busStop;
+            int busBegin;
+            if (destination.map.isCampus())
+            {
+                busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
+                busBegin=destination.map.IndexOfBus();
+            }
+            else
+            {
+                if (destination instanceof Room)
+                {
+                //todo:新的busStop
+                }
+
+                busStop=destination.index;
+                busBegin=destination.map.IndexOfExit();
+            }
+
 
             pathsToGo.addAll(  position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
 
             Queue<Path> pathsToGo2 = new LinkedList<>();
-            int busBegin = destination.map.IndexOfBus();//todo: 确认车站下标。
+
             int destinationIndex = destination.index;
             pathsToGo2 = destination.map.getShortestRoute(busBegin, destinationIndex);
             pathsToGo.addAll(pathsToGo2);
@@ -193,8 +211,15 @@ public class Student {
             int destinationIndex = destination.index;
             return posBuilding.map.getShortestRoute(nowPositinIndex, destinationIndex);
         } else {
-            int busStop = posBuilding.map.IndexOfBus();//todo: //确认车站的下标Index
-
+            int busStop;
+            if (position.getCurrentMap().isCampus())
+            {
+                busStop =position.getCurrentMap().IndexOfBus();// destination.map.IndexOfBus();//todo: //确认车站的下标Index
+            }
+            else
+            {
+                busStop=destination.index;
+            }
             pathsToGo.addAll( position.getCurrentMap().getShortestRoute(nowPositinIndex, busStop));
 
             Queue<Path> pathsToGo2 = new LinkedList<>();
