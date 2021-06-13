@@ -133,21 +133,24 @@ public class Student {
         if (position.getNowBuilding() == targetBuilding.peek()) {
             return;
         }
+        Position temp=new Position(position.getNowBuilding());
+                Student temp2=new Student(temp);
+        temp2.getShortestRouteToTarget(targetBuilding.peek(),"c");
+        pathsToGo.addAll(temp2.pathsToGo);
 
         while (!targetBuilding.isEmpty()) {
-            Position temp = new Position(targetBuilding.poll());
-            Student temp2 = new Student(temp);
-            Building temp3=targetBuilding.poll();
+            Position tempX = new Position(targetBuilding.poll());
+            Student tempXX = new Student(tempX);
+            Building temp3=targetBuilding.peek();
             if (temp3==null)
             {
-                temp2.getShortestRouteToTarget(temp.getNowBuilding(),"c");
+                tempXX.getShortestRouteToTarget(tempX.getNowBuilding(),"c");
             }else
             {
-                temp2.getShortestRouteToTarget(temp3,"c");
+                tempXX.getShortestRouteToTarget(temp3,"c");
             }
-            pathsToGo.addAll(temp2.pathsToGo);
+            pathsToGo.addAll(tempXX.pathsToGo);
         }
-        int x=2;
     }
 
     /**
@@ -156,14 +159,29 @@ public class Student {
     public double getTargetBuildingCost(Queue<Building> targetBuilding) {
         TableEntry.setStrategy("a");
         double cost;
-        getShortestRouteToTarget(targetBuilding.poll(), "a");
+        if (position.getNowBuilding() == targetBuilding.peek()) {
+            return 0;
+        }
+        Position temp=new Position(position.getNowBuilding());
+        Student temp2=new Student(temp);
+        temp2.getShortestRouteToTarget(targetBuilding.peek(),"c");
+//        pathsToGo.addAll(temp2.pathsToGo);
         cost=TableEntry.totalCost;
         while (!targetBuilding.isEmpty()) {
-            getShortestRouteToTarget(targetBuilding.poll(), targetBuilding.poll(), "a");
-            cost+=TableEntry.totalCost;
+            Position tempX = new Position(targetBuilding.poll());
+            Student tempXX = new Student(tempX);
+            Building temp3=targetBuilding.peek();
+            if (temp3==null)
+            {
+                tempXX.getShortestRouteToTarget(tempX.getNowBuilding(),"c");
+            }else
+            {
+                tempXX.getShortestRouteToTarget(temp3,"c");
+            }
+//            pathsToGo.addAll(tempXX.pathsToGo);
+            cost=TableEntry.totalCost;
         }
         return cost;
-        //if(position.getNowBuilding()==null);
     }
 
     /**
