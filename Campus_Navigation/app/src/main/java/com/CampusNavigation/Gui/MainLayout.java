@@ -76,9 +76,18 @@ public class MainLayout extends CoolLinearLayout {
         logic=new Logic(campus1,campus2,context);
         addButton("搜索此地",searchLayout2).setOnClickListener((e)->{
             HashSet<Building>hashSet=logic.findPhyAddr(searchWindow.getText().toString());
-            if(hashSet!=null)for(Building building:hashSet){
+            if(hashSet!=null)for(Building building:hashSet) {
                 searchWindow.setText(building.nameOfBuildingInEnglish);
             }
+            if (searchWindow.getText().toString().equals("食堂"))
+            if(hashSet!=null)for(Building building:hashSet){
+                    int x= (int) (System.currentTimeMillis() & hashSet.size());
+                    if (x%2==0)
+                    {
+                        //todo: 写一个totast
+                    }
+                }
+
         });
         searchWindow=addEdit("地址搜索",searchLayout2);
         //按键
