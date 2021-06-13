@@ -49,7 +49,9 @@ public class Student {
     public void setTargetBuilding(Building targetBuilding,String strategy) {
         this.targetBuilding = targetBuilding;
         //todo:busType 的输入
-        dealStopInPath(targetBuilding,strategy,"bus");
+        if (!position.isOnBuilding()) {
+            dealStopInPath(targetBuilding, strategy, "bus");
+        }
         switch (strategy){
             case "c": setTargetBuilding(null); break;
             case "a": case "b": case "d":
