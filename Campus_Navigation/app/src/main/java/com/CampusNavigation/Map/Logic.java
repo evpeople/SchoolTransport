@@ -1,5 +1,11 @@
 package com.CampusNavigation.Map;
 
+import android.content.Context;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,12 +17,55 @@ public class Logic {
 
     private final Map campusOne;
     private final Map campusTwo;
-    private HashMap<String, HashSet<logicRelation>> searcher = new HashMap<>();
+    private HashMap<String, HashSet<logicRelation>> searcher = new HashMap<>();//逻辑地址-逻辑关系对应表
 
-    public Logic(Map campusOne, Map campusTwo) {
-        this.campusOne = campusOne;
-        this.campusTwo = campusTwo;
-        //todo
+
+    public Logic(Map campusOne, Map campusTwo, Context context) {               //使用方法：主流程内先实例化一个logic对象
+        this.campusOne = campusOne;                            //调用方法：在需要找到逻辑地址对应建筑时
+        this.campusTwo = campusTwo;                            //调用方法：调用findPhyAddr(逻辑地址)
+
+        try {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(context.getAssets().open("logicAddr")));
+            String nextStr;
+            String currCampusNum;
+            String currBuildNum;
+            String currFloorNum;
+            String currLogicAddr;
+            logicRelation currRelation;
+            HashSet<logicRelation> currSet;
+            nextStr = in.readLine();                            //阅读文件库第一行
+            while(nextStr != null) {
+                currLogicAddr = nextStr + "";                     //赋值curr逻辑地址
+                currSet = new HashSet<>();
+                while((nextStr = in.readLine()).contains("*")) {//若下一行包含“*”，也就说明接下来有赋值逻辑关系类的操作
+                    if (nextStr.equals("*")) {//一颗*代表是大楼
+                        nextStr = in.readLine();
+                        currCampusNum = nextStr + "";           //存储校区号
+                        nextStr = in.readLine();                //读取大楼号
+                        currRelation = new logicRelation(Integer.parseInt(currCampusNum),Integer.parseInt(nextStr));
+                        currSet.add(currRelation);
+                    } else if (nextStr.equals("**")) {//两颗*代表是房间
+                        nextStr = in.readLine();
+                        currCampusNum = nextStr + "";           //存储校区号
+                        nextStr = in.readLine();
+                        currBuildNum = nextStr + "";            //存储大楼号
+                        nextStr = in.readLine();
+                        currFloorNum = nextStr + "";            //存储楼层号
+                        nextStr = in.readLine();
+                        currRelation = new logicRelation(Integer.parseInt(currCampusNum),
+                                Integer.parseInt(currBuildNum),Integer.parseInt(currFloorNum),
+                                Integer.parseInt(nextStr));
+                        currSet.add(currRelation);
+                    }
+                }
+                this.searcher.put(currLogicAddr,currSet);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public HashSet<Building> findPhyAddr(String logicAddr) {
@@ -25,31 +74,31 @@ public class Logic {
         logicRelation curr;
         if(currFound == null) return null;
 
-        Iterator<logicRelation> iterator = currFound.iterator();
+        Iterator<logicRelation> iterator = currFound.iterator();                    //初始化迭代器
         Building searchedBuild;
-        while(iterator.hasNext()) {
-            curr = iterator.next();
-            if(curr.getCampusNum() == 1)
-                searchedBuild = this.campusOne.getBuilding(curr.getIndexOfBuild());
+        while(iterator.hasNext()) {                                                 //如果还存在待遍历目标
+            curr = iterator.next();                                                 //赋值curr这个目标
+            if(curr.getCampusNum() == 1)                                            //若在一校区
+                searchedBuild = this.campusOne.getBuilding(curr.getIndexOfBuild()); //搜索到大楼位置
             else
                 searchedBuild = this.campusTwo.getBuilding(curr.getIndexOfBuild());
             if(curr.getType() == BUILD) {
-                retBuild.add(searchedBuild);
+                retBuild.add(searchedBuild);                                        //若目标就是大楼，返回本身
             }
             else {
                 retBuild.add((((SpecificBuild)searchedBuild).getMapOfFloor(curr.getFloorNum()))
-                        .getBuilding(curr.getIndexOfRoom()));
+                        .getBuilding(curr.getIndexOfRoom()));                       //若目标是房间，在大楼里搜到对应房间返回
             }
         }
         return retBuild;
     }
 
-    static class logicRelation {
-        private final int type;
-        private final int campusNum;
-        private final int indexOfBuild;
-        private final int floorNum;
-        private final int indexOfRoom;
+    static class logicRelation {                                //存储逻辑地址关系，对应：
+        private final int type;                                 //类型，是楼还是房间？
+        private final int campusNum;                            //校区，是一校区还是二校区？
+        private final int indexOfBuild;                         //所在大楼的地图内序号
+        private final int floorNum;                             //所在大楼内的楼层号（仅房间使用）
+        private final int indexOfRoom;                          //所在楼层地图内的序号（仅房间使用）
 
         public logicRelation(int campusNum, int indexOfBuild, int floorNum, int indexOfRoom) {//房间
             this.type = ROOM;

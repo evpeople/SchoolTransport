@@ -20,11 +20,11 @@ import static java.lang.Math.max;
  * 楼类有层，有图的数组，有道路的数组.
  */
 public class SpecificBuild extends Building {
-    private static final String dormPath="dorm.txt";
-    private static final String libPath="lib.txt";
-    private static final String canteenPath="canteen.txt";
-    private static final String officepath="office.txt";
-    private static final String teachBuildPath="teachBuild.txt";
+    public static final String dormPath="dorm.txt";
+    public static final String libPath="lib.txt";
+    public static final String canteenPath="canteen.txt";
+    public static final String officepath="office.txt";
+    public static final String teachBuildPath="teachBuild.txt";
     private static final int length = 15;
     private static final int maxOfFloor = 5;
 
